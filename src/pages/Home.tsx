@@ -220,7 +220,7 @@ const Home = () => {
             >
               <div className="w-full overflow-hidden rounded-xl h-[48vh] sm:h-[58vh] md:h-[62vh]">
                 <img
-                  src="./src/assets/1002.png"
+                  src="/assets/1002.png"
                   alt="Fresh colorful salad bowl with grains and greens"
                   className="w-full h-full object-cover"
                   loading="eager"
@@ -238,7 +238,7 @@ const Home = () => {
 
       <Section className="py-16 sm:py-20 px-4 sm:px-6 bg-white" variant="left">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-          <Picture src="./src/assets/1004.png" alt="Person preparing healthy salad"
+          <Picture src="/assets/1004.png" alt="Person preparing healthy salad"
             className=" h-72 sm:h-96 bg-white rounded-none [&>img]:w-full [&>img]:h-full [&>img]:object-contain [&>img]:mx-auto [&>img]:pointer-events-none [&>img]:drop-shadow-[0_16px_36px_rgba(0,0,0,0.12)] " />
           <div> <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -266,7 +266,7 @@ const Home = () => {
             </p>
           </div>
 
-          <Picture src="./src/assets/1003.png"
+          <Picture src="/assets/1003.png"
             alt="Green salad bowl with leafy greens on neutral background"
             className="h-64 sm:h-72 md:h-96" />
         </div>
