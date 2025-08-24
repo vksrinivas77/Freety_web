@@ -4,9 +4,9 @@ import ShineButton from "../components/ShineButton";
 import { Link } from "react-router-dom";
 
 // 🔹 Import local images
-import saladHero from "/assets/1002.png";
-import saladMeet from "/assets/1004.png";
-import saladProblem from "/assets/1003.png";
+import saladHero from "/1002.png"; 
+import saladMeet from "/1004.png";
+import saladProblem from "/1003.png";
 
 /* ---------- Reusable Section wrapper ---------- */
 const Section: React.FC<
