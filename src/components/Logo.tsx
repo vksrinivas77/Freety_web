@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '/logo.png'; // Adjust path as needed
+import logo from '/assets/logo.png'; // Adjust path as needed D:\My_pro\Freety_web\public\logo.png
 
 interface LogoProps {
   size?: 'small' | 'medium' | 'large';
