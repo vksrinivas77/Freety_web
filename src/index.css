@@ -279,7 +279,7 @@ html {
 
 /* Custom Gradient Backgrounds */
 .bg-gradient-primary {
-  background: linear-gradient(135deg, #4CAF50 0%, #81C784 100%);
+  background: linear-gradient(135deg, #2D5A27 0%, #7FB069 100%);
 }
 
 .bg-gradient-secondary {
@@ -287,7 +287,7 @@ html {
 }
 
 .bg-gradient-success {
-  background: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+  background: linear-gradient(135deg, #7FB069 0%, #B7E4C7 100%);
 }
 
 /* Loading States */
@@ -423,26 +423,26 @@ select:focus {
 
 /* Enhanced Button Styles */
 .btn-primary {
-  background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
-  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
-  transition: all 0.3s ease;
-}
-
-.btn-primary:hover {
-  background: linear-gradient(135deg, #388E3C 0%, #4CAF50 100%);
-  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
-  transform: translateY(-2px);
-}
-
-.btn-secondary {
-  background: linear-gradient(135deg, #FF6B35 0%, #FF8A65 100%);
+  background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
   box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
   transition: all 0.3s ease;
 }
 
-.btn-secondary:hover {
-  background: linear-gradient(135deg, #E64A19 0%, #FF6B35 100%);
+.btn-primary:hover {
+  background: linear-gradient(135deg, #E55A2B 0%, #FF6B35 100%);
   box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #2D5A27 0%, #4A7C59 100%);
+  box-shadow: 0 4px 15px rgba(45, 90, 39, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: linear-gradient(135deg, #1F3E1A 0%, #2D5A27 100%);
+  box-shadow: 0 6px 20px rgba(45, 90, 39, 0.4);
   transform: translateY(-2px);
 }
 
@@ -486,9 +486,9 @@ select:focus {
 
 /* Special Highlight Effects */
 .highlight-glow {
-  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(129, 199, 132, 0.1) 100%);
-  border: 1px solid rgba(76, 175, 80, 0.2);
-  box-shadow: 0 0 20px rgba(76, 175, 80, 0.1);
+  background: linear-gradient(135deg, rgba(127, 176, 105, 0.1) 0%, rgba(183, 228, 199, 0.1) 100%);
+  border: 1px solid rgba(127, 176, 105, 0.2);
+  box-shadow: 0 0 20px rgba(127, 176, 105, 0.1);
 }
 
 /* Floating Elements */
@@ -507,7 +507,7 @@ select:focus {
 
 /* Gradient Text */
 .gradient-text {
-  background: linear-gradient(135deg, #4CAF50 0%, #81C784 100%);
+  background: linear-gradient(135deg, #2D5A27 0%, #7FB069 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -520,17 +520,17 @@ select:focus {
 
 .hover-lift:hover {
   transform: translateY(-5px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 15px 35px rgba(45, 90, 39, 0.15);
 }
 
 /* Glow Text Effect */
 .glow-text {
-  text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+  text-shadow: 0 0 10px rgba(127, 176, 105, 0.5);
   transition: text-shadow 0.3s ease;
 }
 
 .glow-text:hover {
-  text-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+  text-shadow: 0 0 20px rgba(127, 176, 105, 0.8);
 }
 
 /* Smooth Transitions */
@@ -547,7 +547,7 @@ select:focus {
 
 /* Neon Glow Effect */
 .neon-glow {
-  box-shadow: 0 0 5px #4CAF50, 0 0 10px #4CAF50, 0 0 15px #4CAF50;
+  box-shadow: 0 0 5px #7FB069, 0 0 10px #7FB069, 0 0 15px #7FB069;
 }
 
 /* Pulse Animation */

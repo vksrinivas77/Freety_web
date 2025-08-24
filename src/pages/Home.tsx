@@ -1,452 +1,381 @@
-import React, { useState, useEffect } from 'react';
-import { Star, CheckCircle, Clock, Users, Shield, Zap } from 'lucide-react';
-import AnimatedSection from '../components/AnimatedSection';
-import ShineButton from '../components/ShineButton';
-import { Link } from 'react-router-dom';
+import React, { useState, useMemo } from "react";
+import { motion, useAnimation, useScroll, useTransform } from "framer-motion";
+import ShineButton from "../components/ShineButton";
+import { Link } from "react-router-dom";
 
-const Home = () => {
-  const [foundingMembers, setFoundingMembers] = useState(647);
-  const [slotsLeft, setSlotsLeft] = useState(353);
-
-  useEffect(() => {
-    // Simulate real-time counter
-    const interval = setInterval(() => {
-      if (foundingMembers < 1000) {
-        setFoundingMembers(prev => prev + Math.floor(Math.random() * 3));
-        setSlotsLeft(prev => Math.max(0, prev - Math.floor(Math.random() * 3)));
-      }
-    }, 30000); // Update every 30 seconds
-
-    return () => clearInterval(interval);
-  }, [foundingMembers]);
-
-  const testimonials = [
-    {
-      quote: "My productivity spiked, my bloating vanished, and for once—eating healthy didn't feel like a job.",
-      author: "Sana, Designer"
-    },
-    {
-      quote: "I don't even like salads. But Fretty changed that. I finally feel like I'm eating for me.",
-      author: "Karan, Software Engineer"
-    },
-    {
-      quote: "Every afternoon used to be a crash. Now I'm energized right through 6 PM—and I look forward to lunch again.",
-      author: "Aarti, Consultant"
-    }
-  ];
-
-  const [currentTestimonial, setCurrentTestimonial] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTestimonial(prev => (prev + 1) % testimonials.length);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const scrollToThankYou = () => {
-    const thankYouSection = document.getElementById('thank-you-section');
-    if (thankYouSection) {
-      thankYouSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+/* ---------- Reusable Section wrapper ---------- */
+const Section: React.FC<
+  React.PropsWithChildren<{ className?: string; delay?: number; variant?: "left" | "up" | "right" }>
+> = ({ children, className = "", delay = 0, variant = "up" }) => {
+  const variants = {
+    left: { hidden: { opacity: 0, x: -40 }, show: { opacity: 1, x: 0, transition: { duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] } } },
+    up: { hidden: { opacity: 0, y: 40 }, show: { opacity: 1, y: 0, transition: { duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] } } },
+    right: { hidden: { opacity: 0, x: 40 }, show: { opacity: 1, x: 0, transition: { duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] } } },
+  } as const;
 
   return (
-    <div className="pt-16">
-      {/* Hero Section */}
-      <section className="relative min-h-screen bg-gradient-to-br from-green-50 to-white flex items-center overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop')] bg-cover bg-center opacity-10"></div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <AnimatedSection animation="slide-right">
-              <div className="text-center lg:text-left">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-                  Unlock Your <span className="text-green-600">Healthiest Life</span> with Fretty
-                </h1>
-                <p className="text-xl md:text-2xl text-gray-600 mb-4">
-                  The Salad You've Been Craving, Without the Stress You've Been Facing!
-                </p>
-                <p className="text-lg text-gray-500 mb-8">
-                  Elevate Your Energy. Transform Your Nutrition.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                  <Link to="/subscription">
-                    <ShineButton variant="orange" className="text-lg px-8 py-4 cta-shine">
-                      Secure My Founding Spot
-                    </ShineButton>
-                  </Link>
-                  <button onClick={scrollToThankYou}>
-                    <ShineButton variant="secondary" className="text-lg px-8 py-4">
-                      Learn More
-                    </ShineButton>
-                  </button>
-                </div>
-              </div>
-            </AnimatedSection>
-            <AnimatedSection animation="slide-left" delay={200}>
-              <div className="relative">
-                <img 
-                  src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop" 
-                  alt="Fresh healthy salad" 
-                  className="w-full h-auto rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute -bottom-4 -left-4 bg-white p-4 rounded-xl shadow-lg">
-                  <div className="flex items-center space-x-2">
-                    <Star className="w-5 h-5 text-yellow-500 fill-current" />
-                    <span className="font-semibold text-gray-800">4.9/5</span>
-                    <span className="text-gray-600">from 500+ reviews</span>
-                  </div>
-                </div>
-              </div>
-            </AnimatedSection>
-          </div>
-        </div>
-      </section>
+    <motion.section
+      variants={variants[variant]}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: false, margin: "-10% 0px -10% 0px" }}
+      className={className}
+    >
+      {children}
+    </motion.section>
+  );
+};
 
-      {/* Problem Statement */}
-      <AnimatedSection animation="fade-in">
-        <section className="py-20 bg-gray-50">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
-              Are you tired of choosing between convenience and health?
-            </h2>
-            <p className="text-lg text-gray-600 leading-relaxed">
-              You're not alone. In a world full of quick junk food, unhealthy options, Fretty is here to change the game. 
-              Your go-to solution for real nutritious food, made simple. We don't believe in compromises. We believe in 
-              fresh, flavorful, fully transparent nutrition that actually fits your lifestyle.
-            </p>
-          </div>
-        </section>
-      </AnimatedSection>
+/* ---------- Image block ---------- */
+const Picture = ({
+  src,
+  alt,
+  className = "",
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+}) => (
+  <motion.div
+    initial={{ opacity: 0, scale: 0.96 }}
+    whileInView={{ opacity: 1, scale: 1 }}
+    viewport={{ once: false }}
+    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+    className={`w-full overflow-hidden rounded-xl ${className}`}
+  >
+    <img
+      src={src}
+      alt={alt}
+      className="w-full h-full object-cover"
+      loading="lazy"
+      referrerPolicy="no-referrer"
+    />
+  </motion.div>
+);
 
-      {/* Meet Fretty */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <AnimatedSection animation="slide-right">
-              <img 
-                src="https://images.pexels.com/photos/1640771/pexels-photo-1640771.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop" 
-                alt="Person enjoying healthy salad" 
-                className="w-full h-auto rounded-2xl shadow-xl"
-              />
-            </AnimatedSection>
-            <AnimatedSection animation="slide-left" delay={200}>
-              <div>
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                  Meet the Salad That Understands You
-                </h2>
-                <p className="text-xl text-gray-600 mb-6">
-                  👋 Hi, we're Fretty, your new best friend in nutrition.
-                </p>
-                <p className="text-lg text-gray-600 leading-relaxed">
-                  Our mission is simple: To help you feel unstoppable, starting with how you eat. We have removed 
-                  every frustrating thing about healthy eating — the planning, the prep, the preservatives — and 
-                  left it behind. What's left? Clean, delicious, nutrient-rich salads available anytime, anywhere 
-                  — with just a tap!!!
-                </p>
-              </div>
-            </AnimatedSection>
-          </div>
-        </div>
-      </section>
+const Home = () => {
+  const [foundingMembers] = useState(647);
+  const [slotsLeft] = useState(353);
 
-      {/* Why Different */}
-      <AnimatedSection animation="fade-in">
-        <section className="py-20 bg-gradient-to-br from-green-50 to-blue-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                Why Fretty Feels Different (Because It Is)
-              </h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <AnimatedSection animation="slide-up" delay={100}>
-                <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 card-hover">
-                  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
-                    <Shield className="w-8 h-8 text-blue-600" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">Fresh-Tech Preservation</h3>
-                  <p className="text-gray-600">
-                    Your salad stays fresh, crisp, and nutrient-packed for up to 72 hours. No soggy lettuce. 
-                    No sad desk lunches. Just that first-bite crunch, every time.
-                  </p>
-                </div>
-              </AnimatedSection>
-              <AnimatedSection animation="slide-up" delay={200}>
-                <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 card-hover">
-                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
-                    <Zap className="w-8 h-8 text-green-600" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">Smart Customization Engine</h3>
-                  <p className="text-gray-600">
-                    Our app gets to know your body and your goals — and suggests just what you need to thrive. 
-                    Weight loss? Gut health? Glowing skin? We've got you.
-                  </p>
-                </div>
-              </AnimatedSection>
-              <AnimatedSection animation="slide-up" delay={300}>
-                <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 card-hover">
-                  <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
-                    <CheckCircle className="w-8 h-8 text-orange-600" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">Instant Nutrition Transparency</h3>
-                  <p className="text-gray-600">
-                    No hidden sugars. No mystery oils. Just clear, beautiful insights into exactly what you're 
-                    eating — macros, micros, ingredients, sourcing — all in one place.
-                  </p>
-                </div>
-              </AnimatedSection>
-            </div>
-          </div>
-        </section>
-      </AnimatedSection>
+  /* ---------- Hero parallax float (subtle) ---------- */
+  const controls = useAnimation();
+  const floatKeyframes = useMemo(
+    () => ({
+      y: [0, -6, 0, 6, 0],
+      transition: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+    }),
+    []
+  );
 
-      {/* What's Inside Every Fretty Experience */}
-      <AnimatedSection animation="fade-in">
-        <section className="py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                What's Inside Every Fretty Experience?
-              </h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <AnimatedSection animation="slide-up" delay={100}>
-                <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-xl hover:shadow-lg transition-shadow duration-300">
-                  <div className="flex items-center mb-4">
-                    <CheckCircle className="w-6 h-6 text-green-600 mr-3" />
-                    <h3 className="text-lg font-bold text-gray-900">Chef-Crafted Recipes</h3>
-                  </div>
-                  <p className="text-gray-600">
-                    Developed with expert nutritionists, so you get the fuel your body actually needs — and flavors you'll fall in love with.
-                  </p>
-                </div>
-              </AnimatedSection>
-              <AnimatedSection animation="slide-up" delay={200}>
-                <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl hover:shadow-lg transition-shadow duration-300">
-                  <div className="flex items-center mb-4">
-                    <CheckCircle className="w-6 h-6 text-blue-600 mr-3" />
-                    <h3 className="text-lg font-bold text-gray-900">Custom-Build Options</h3>
-                  </div>
-                  <p className="text-gray-600">
-                    Make your own salad, your way. Choose your base, proteins, toppings, and dressings from a range of farm-fresh ingredients.
-                  </p>
-                </div>
-              </AnimatedSection>
-              <AnimatedSection animation="slide-up" delay={300}>
-                <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-xl hover:shadow-lg transition-shadow duration-300">
-                  <div className="flex items-center mb-4">
-                    <CheckCircle className="w-6 h-6 text-orange-600 mr-3" />
-                    <h3 className="text-lg font-bold text-gray-900">Deficiency-Focused Nutrition</h3>
-                  </div>
-                  <p className="text-gray-600">
-                    Battling fatigue? Low iron? Low B12 or D? Our bowls aren't just tasty — they're targeted tools for energy, immunity, and clarity.
-                  </p>
-                </div>
-              </AnimatedSection>
-              <AnimatedSection animation="slide-up" delay={400}>
-                <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-xl hover:shadow-lg transition-shadow duration-300">
-                  <div className="flex items-center mb-4">
-                    <CheckCircle className="w-6 h-6 text-purple-600 mr-3" />
-                    <h3 className="text-lg font-bold text-gray-900">Real Human Support</h3>
-                  </div>
-                  <p className="text-gray-600">
-                    Join our exclusive WhatsApp Wellness Circle #Bowls & Bonds — your go-to space for expert nutrition tips, live Q&As, and real-time motivation.
-                  </p>
-                </div>
-              </AnimatedSection>
-            </div>
-          </div>
-        </section>
-      </AnimatedSection>
+  /* ---------- Shared variants ---------- */
+  const containerVariants = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.25 } },
+  };
+  const itemLeft = { hidden: { opacity: 0, x: -50 }, show: { opacity: 1, x: 0, transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] } } };
+  const itemRight = { hidden: { opacity: 0, x: 50 }, show: { opacity: 1, x: 0, transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] } } };
+  const itemUp = { hidden: { opacity: 0, y: 40 }, show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } } };
 
-      {/* Testimonials */}
-      <AnimatedSection animation="fade-in">
-        <section className="py-20 bg-gray-900 text-white">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                Hear from Our Wellness Warriors
-              </h2>
-            </div>
-            <div className="relative">
-              <div className="bg-gray-800 p-8 rounded-2xl text-center">
-                <div className="flex justify-center mb-6">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-6 h-6 text-yellow-500 fill-current" />
-                  ))}
-                </div>
-                <blockquote className="text-xl md:text-2xl italic text-gray-300 mb-6">
-                  "{testimonials[currentTestimonial].quote}"
-                </blockquote>
-                <p className="text-green-400 font-semibold">
-                  — {testimonials[currentTestimonial].author}
-                </p>
-              </div>
-              <div className="flex justify-center mt-8 space-x-2">
-                {testimonials.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentTestimonial(index)}
-                    className={`w-3 h-3 rounded-full transition-colors ${
-                      index === currentTestimonial ? 'bg-green-500' : 'bg-gray-600'
-                    }`}
-                  />
+  return (
+    <div className="relative overflow-hidden bg-gradient-to-br from-fregacy-soft-green via-white to-fregacy-soft-purple">
+
+      {/* ---------- Hero: Cinematic reveal ---------- */}
+      <motion.section
+        initial="hidden"
+        animate="show"
+        viewport={{ once: false, margin: "-15% 0px -15% 0px" }}
+        className="relative min-h-[100svh] flex items-center"
+      >
+        <style>{`
+    /* Shimmer overlay for headline */
+    .shimmer {
+      position: relative;
+      overflow: hidden;
+    }
+    .shimmer:after {
+      content: "";
+      position: absolute;
+      top: 0; left: -120%;
+      width: 120%; height: 100%;
+      background: linear-gradient(110deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.6) 25%, rgba(255,255,255,0) 50%);
+      transform: skewX(-20deg);
+      animation: shimmer-sweep 2.2s ease-in-out 0.8s forwards;
+    }
+    @keyframes shimmer-sweep {
+      0% { left: -120%; }
+      100% { left: 140%; }
+    }
+    /* Underline sweep */
+    .underline-sweep {
+      position: relative;
+    }
+    .underline-sweep:after {
+      content: "";
+      position: absolute;
+      left: 0; bottom: -10px;
+      height: 8px; width: 0%;
+      border-radius: 9999px;
+      background: linear-gradient(90deg,#B7E4C7 0%,#FFB68A 50%,#D4C5E8 100%);
+      box-shadow: 0 6px 14px -8px rgba(0,0,0,.25);
+      animation: underline-reveal .9s cubic-bezier(.22,1,.36,1) .6s forwards;
+    }
+    @keyframes underline-reveal { to { width: 100%; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .shimmer:after { display:none !important; }
+    }
+  `}</style>
+
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10 sm:py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          {/* Headline + CTA (left) */}
+          <div className="lg:col-span-6 order-2 lg:order-1 text-center lg:text-left">
+            {/* Line 1: word-by-word stagger + light pop */}
+            <motion.h1
+              className="text-[clamp(28px,6vw,56px)] font-bold text-gray-900 leading-tight"
+              initial={{ opacity: 0, y: 12, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <motion.span
+                className="block shimmer"
+                initial="hidden"
+                animate="show"
+                variants={{
+                  hidden: {},
+                  show: { transition: { staggerChildren: 0.04, delayChildren: 0.05 } }
+                }}
+              >
+                {"Fresh Salads That".split(" ").map((w, i) => (
+                  <motion.span
+                    key={w + i}
+                    className="inline-block mr-2"
+                    variants={{
+                      hidden: { opacity: 0, y: 10 },
+                      show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } }
+                    }}
+                  >
+                    {w}
+                  </motion.span>
                 ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      </AnimatedSection>
+              </motion.span>
 
-      {/* Fixing What Fast Food Forgot */}
-      <AnimatedSection animation="fade-in">
-        <section className="py-20 bg-gradient-to-br from-red-50 to-orange-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                Fixing What Fast Food Forgot
-              </h2>
-            </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <p className="text-lg text-gray-600 leading-relaxed mb-6">
-                  Let's have a real talk. Most of us are running around under-nourished and over-stimulated.
-                </p>
-                <div className="space-y-4 mb-8">
-                  <div className="bg-white p-4 rounded-lg shadow-md">
-                    <div className="flex items-center">
-                      <div className="text-3xl font-bold text-red-500 mr-4">70%</div>
-                      <p className="text-gray-600">of young professionals are low in Iron, Vitamin D, or essential fiber.</p>
-                    </div>
-                  </div>
-                  <div className="bg-white p-4 rounded-lg shadow-md">
-                    <div className="flex items-center">
-                      <div className="text-3xl font-bold text-orange-500 mr-4">85%</div>
-                      <p className="text-gray-600">admit to losing focus mid-afternoon due to poor food choices.</p>
-                    </div>
-                  </div>
-                </div>
-                <p className="text-lg text-gray-600 leading-relaxed mb-6">
-                  Fretty isn't just a salad. It's a solution. Because you're not just feeding your body. You're fueling your potential.
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle className="w-5 h-5 text-green-500" />
-                    <span className="text-gray-600">Boost natural energy</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle className="w-5 h-5 text-green-500" />
-                    <span className="text-gray-600">Reduce cravings and crashes</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle className="w-5 h-5 text-green-500" />
-                    <span className="text-gray-600">Support digestion & mental clarity</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <CheckCircle className="w-5 h-5 text-green-500" />
-                    <span className="text-gray-600">Elevate your mood</span>
-                  </div>
-                </div>
-              </div>
-              <AnimatedSection animation="slide-left" delay={200}>
-                <img 
-                  src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop" 
-                  alt="Healthy lifestyle transformation" 
-                  className="w-full h-auto rounded-2xl shadow-xl"
+              {/* Line 2: gradient text + underline sweep */}
+              <motion.span
+                className="block mt-1 underline-sweep bg-gradient-to-r from-[#2D6A4F] via-[#B7E4C7] to-[#2D6A4F] bg-clip-text text-transparent" initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.25 }}
+              >
+                Fuel Your Hustle
+              </motion.span>
+            </motion.h1>
+
+            {/* Subtext */}
+            <motion.p
+              className="text-[clamp(14px,2.6vw,20px)] text-gray-600 mt-5 leading-relaxed max-w-xl mx-auto lg:mx-0"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: 0.55 }}
+            >
+              Healthy. Convenient. Transparent. Your go-to solution for real nutritious food, made simple.
+            </motion.p>
+
+            {/* CTA with soft looped glow */}
+            <motion.div
+              className="mt-7"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.75 }}
+            >
+              <Link to="/subscription">
+                <motion.div
+                  initial={{ boxShadow: "0 0 0px rgba(64,145,108,0)" }}
+                  animate={{ boxShadow: ["0 0 0px rgba(64,145,108,0)", "0 0 22px rgba(64,145,108,.35)", "0 0 0px rgba(64,145,108,0)"] }}
+                  transition={{ duration: 2.2, repeat: Infinity, repeatDelay: 1.2 }}
+                  className="inline-block rounded-lg"
+                >
+                  <ShineButton
+                    variant="primary"
+                    className="text-sm sm:text-base md:text-lg px-6 py-3 bg-[#2D6A4F] hover:bg-[#40916C] text-white rounded-lg shadow-lg transition"
+                  >
+                    Secure My Founding Spot
+                  </ShineButton>
+                </motion.div>
+              </Link>
+            </motion.div>
+          </div>
+
+          {/* Hero image (right) delayed entrance after headline) */}
+          <motion.div
+            className="lg:col-span-6 order-1 lg:order-2"
+            initial={{ opacity: 0, x: 60, filter: "blur(6px)" }}
+            animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.9 }}
+          >
+            <motion.div
+              initial={{ rotate: -0.6 }}
+              whileHover={{ rotate: 0.6, scale: 1.01 }}
+              transition={{ type: "spring", stiffness: 120, damping: 12 }}
+              animate={{ y: [0, -6, 0, 6, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <div className="w-full overflow-hidden rounded-xl h-[48vh] sm:h-[58vh] md:h-[62vh]">
+                <img
+                  src="./src/assets/1002.png"
+                  alt="Fresh colorful salad bowl with grains and greens"
+                  className="w-full h-full object-cover"
+                  loading="eager"
                 />
-              </AnimatedSection>
-            </div>
-          </div>
-        </section>
-      </AnimatedSection>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
 
-      {/* Founding Members CTA */}
-      <AnimatedSection animation="fade-in">
-        <section className="py-20 bg-gradient-to-r from-orange-500 to-red-500 text-white">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Ready to Feel the Shift? Let's Get Started.
+        {/* Prevent peeking of next section */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-b from-transparent to-white" />
+      </motion.section>
+
+      {/* ---------- Meet the Salad (image left) ---------- */}
+
+      <Section className="py-16 sm:py-20 px-4 sm:px-6 bg-white" variant="left">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+          <Picture src="./src/assets/1004.png" alt="Person preparing healthy salad"
+            className=" h-72 sm:h-96 bg-white rounded-none [&>img]:w-full [&>img]:h-full [&>img]:object-contain [&>img]:mx-auto [&>img]:pointer-events-none [&>img]:drop-shadow-[0_16px_36px_rgba(0,0,0,0.12)] " />
+          <div> <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-[clamp(22px,4.2vw,40px)] font-bold mb-6" >
+            Meet the Salad That Understands You ✨
+          </motion.h2>
+            <p className="text-lg text-gray-700 leading-relaxed"> 👋 Hi, we’re <span className="font-semibold text-[#2D6A4F]">Fregcy</span>, your new best friend in nutrition. Our mission is simple: To help you feel unstoppable, starting with how you eat. </p>
+          </div> </div> </Section>
+
+      {/* ---------- Problem Statement (image right) ---------- */}
+      <Section className="py-16 sm:py-20 bg-white/80 backdrop-blur-sm px-4 sm:px-6" delay={0.05} variant="right">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div>
+            <h2 className="text-[clamp(20px,4.5vw,40px)] font-bold mb-4 sm:mb-6">
+              Are You Tired of Choosing Between Convenience and Health?
             </h2>
-            <p className="text-xl mb-8">
-              🌟 Claim Your Founding Member Spot Before It's Gone
-            </p>
-            <div className="bg-white/10 backdrop-blur-sm p-8 rounded-2xl mb-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                <div className="text-center">
-                  <div className="text-4xl font-bold mb-2">{foundingMembers}</div>
-                  <div className="text-sm opacity-90">Members Joined</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-4xl font-bold mb-2 text-yellow-300">{slotsLeft}</div>
-                  <div className="text-sm opacity-90">Slots Remaining</div>
-                </div>
-              </div>
-              <p className="text-lg mb-6">
-                We're giving early access to just 1,000 Founding Members. When we launch our own Vending Machine, 
-                this founders-only pricing disappears. Forever.
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left mb-8">
-                <div className="flex items-center space-x-2">
-                  <CheckCircle className="w-5 h-5 text-green-400" />
-                  <span>Lifetime 20% discount on all purchases</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <CheckCircle className="w-5 h-5 text-green-400" />
-                  <span>Early delivery to your office/home</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <CheckCircle className="w-5 h-5 text-green-400" />
-                  <span>Access to the Fretty App + customization</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <CheckCircle className="w-5 h-5 text-green-400" />
-                  <span>Exclusive health & performance community</span>
-                </div>
-              </div>
-              <div className="mb-6">
-                <h3 className="text-xl font-bold mb-4">You Have Two Choices:</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-                  <div className="bg-red-500/20 p-4 rounded-lg">
-                    <h4 className="font-semibold mb-2">1️⃣ Keep doing what you've been doing:</h4>
-                    <p className="text-sm">Another afternoon slump, another quick snack, another dinner filled with junk food.</p>
-                  </div>
-                  <div className="bg-green-500/20 p-4 rounded-lg">
-                    <h4 className="font-semibold mb-2">2️⃣ Take the first step toward something better:</h4>
-                    <p className="text-sm">Clean, intelligent eating that matches your ambition — and never slows you down.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <Link to="/subscription">
-              <ShineButton variant="secondary" className="text-lg px-8 py-4 text-orange-600 hover:text-orange-700 cta-shine">
-                Secure My Founding Spot – Before It's Gone
-              </ShineButton>
-            </Link>
-            <p className="text-sm mt-4 opacity-90">
-              (Only {slotsLeft} slots left. No contracts. No commitment. Just better energy.)
+            <p className="text-[clamp(14px,2.5vw,18px)] text-fregacy-dark-gray leading-relaxed">
+              You’re not alone. In a world full of quick junk food and unhealthy
+              options, <span className="font-semibold">Fregcy</span> is here to
+              change the game. We don’t believe in compromises. We believe in
+              fresh, flavorful, fully transparent nutrition that actually fits
+              your lifestyle.
             </p>
           </div>
-        </section>
-      </AnimatedSection>
 
-      {/* Thank You Section */}
-      <AnimatedSection animation="fade-in">
-        <section id="thank-you-section" className="py-20 bg-white">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div className="bg-gradient-to-r from-green-100 to-blue-100 p-8 rounded-2xl">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-                Thank You for Being Here.
-              </h2>
-              <p className="text-lg text-gray-700 leading-relaxed font-medium">
-                If you've read this far, you already know you care about your health. 
-                Let's make that a reality, starting today — not "someday."
-              </p>
-            </div>
+          <Picture src="./src/assets/1003.png"
+            alt="Green salad bowl with leafy greens on neutral background"
+            className="h-64 sm:h-72 md:h-96" />
+        </div>
+      </Section>
+
+      {/* ---------- Testimonials ---------- */}
+      <Section className="py-16 sm:py-20 bg-[#FAFAFA] px-4 sm:px-6" variant="up">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-[clamp(22px,4.2vw,40px)] font-bold text-gray-900 mb-10 text-center">
+            Hear from Our Wellness Warriors
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {[
+              {
+                quote:
+                  "Every afternoon used to be a crash. Now I’m energized right through 6 PM—and I look forward to lunch again.",
+                author: "Aarti, Consultant",
+                img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=1200&auto=format&fit=crop",
+              },
+              {
+                quote:
+                  "My productivity spiked, my bloating vanished, and for once—eating healthy didn’t feel like a job.",
+                author: "Sana, Designer",
+                img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1200&auto=format&fit=crop",
+              },
+              {
+                quote:
+                  "I don’t even like salads. But Fregcy changed that. I finally feel like I’m eating for me.",
+                author: "Karan, Software Engineer",
+                img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1200&auto=format&fit=crop",
+              },
+            ].map((t, i) => (
+              <motion.blockquote
+                key={i}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.55, delay: i * 0.15 }}
+                viewport={{ once: false }}
+                className="bg-white rounded-xl text-left relative overflow-hidden will-change-transform"
+                whileHover={{ rotate: i % 2 ? -0.6 : 0.6, scale: 1.01 }}
+                transition={{ type: "spring", stiffness: 110, damping: 12 }}
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-[140px_1fr]">
+                  <Picture
+                    src={t.img}
+                    alt={`${t.author} enjoying healthy food`}
+                    className="h-40 sm:h-full"
+                  />
+                  <div className="p-6">
+                    <p className="text-gray-700 text-base sm:text-lg md:text-xl italic leading-relaxed">
+                      {t.quote}
+                    </p>
+                    <span className="block mt-4 font-semibold text-[#2D6A4F] text-sm sm:text-base">
+                      — {t.author}
+                    </span>
+                  </div>
+                </div>
+              </motion.blockquote>
+            ))}
           </div>
-        </section>
-      </AnimatedSection>
+        </div>
+      </Section>
+
+      {/* ---------- CTA ---------- */}
+      <Section className="py-16 sm:py-20 bg-[#FAFAFA] px-4 sm:px-6 text-center" variant="up">
+        <h2 className="text-[clamp(20px,4.5vw,40px)] font-bold mb-4 sm:mb-6 text-[#1A1A1A]">
+          Ready to Feel the Shift?
+        </h2>
+
+        <div className="w-full max-w-5xl mx-auto mb-8">
+          <Picture
+            src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1600&auto=format&fit=crop"
+            alt="Colorful nutrient-dense salad spread"
+            className="h-48 sm:h-60 md:h-72"
+          />
+        </div>
+
+        <p className="text-sm sm:text-base md:text-lg mb-6 sm:mb-8 text-gray-700">
+          Claim Your Founding Member Spot Before It’s Gone <br />
+          We're already at <strong>{foundingMembers}</strong>, only{" "}
+          <span className="text-[#FF6B35] font-semibold">{slotsLeft}</span> slots left!
+        </p>
+
+        <ul className="max-w-2xl mx-auto text-left text-xs sm:text-base md:text-lg space-y-2 sm:space-y-3 mb-6 sm:mb-8 text-gray-800">
+          <li>Lifetime 20% discount on all purchases</li>
+          <li>Early delivery to your office/home</li>
+          <li>Access to the Fregcy App + customization engine</li>
+          <li>Exclusive health & performance community</li>
+        </ul>
+
+        <Link to="/subscription">
+          <motion.div
+            initial={{ scale: 1 }}
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 120, damping: 12 }}
+            className="inline-block"
+          >
+            <ShineButton
+              variant="primary"
+              className="text-sm sm:text-base md:text-lg px-6 py-3 
+                 bg-[#FF6B35] hover:bg-[#E55A2B] text-white 
+                 border-2 border-[#FF6B35] rounded-md"
+            >
+              Secure My Founding Spot – Before It’s Gone
+            </ShineButton>
+          </motion.div>
+        </Link>
+      </Section>
     </div>
   );
 };
