@@ -4,55 +4,40 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Fregcy Brand Colors
         fregcy: {
-          sage: '#A1C298',
-          blush: '#F2D7D9',
-          leaf: '#58A96C',
-          'leaf-hover': '#468756',
-          tangerine: '#FF914D',
-          'tangerine-hover': '#E76D28',
-          charcoal: '#1E1E1E',
-          tomato: '#E63946',
-          beetroot: '#6A0572',
-          carrot: '#FFA500',
-          corn: '#FFD166',
-          spinach: '#2E7D32',
-          chickpea: '#FFF5E1',
-        },
-        // Fregacy Brand Colors
-        fregacy: {
-          // Primary Greens
-          'brand-green': '#4A7C59',
-          'light-green': '#7FB069',
-          'soft-green': '#B7E4C7',
-          // Oranges
-          'primary-orange': '#FF6B35',
-          'light-orange': '#FF8C42',
-          'soft-orange': '#FFB68A',
-          // Purples
-          'primary-purple': '#6F4E7C',
-          'light-purple': '#A084CA',
-          'soft-purple': '#D4C5E8',
-          // Backgrounds
-          'off-white': '#FAFAFA',
-          'light-gray': '#F5F5F5',
-          'medium-gray': '#E8E8E8',
-          'dark-gray': '#2C2C2C',
-          'text-black': '#1A1A1A',
-          // CTAs
-          'primary-cta': '#FF6B35',
-          'primary-cta-hover': '#E55A2B',
-          'secondary-cta': '#2D5A27',
-          'secondary-cta-hover': '#1F3E1A',
+          // Core Greens
+          'primary-green': '#2D5A27',
+          'green-light': '#4A7C59',
+          'green-dark': '#1C3A19',
+
+          // Saffron (accent)
+          'saffron': '#FF6B35',
+          'saffron-light': '#FF8C69',
+          'saffron-dark': '#E55A2B',
+
+          // Turmeric
+          'turmeric': '#F9CA24',
+          'turmeric-light': '#FBD148',
+          'turmeric-dark': '#E6B800',
+
+          // Support & neutrals
+          'earth-brown': '#8B4513',
+          'terracotta': '#CD853F',
+          'earth-sage': '#9CAF88',
+          'cream-white': '#FAF5F0',
+          'warm-white': '#FEFCF8',
+          'soft-beige': '#F5F0E8',
+
+          // Text helpers used in Home.tsx
+          'h1': '#1C3A19',
+          'body': '#2D3748',
+          'body-light': '#4A5568',
         }
       },
       backgroundImage: {
-        'hero-gradient': 'linear-gradient(135deg, #FAFAFA 0%, #B7E4C7 100%)',
-        'about-gradient': 'linear-gradient(135deg, #2D5A27 0%, #4A7C59 100%)',
-        'cta-gradient': 'linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%)',
-        'secondary-cta-gradient': 'linear-gradient(135deg, #2D5A27 0%, #4A7C59 100%)',
-      }
+        'hero-gradient': 'linear-gradient(135deg, #FAF5F0 0%, #F5F0E8 50%, #E8F5E8 100%)',
+        'cta-gradient': 'linear-gradient(45deg, #FF6B35 0%, #F9CA24 100%)',
+      },
     },
   },
   plugins: [],
