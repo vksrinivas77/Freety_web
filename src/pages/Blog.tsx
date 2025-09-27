@@ -19,7 +19,7 @@ const Blog = () => {
                 Knowledge is brewing!
               </p>
               <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-                Get ready for insightful articles, nutrition tips, and wellness stories from Fretty. 
+                Get ready for insightful articles, nutrition tips, and wellness stories from fregcy. 
                 Our blog will be your go-to source for living a healthier, happier life.
               </p>
             </div>
@@ -69,7 +69,7 @@ const Blog = () => {
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-4">Community Insights</h3>
                   <p className="text-gray-600">
-                    Behind-the-scenes looks at Fretty, ingredient spotlights, and expert interviews.
+                    Behind-the-scenes looks at fregcy, ingredient spotlights, and expert interviews.
                   </p>
                 </div>
               </AnimatedSection>
