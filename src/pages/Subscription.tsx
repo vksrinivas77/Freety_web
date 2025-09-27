@@ -21,9 +21,37 @@ const fadeUp = {
 const Subscription: React.FC = () => {
   return (
     <div className="bg-white text-gray-900">
-      {/* Page-scoped utilities */}
+      {/* Page-scoped utilities (colors wired to your palette) */}
       <style>{`
-        /* Gold glow + pulse for price chip and arrow */
+        /* --- brand helpers mapped to your CSS variables --- */
+        .text-brand-h1 { color: var(--h1-color); }
+        .text-brand-green { color: var(--primary-green); }
+        .text-brand-saffron { color: var(--secondary-saffron); }
+        .text-brand-turmeric { color: var(--accent-turmeric-dark); } /* darker for accents */
+
+        .btn-green    { background: var(--primary-green); }
+        .btn-green:hover { background: var(--primary-green-light); }
+        .btn-saffron  { background: var(--secondary-saffron); }
+        .btn-saffron:hover { background: var(--secondary-saffron-dark); }
+        .btn-turmeric { background: var(--accent-turmeric); color: var(--h1-color); }
+        .btn-turmeric:hover { background: var(--accent-turmeric-dark); }
+
+        /* DARKER card tints (relative to your palette) */
+        .card-soft-green   { background: rgba(45, 90, 39, 0.18); }       /* primary-green @ 18% */
+        .card-soft-saffron { background: rgba(255, 107, 53, 0.18); }     /* saffron @ 18% */
+        .card-soft-turm    { background: rgba(249, 202, 36, 0.22); }     /* turmeric @ 22% */
+
+        /* Card framing stays the same */
+        .plan-card {
+          display:flex; flex-direction:column;
+          border: 1px solid rgba(0,0,0,.06);
+          border-radius: 16px;
+          box-shadow: 0 8px 28px -16px rgba(0,0,0,0.20);
+        }
+        .plan-body { flex:1 1 auto; }
+        .plan-cta { margin-top:1.25rem; }
+
+        /* Gold glow + pulse for price chip and arrow (kept) */
         @keyframes gold-glow {
           0%, 60%, 100% { filter: drop-shadow(0 0 0 rgba(234,179,8,0)); }
           65% { filter: drop-shadow(0 0 10px rgba(234,179,8,0.55)); }
@@ -41,8 +69,9 @@ const Subscription: React.FC = () => {
           padding: .45rem .8rem;
           border-radius: 9999px;
           font-weight: 800;
-          font-size: 1rem; /* bigger */
+          font-size: 1rem;
           line-height: 1;
+          /* slight gold look but still neutral on colored cards */
           background: linear-gradient(90deg,#FFF7CC 0%,#FFE08A 100%);
           color: #1A1A1A;
           box-shadow: 0 6px 18px -10px rgba(234,179,8,.45), inset 0 0 0 1px rgba(234,179,8,.35);
@@ -53,7 +82,7 @@ const Subscription: React.FC = () => {
 
         .arrow-glow { animation: gold-glow 4.6s ease-in-out infinite; }
 
-        /* Card hover/tap zoom */
+        /* Card hover/tap zoom (kept) */
         .card-zoom {
           transition: transform .25s ease, box-shadow .25s ease;
           will-change: transform;
@@ -67,13 +96,10 @@ const Subscription: React.FC = () => {
           .card-zoom:active { transform: scale(1.02); }
         }
 
-        /* Buttons single-line + equal card heights */
+        /* Buttons single-line */
         .btn-solid { display:inline-flex; align-items:center; justify-content:center; gap:.5rem; white-space:nowrap; text-wrap:nowrap; }
-        .plan-card { display:flex; flex-direction:column; }
-        .plan-body { flex:1 1 auto; }
-        .plan-cta { margin-top:1.25rem; }
 
-        /* Steps & perks flair */
+        /* Steps & perks flair (kept) */
         .step-card {
           position: relative;
           transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease;
@@ -103,7 +129,7 @@ const Subscription: React.FC = () => {
           font-size: 18px;
         }
 
-        /* Image tile hover */
+        /* Image tile hover (kept) */
         .tile:hover img { transform: scale(1.05); }
         .tile img { transition: transform .3s ease; }
 
@@ -113,15 +139,15 @@ const Subscription: React.FC = () => {
         }
       `}</style>
 
-      {/* Banner (matches your other pages) */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#B7E4C7] via-white to-[#FAFAFA]">
+      {/* Banner (unchanged, keeps your vibe) */}
+      <section className="relative overflow-hidden bg-hero-gradient">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-24 pb-16 sm:pt-28 sm:pb-20 text-center">
           <motion.h1
             variants={fadeUp}
             initial="hidden"
             whileInView="show"
             viewport={{ once: false, amount: 0.6 }}
-            className="text-[clamp(26px,6vw,48px)] font-extrabold text-gray-900"
+            className="text-[clamp(26px,6vw,48px)] font-extrabold text-fregcy-h1"
           >
             Never Run Out of Energy Again 🔋
           </motion.h1>
@@ -130,7 +156,7 @@ const Subscription: React.FC = () => {
             initial="hidden"
             whileInView="show"
             viewport={{ once: false, amount: 0.6 }}
-            className="mt-3 text-[clamp(14px,2.5vw,18px)] text-gray-700"
+            className="mt-3 text-[clamp(14px,2.5vw,18px)] text-fregcy-body"
           >
             Fregcy Salad Subscriptions: Healthy Fuel, on Autopilot
           </motion.p>
@@ -139,13 +165,12 @@ const Subscription: React.FC = () => {
             initial="hidden"
             whileInView="show"
             viewport={{ once: false, amount: 0.6 }}
-            className="mt-4 text-[15px] sm:text-[16px] text-gray-700/90 max-w-3xl mx-auto"
+            className="mt-4 text-[15px] sm:text-[16px] text-fregcy-body max-w-3xl mx-auto"
           >
             No more meal planning. No more energy crashes. Just one decision that keeps giving, daily.
           </motion.p>
         </div>
       </section>
-
       {/* Plans */}
       <section className="py-10 sm:py-14">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -154,129 +179,129 @@ const Subscription: React.FC = () => {
             initial="hidden"
             whileInView="show"
             viewport={{ once: false, amount: 0.4 }}
-            className="text-center text-[clamp(20px,4.5vw,34px)] font-bold"
+            className="text-center text-[clamp(20px,4.5vw,34px)] font-bold text-brand-h1"
           >
             Choose Your Energy Plan
           </motion.h2>
 
           <div className="mt-7 grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-            {/* Weekend Warrior */}
+            {/* Weekend Warrior (GREEN) */}
             <motion.article
               variants={edgeIn("left", 0.06)}
               initial="hidden"
               whileInView="show"
               viewport={{ once: false, amount: 0.35 }}
-              className="plan-card card-zoom rounded-2xl border border-black/[0.06] bg-[#D8F3DC] shadow-[0_8px_28px_-16px_rgba(0,0,0,0.2)] p-5 sm:p-6"
+              className="plan-card card-zoom card-soft-green p-5 sm:p-6"
             >
               <div className="plan-body">
                 <div className="flex items-center gap-2">
-                  <Star className="w-5 h-5 text-[#2D6A4F]" />
-                  <h3 className="text-xl font-bold text-[#1A1F1B]">The Weekend Warrior</h3>
+                  <Star className="w-5 h-5 text-brand-green" />
+                  <h3 className="text-xl font-bold text-brand-h1">The Weekend Warrior</h3>
                 </div>
 
                 <div className="mt-3 flex items-center justify-between">
-                  <span className="text-gray-800 font-semibold">₹799/month</span>
+                  <span className="text-fregcy-body font-semibold">₹799/month</span>
                   <span className="price-chip">₹53 per salad</span>
                 </div>
 
-                <p className="mt-2 text-[14px] text-gray-800">2 salads every weekend</p>
-                <p className="mt-1 text-[13px] text-gray-700">
+                <p className="mt-2 text-[14px] text-fregcy-body">2 salads every weekend</p>
+                <p className="mt-1 text-[13px] text-fregcy-body">
                   Perfect for dabblers, gym lovers, or health newbies starting small.
                 </p>
-                <ul className="mt-4 space-y-2 text-[13px] text-gray-800">
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-[#2D6A4F]" /> 14–15 salads/month</li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-[#2D6A4F]" /> Save ₹47 each</li>
+                <ul className="mt-4 space-y-2 text-[13px] text-fregcy-body">
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-brand-green" /> 14–15 salads/month</li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-brand-green" /> Save ₹47 each</li>
                 </ul>
               </div>
 
               <div className="plan-cta">
-                <ShineButton className="btn-solid w-full px-4 py-2.5 sm:px-5 sm:py-3 bg-[#2D6A4F] hover:bg-[#40916C] text-white">
+                <ShineButton className="btn-solid w-full px-4 py-2.5 sm:px-5 sm:py-3 btn-green text-white">
                   Start Small, Win Big
-                  <span className="arrow-glow inline-flex"><ArrowRight className="w-4 h-4" color="#EAB308" /></span>
+                  <span className="arrow-glow inline-flex"><ArrowRight className="w-4 h-4" color="var(--accent-turmeric-dark)" /></span>
                 </ShineButton>
               </div>
             </motion.article>
 
-            {/* Daily Hero */}
+            {/* Daily Hero (SAFFRON) */}
             <motion.article
               variants={fadeUp}
               initial="hidden"
               whileInView="show"
               viewport={{ once: false, amount: 0.35 }}
-              className="plan-card card-zoom rounded-2xl border border-black/[0.06] bg-[#FFE0D1] shadow-[0_8px_28px_-16px_rgba(0,0,0,0.2)] p-5 sm:p-6"
+              className="plan-card card-zoom card-soft-saffron p-5 sm:p-6"
             >
               <div className="plan-body">
                 <div className="flex items-center gap-2">
-                  <Zap className="w-5 h-5 text-[#9A3412]" />
-                  <h3 className="text-xl font-bold text-[#1A1F1B]">The Daily Hero</h3>
+                  <Zap className="w-5 h-5 text-brand-saffron" />
+                  <h3 className="text-xl font-bold text-brand-h1">The Daily Hero</h3>
                 </div>
 
                 <div className="mt-3 flex items-center justify-between">
-                  <span className="text-gray-800 font-semibold">₹1,299/month</span>
+                  <span className="text-fregcy-body font-semibold">₹1,299/month</span>
                   <span className="price-chip delay-1">₹58 per salad</span>
                 </div>
 
-                <p className="mt-2 text-[14px] text-gray-800">1 salad every weekday</p>
-                <p className="mt-1 text-[13px] text-gray-700">
+                <p className="mt-2 text-[14px] text-fregcy-body">1 salad every weekday</p>
+                <p className="mt-1 text-[13px] text-fregcy-body">
                   For busy office pros who want energy without the mental load.
                 </p>
-                <ul className="mt-4 space-y-2 text-[13px] text-gray-800">
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-[#9A3412]" /> 20–22 salads/month</li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-[#9A3412]" /> Save ₹52 daily</li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-[#9A3412]" /> Skip days freely + unlimited customizations</li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-[#9A3412]" /> First access to new recipes</li>
+                <ul className="mt-4 space-y-2 text-[13px] text-fregcy-body">
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-brand-saffron" /> 20–22 salads/month</li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-brand-saffron" /> Save ₹52 daily</li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-brand-saffron" /> Skip days freely + unlimited customizations</li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-brand-saffron" /> First access to new recipes</li>
                 </ul>
               </div>
 
               <div className="plan-cta">
-                <ShineButton className="btn-solid w-full px-4 py-2.5 sm:px-5 sm:py-3 bg-[#FF6B35] hover:bg-[#E55A2B] text-white">
+                <ShineButton className="btn-solid w-full px-4 py-2.5 sm:px-5 sm:py-3 btn-saffron text-white">
                   Be My Daily Hero
-                  <span className="arrow-glow inline-flex"><ArrowRight className="w-4 h-4" color="#EAB308" /></span>
+                  <span className="arrow-glow inline-flex"><ArrowRight className="w-4 h-4" color="var(--accent-turmeric-dark)" /></span>
                 </ShineButton>
               </div>
             </motion.article>
 
-            {/* Power Player */}
+            {/* Power Player (TURMERIC) */}
             <motion.article
               variants={edgeIn("right", 0.12)}
               initial="hidden"
               whileInView="show"
               viewport={{ once: false, amount: 0.35 }}
-              className="plan-card card-zoom rounded-2xl border border-black/[0.06] bg-[#EDE9FE] shadow-[0_8px_28px_-16px_rgba(0,0,0,0.2)] p-5 sm:p-6"
+              className="plan-card card-zoom card-soft-turm p-5 sm:p-6"
             >
               <div className="plan-body">
                 <div className="flex items-center gap-2">
-                  <Star className="w-5 h-5 text-[#5B21B6]" />
-                  <h3 className="text-xl font-bold text-[#1A1F1B]">The Power Player</h3>
+                  <Star className="w-5 h-5 text-brand-turmeric" />
+                  <h3 className="text-xl font-bold text-brand-h1">The Power Player</h3>
                 </div>
 
                 <div className="mt-3 flex items-center justify-between">
-                  <span className="text-gray-800 font-semibold">₹2,499/month</span>
+                  <span className="text-fregcy-body font-semibold">₹2,499/month</span>
                   <span className="price-chip delay-2">₹63 per salad</span>
                 </div>
 
-                <p className="mt-2 text-[14px] text-gray-800">2 salads every weekday</p>
-                <p className="mt-1 text-[13px] text-gray-700">
+                <p className="mt-2 text-[14px] text-fregcy-body">2 salads every weekday</p>
+                <p className="mt-1 text-[13px] text-fregcy-body">
                   For high-performers who eat clean and high protein with intensity.
                 </p>
-                <ul className="mt-4 space-y-2 text-[13px] text-gray-800">
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-[#5B21B6]" /> 40–42 salads/month</li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-[#5B21B6]" /> Save ₹57 daily</li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-[#5B21B6]" /> Ideal for lunch + snack</li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-[#5B21B6]" /> Priority pickup, exclusive nutrition perks</li>
+                <ul className="mt-4 space-y-2 text-[13px] text-fregcy-body">
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-brand-turmeric" /> 40–42 salads/month</li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-brand-turmeric" /> Save ₹57 daily</li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-brand-turmeric" /> Ideal for lunch + snack</li>
+                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-brand-turmeric" /> Priority pickup, exclusive nutrition perks</li>
                 </ul>
               </div>
 
               <div className="plan-cta">
-                <ShineButton className="btn-solid w-full px-4 py-2.5 sm:px-5 sm:py-3 bg-[#5B21B6] hover:bg-[#6D28D9] text-white">
+                <ShineButton className="btn-solid w-full px-4 py-2.5 sm:px-5 sm:py-3 btn-turmeric">
                   Fuel My Power Mode
-                  <span className="arrow-glow inline-flex"><ArrowRight className="w-4 h-4" color="#EAB308" /></span>
+                  <span className="arrow-glow inline-flex"><ArrowRight className="w-4 h-4" color="var(--accent-turmeric-dark)" /></span>
                 </ShineButton>
               </div>
             </motion.article>
           </div>
 
-          {/* Why Subscribe */}
+          {/* Why Subscribe (unchanged) */}
           <motion.div
             variants={fadeUp}
             initial="hidden"
@@ -284,8 +309,8 @@ const Subscription: React.FC = () => {
             viewport={{ once: false, amount: 0.35 }}
             className="mt-10 rounded-2xl bg-[#FAFAFA] border border-black/5 p-5 sm:p-6"
           >
-            <h3 className="text-xl font-semibold">Why Subscribe Instead of Ordering One-Off?</h3>
-            <ul className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-[14px]">
+            <h3 className="text-xl font-semibold text-brand-h1">Why Subscribe Instead of Ordering One-Off?</h3>
+            <ul className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-[14px] text-fregcy-body">
               {[
                 "Save up to ₹58/salad",
                 "Eliminate daily food decisions",
@@ -293,17 +318,17 @@ const Subscription: React.FC = () => {
                 "Guilt-proof your diet — good choices, on autopilot",
               ].map((t) => (
                 <li key={t} className="flex items-start gap-2">
-                  <Check className="w-4 h-4 mt-0.5 text-[#2D6A4F]" />
+                  <Check className="w-4 h-4 mt-0.5 text-brand-green" />
                   <span>{t}</span>
                 </li>
               ))}
             </ul>
-            <p className="mt-2 text-[13px] text-gray-600">Pause anytime. No contracts. No guilt.</p>
+            <p className="mt-2 text-[13px] text-fregcy-body-light">Pause anytime. No contracts. No guilt.</p>
           </motion.div>
         </div>
       </section>
 
-      {/* How It Works (creative timeline) */}
+      {/* How It Works */}
       <section className="py-10 sm:py-14 bg-[#F7F7FB]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <motion.h3
@@ -311,7 +336,7 @@ const Subscription: React.FC = () => {
             initial="hidden"
             whileInView="show"
             viewport={{ once: false, amount: 0.45 }}
-            className="text-center text-[clamp(18px,4vw,28px)] font-bold"
+            className="text-center text-[clamp(18px,4vw,28px)] font-bold text-brand-h1"
           >
             ⚙️ How It Works (It’s That Easy)
           </motion.h3>
@@ -319,30 +344,30 @@ const Subscription: React.FC = () => {
           <div className="relative mt-8 grid grid-cols-1 lg:grid-cols-5 gap-4">
             <div className="hidden lg:block absolute top-1/2 left-0 right-0 -translate-y-1/2 connector" />
             <motion.div variants={edgeIn("left", 0.02)} initial="hidden" whileInView="show" viewport={{ once: false, amount: 0.35 }} className="step-card spark rounded-xl bg-white border border-black/5 p-4 shadow-sm">
-              <p className="text-[15px] font-semibold">Pick Your Plan</p>
-              <p className="text-[13px] text-gray-700 mt-1">Based on your lifestyle & hunger.</p>
+              <p className="text-[15px] font-semibold text-brand-h1">Pick Your Plan</p>
+              <p className="text-[13px] text-fregcy-body mt-1">Based on your lifestyle & hunger.</p>
             </motion.div>
             <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: false, amount: 0.35 }} className="step-card spark rounded-xl bg-white border border-black/5 p-4 shadow-sm">
-              <p className="text-[15px] font-semibold">Tell Us What You Like</p>
-              <p className="text-[13px] text-gray-700 mt-1">Preferences, allergies, favorites.</p>
+              <p className="text-[15px] font-semibold text-brand-h1">Tell Us What You Like</p>
+              <p className="text-[13px] text-fregcy-body mt-1">Preferences, allergies, favorites.</p>
             </motion.div>
             <motion.div variants={edgeIn("right", 0.02)} initial="hidden" whileInView="show" viewport={{ once: false, amount: 0.35 }} className="step-card spark rounded-xl bg-white border border-black/5 p-4 shadow-sm">
-              <p className="text-[15px] font-semibold">Get Daily Pickup Alerts</p>
-              <p className="text-[13px] text-gray-700 mt-1">“Your salad is ready at Machine #3.”</p>
+              <p className="text-[15px] font-semibold text-brand-h1">Get Daily Pickup Alerts</p>
+              <p className="text-[13px] text-fregcy-body mt-1">“Your salad is ready at Machine #3.”</p>
             </motion.div>
             <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: false, amount: 0.35 }} className="step-card spark rounded-xl bg-white border border-black/5 p-4 shadow-sm">
-              <p className="text-[15px] font-semibold">Grab & Go</p>
-              <p className="text-[13px] text-gray-700 mt-1">Scan, collect, and eat.</p>
+              <p className="text-[15px] font-semibold text-brand-h1">Grab & Go</p>
+              <p className="text-[13px] text-fregcy-body mt-1">Scan, collect, and eat.</p>
             </motion.div>
             <motion.div variants={edgeIn("left", 0.03)} initial="hidden" whileInView="show" viewport={{ once: false, amount: 0.35 }} className="step-card spark rounded-xl bg-white border border-black/5 p-4 shadow-sm">
-              <p className="text-[15px] font-semibold">Feel the Upgrade</p>
-              <p className="text-[13px] text-gray-700 mt-1">From energy to digestion to mood.</p>
+              <p className="text-[15px] font-semibold text-brand-h1">Feel the Upgrade</p>
+              <p className="text-[13px] text-fregcy-body mt-1">From energy to digestion to mood.</p>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Subscriber Perks (playful badges) */}
+      {/* Subscriber Perks */}
       <section className="py-10 sm:py-14">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <motion.h3
@@ -350,7 +375,7 @@ const Subscription: React.FC = () => {
             initial="hidden"
             whileInView="show"
             viewport={{ once: false, amount: 0.45 }}
-            className="text-center text-[clamp(18px,4vw,28px)] font-bold"
+            className="text-center text-[clamp(18px,4vw,28px)] font-bold text-brand-h1"
           >
             🎁 Subscriber Perks
           </motion.h3>
@@ -377,8 +402,8 @@ const Subscription: React.FC = () => {
                   {p.icon}
                 </span>
                 <div>
-                  <p className="text-[15px] font-semibold">{p.title}</p>
-                  <p className="text-[13px] text-gray-700 mt-1">Little upgrades that add up — automatically.</p>
+                  <p className="text-[15px] font-semibold text-brand-h1">{p.title}</p>
+                  <p className="text-[13px] text-fregcy-body mt-1">Little upgrades that add up — automatically.</p>
                 </div>
               </motion.div>
             ))}
@@ -386,7 +411,7 @@ const Subscription: React.FC = () => {
         </div>
       </section>
 
-      {/* Machine Locations - image tiles with links */}
+      {/* Machine Locations */}
       <section className="py-10 sm:py-14 bg-[#FAFAFA]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <motion.h3
@@ -394,7 +419,7 @@ const Subscription: React.FC = () => {
             initial="hidden"
             whileInView="show"
             viewport={{ once: false, amount: 0.4 }}
-            className="text-[clamp(18px,4vw,28px)] font-bold text-center"
+            className="text-[clamp(18px,4vw,28px)] font-bold text-center text-brand-h1"
           >
             Machine Locations (Beta Testing)
           </motion.h3>
@@ -470,7 +495,7 @@ const Subscription: React.FC = () => {
             </motion.a>
           </div>
 
-          <p className="mt-3 text-[13px] text-gray-600 text-center">
+          <p className="mt-3 text-[13px] text-fregcy-body-light text-center">
             Next Launch: Q1 2026 – 25+ new locations
           </p>
         </div>
@@ -484,7 +509,7 @@ const Subscription: React.FC = () => {
             initial="hidden"
             whileInView="show"
             viewport={{ once: false, amount: 0.4 }}
-            className="text-center text-[clamp(18px,4vw,28px)] font-bold"
+            className="text-center text-[clamp(18px,4vw,28px)] font-bold text-brand-h1"
           >
             Frequently Asked Questions
           </motion.h3>
@@ -503,20 +528,20 @@ const Subscription: React.FC = () => {
                 whileInView="show"
                 viewport={{ once: false, amount: 0.35 }}
                 transition={{ duration: 0.6, delay: i * 0.05 }}
-                className="rounded-xl bg-white border border-black/5 p-4 shadow-sm"
+                className="rounded-2xl bg-white border border-black/5 p-4 shadow-sm"
               >
-                <p className="font-semibold">{item.q}</p>
-                <p className="text-[14px] text-gray-700 mt-1">{item.a}</p>
+                <p className="font-semibold text-brand-h1">{item.q}</p>
+                <p className="text-[14px] text-fregcy-body mt-1">{item.a}</p>
               </motion.div>
             ))}
           </div>
 
           <div className="mt-8 text-center">
-            <ShineButton className="btn-solid inline-flex items-center gap-2 bg-[#2D6A4F] hover:bg-[#40916C] text-white px-6 py-3">
+            <ShineButton className="btn-solid inline-flex items-center gap-2 bg-fregcy-primary-green hover:bg-fregcy-green-light text-white px-6 py-3">
               Start Your Subscription Today
-              <span className="arrow-glow inline-flex"><ArrowRight className="w-4 h-4" color="#EAB308" /></span>
+              <span className="arrow-glow inline-flex"><ArrowRight className="w-4 h-4" color="var(--turmeric-dark)" /></span>
             </ShineButton>
-            <p className="mt-3 text-[13px] text-gray-600">
+            <p className="mt-3 text-[13px] text-fregcy-body-light">
               The best time to start eating better was yesterday. The second best time is right now.
             </p>
           </div>
