@@ -1,131 +1,287 @@
-/* src/index.css
-   Merged global styles + animations + creative background
-   Keep this as the single source of truth for global styles.
-*/
+/* =========================================================
+   src/index.css
+   Tailwind layers + Brand tokens + Utilities (one file)
+   ---------------------------------------------------------
+   - Keep tailwind.config.js at project root (required)
+   - Import this file once in your app entry
+========================================================= */
 
-/* Tailwind base */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* --------------------------------------
-   Base Typography & Global Defaults
---------------------------------------- */
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
-    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* ======================================
+   1) BRAND TOKENS AS CSS VARIABLES
+   Place in :root; override via [data-theme]
+====================================== */
+@layer base {
+  :root {
+    /* 1. PRIMARY BRAND COLORS */
+    /* 1.1 Core Brand Colors */
+    --primary-green: #2D5A27;
+    --primary-green-light: #4A7C59;
+    --primary-green-dark: #1C3A19;
+
+    /* Secondary Saffron */
+    --secondary-saffron: #FF6B35;
+    --secondary-saffron-light: #FF8C69;
+    --secondary-saffron-dark: #E55A2B;
+
+    /* Accent Turmeric */
+    --accent-turmeric: #F9CA24;
+    --accent-turmeric-light: #FBD148;
+    --accent-turmeric-dark: #E6B800;
+
+    /* 1.2 Supporting Brand Colors */
+    --earth-brown: #8B4513;
+    --earth-terracotta: #CD853F;
+    --earth-sage: #9CAF88;
+
+    --cream-white: #FAF5F0;
+    --warm-white: #FEFCF8;
+    --soft-beige: #F5F0E8;
+
+    /* 2. BACKGROUND COLOR PALETTE */
+    /* Section Backgrounds */
+    --hero-bg: linear-gradient(135deg, #FAF5F0 0%, #F5F0E8 50%, #E8F5E8 100%);
+    --mission-bg: #FF6B35;
+    --mission-bg-alt: #2D5A27;
+    --features-bg: #F9CA24;
+    --features-bg-light: #FBD148;
+    --testimonials-bg: #1C3A19;
+    --testimonials-bg-alt: #8B4513;
+    --product-bg: #FEFCF8;
+    --product-card-bg: #FAF5F0;
+    --cta-bg: linear-gradient(45deg, #FF6B35 0%, #F9CA24 100%);
+
+    /* 3. TEXT COLOR PALETTE */
+    --h1-color: #1C3A19;
+    --h1-color-alt: #FFFFFF;
+    --h2-color: #FF6B35;
+    --h2-color-alt: #F9CA24;
+    --tagline-color: #E6B800;
+    --emphasis-color: #FF6B35;
+
+    --body-text: #2D3748;
+    --body-text-light: #4A5568;
+
+    --text-on-saffron: #FFFFFF;
+    --text-on-green: #FAF5F0;
+    --text-on-turmeric: #1C3A19;
+
+    --price-text: #2D5A27;
+    --discount-text: #E55A2B;
+    --success-text: #4A7C59;
+
+    /* 4. BUTTON & CTA */
+    --primary-btn-bg: linear-gradient(45deg, #FF6B35 0%, #F9CA24 100%);
+    --primary-btn-text: #FFFFFF;
+    --primary-btn-hover: linear-gradient(45deg, #E55A2B 0%, #E6B800 100%);
+
+    --secondary-btn-bg: transparent;
+    --secondary-btn-border: #2D5A27;
+    --secondary-btn-text: #2D5A27;
+    --secondary-btn-hover-bg: #2D5A27;
+    --secondary-btn-hover-text: #FFFFFF;
+
+    --success-btn-bg: #4A7C59;
+    --success-btn-text: #FFFFFF;
+
+    --urgent-btn-bg: #E55A2B;
+    --urgent-btn-text: #FFFFFF;
+    --urgent-btn-pulse: #FF8C69;
+
+    /* 8. SEASONAL DEFAULTS (Summer) */
+    --seasonal-primary: #4A7C59;
+    --seasonal-accent: #FF8C69;
+  }
+
+  /* Seasonal overrides (opt-in): set data-theme on <html> or <body> */
+  [data-theme="monsoon"] {
+    --seasonal-primary: #2D5A27;
+    --seasonal-accent: #9CAF88;
+  }
+  [data-theme="winter"] {
+    --seasonal-primary: #8B4513;
+    --seasonal-accent: #CD853F;
+  }
+  [data-theme="festival"] {
+    --seasonal-primary: #E6B800;
+    --seasonal-accent: #FF6B35;
+  }
+
+  /* Base typography defaults (optional) */
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+      'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: var(--body-text);
+    background: var(--product-bg);
+  }
+
+  /* Selection & focus */
+  ::selection { background-color: var(--primary-green); color: #fff; }
+  ::-moz-selection { background-color: var(--primary-green); color: #fff; }
+  .focus-visible:focus { outline: 2px solid var(--primary-green); outline-offset: 2px; }
+
+  /* Scrollbar (webkit) */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: #f1f1f1; }
+  ::-webkit-scrollbar-thumb { background: var(--primary-green-light); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--primary-green); }
 }
 
-html {
-  scroll-behavior: smooth;
+/* ======================================
+   2) ANIMATIONS
+====================================== */
+@keyframes urgentPulse {
+  0%,100% { box-shadow: 0 0 0 0 var(--urgent-btn-pulse); transform: scale(1); }
+  50%     { box-shadow: 0 0 0 12px rgba(0,0,0,0); transform: scale(1.02); }
 }
-
-/* --------------------------------------
-   Core Animations (Fade, Slide, Zoom, Bounce)
-   Usage: add class "animate-fade-in" etc.
---------------------------------------- */
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
-
 @keyframes slide-up { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
 @keyframes slide-down { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
-
 @keyframes slide-left { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
-
 @keyframes slide-right { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
-
 @keyframes zoom-in { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-
-@keyframes bounce-in { 0%{transform:scale(.3);opacity:0;}50%{transform:scale(1.05);}70%{transform:scale(.9);}100%{transform:scale(1);opacity:1;} }
-
-/* Additional niceties */
-@keyframes slide-in { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-@keyframes pulse-glow {
-  0%,100% { box-shadow: 0 0 5px rgba(76,175,80,0.5); transform: scale(1); }
-  50% { box-shadow: 0 0 20px rgba(76,175,80,0.8), 0 0 30px rgba(76,175,80,0.6); transform: scale(1.02); }
+@keyframes bounce-in {
+  0% { transform: scale(.3); opacity: 0; }
+  50% { transform: scale(1.05); }
+  70% { transform: scale(.9); }
+  100% { transform: scale(1); opacity: 1; }
 }
-@keyframes typewriter { from { width: 0; } to { width: 100%; } }
-@keyframes blink { 0%,50%{opacity:1;}51%,100%{opacity:0;} }
-
-/* Float micro-anim */
-@keyframes float {
-  0%,100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
-
-/* Shine animation used for loading & button sheen */
 @keyframes shine { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
 
-/* Float icon path for background icons (vertical travel) */
-@keyframes floatIcon {
-  0%   { transform: translateY(0) translateX(0) rotate(0); }
-  25%  { transform: translateY(-40vh) translateX(1rem) rotate(5deg); }
-  50%  { transform: translateY(-80vh) translateX(-1rem) rotate(-5deg); }
-  100% { transform: translateY(-140vh) translateX(0) rotate(0); }
-}
-
-/* --------------------------------------
-   Animation utility classes
---------------------------------------- */
-.animate-fade-in { animation: fade-in 0.7s ease-out; }
-.animate-slide-up { animation: slide-up 0.7s ease-out; }
-.animate-slide-down { animation: slide-down 0.3s ease-out; }
-.animate-slide-left { animation: slide-left 0.7s ease-out; }
-.animate-slide-right { animation: slide-right 0.7s ease-out; }
-.animate-zoom-in { animation: zoom-in 0.7s ease-out; }
-.animate-bounce-in { animation: bounce-in 0.6s ease-out; }
-.animate-slide-in { animation: slide-in 0.3s ease-out; }
-.animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
-.animate-typewriter { animation: typewriter 2s steps(40, end); }
-
-/* --------------------------------------
-   Shine Effect (used on ShineButton & CTAs)
---------------------------------------- */
-.shine-effect { position: relative; overflow: hidden; }
-.shine-effect::before {
-  content: '';
-  position: absolute;
-  top: 0; left: -100%;
-  width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-  transition: left 0.6s ease;
-}
-.shine-effect:hover::before { left: 100%; }
-
-/* CTA variation */
-.shine-effect.cta-shine::before {
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
-  transition: left 0.8s ease;
-}
-.shine-effect.cta-shine:hover::before { left: 100%; }
-
-/* --------------------------------------
-   Scrollbar Styling
---------------------------------------- */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: #f1f1f1; }
-::-webkit-scrollbar-thumb { background: #4CAF50; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #388E3C; }
-
-/* --------------------------------------
-   Focus, Accessibility & Selection Helpers
---------------------------------------- */
-.focus-visible:focus {
-  outline: 2px solid #4CAF50;
-  outline-offset: 2px;
-}
-::selection { background-color: #4CAF50; color: white; }
-::-moz-selection { background-color: #4CAF50; color: white; }
-
-@media (prefers-contrast: high) {
+/* Animation utilities (opt-in classes) */
+@layer utilities {
+  .animate-fade-in { animation: fade-in 0.7s ease-out; }
+  .animate-slide-up { animation: slide-up 0.7s ease-out; }
+  .animate-slide-down { animation: slide-down 0.3s ease-out; }
+  .animate-slide-left { animation: slide-left 0.7s ease-out; }
+  .animate-slide-right { animation: slide-right 0.7s ease-out; }
+  .animate-zoom-in { animation: zoom-in 0.7s ease-out; }
+  .animate-bounce-in { animation: bounce-in 0.6s ease-out; }
+  .shine-effect { position: relative; overflow: hidden; }
   .shine-effect::before {
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+    content: '';
+    position: absolute; inset: 0 auto 0 -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.6s ease;
+  }
+  .shine-effect:hover::before { left: 100%; }
+}
+
+/* ======================================
+   3) VALID REPLACEMENTS FOR “COMBO” OBJECTS
+====================================== */
+@layer utilities {
+  .combo-1 { background: var(--secondary-saffron); color: #fff; }
+  .combo-1 .accent { color: var(--accent-turmeric); }
+
+  .combo-2 { background: var(--primary-green); color: var(--cream-white); }
+  .combo-2 .accent { color: var(--secondary-saffron-light); }
+
+  .combo-3 { background: var(--accent-turmeric); color: var(--primary-green-dark); }
+  .combo-3 .accent { color: var(--secondary-saffron); }
+
+  .bg-hero { background: var(--hero-bg); }
+  .bg-cta { background: var(--cta-bg); }
+}
+
+/* ======================================
+   4) BUTTON & CTA HELPERS
+====================================== */
+@layer utilities {
+  .btn-primary {
+    background: var(--primary-btn-bg);
+    color: var(--primary-btn-text);
+    box-shadow: 0 4px 15px rgba(255,107,53,0.3);
+    transition: all 0.3s ease;
+  }
+  .btn-primary:hover {
+    background: var(--primary-btn-hover);
+    box-shadow: 0 6px 20px rgba(255,107,53,0.4);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    background: var(--secondary-btn-bg);
+    color: var(--secondary-btn-text);
+    border: 1px solid var(--secondary-btn-border);
+    transition: all 0.3s ease;
+  }
+  .btn-secondary:hover {
+    background: var(--secondary-btn-hover-bg);
+    color: var(--secondary-btn-hover-text);
+    transform: translateY(-2px);
+  }
+
+  .btn-success {
+    background: var(--success-btn-bg);
+    color: var(--success-btn-text);
+  }
+
+  .btn-urgent {
+    background: var(--urgent-btn-bg);
+    color: var(--urgent-btn-text);
+  }
+  .btn-urgent.pulse { animation: urgentPulse 1.4s infinite; }
+}
+
+/* ======================================
+   5) SEMANTIC TEXT HELPERS
+====================================== */
+@layer utilities {
+  .text-h1 { color: var(--h1-color); }
+  .text-h1-alt { color: var(--h1-color-alt); }
+  .text-h2 { color: var(--h2-color); }
+  .text-h2-alt { color: var(--h2-color-alt); }
+
+  .text-tagline { color: var(--tagline-color); }
+  .text-emphasis { color: var(--emphasis-color); }
+
+  .text-body { color: var(--body-text); }
+  .text-body-light { color: var(--body-text-light); }
+
+  .text-price { color: var(--price-text); }
+  .text-discount { color: var(--discount-text); }
+  .text-success { color: var(--success-text); }
+}
+
+/* ======================================
+   6) NICE-TO-HAVES (hover, shadows, clamping)
+====================================== */
+@layer utilities {
+  .smooth-transition { transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
+  .hover-lift { transition: all 0.3s ease; }
+  .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(45,90,39,0.15); }
+
+  .text-shadow-sm { text-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+  .text-shadow { text-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+  .text-shadow-lg { text-shadow: 0 4px 8px rgba(0,0,0,0.12); }
+
+  .gradient-text {
+    background: linear-gradient(135deg, var(--primary-green) 0%, #7FB069 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }
 
+/* ======================================
+   7) ACCESSIBILITY & MOTION PREFERENCES
+====================================== */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -134,154 +290,57 @@ html {
   }
 }
 
-/* --------------------------------------
-   Utility & Visual helpers
---------------------------------------- */
-.text-shadow-sm { text-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-.text-shadow { text-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-.text-shadow-lg { text-shadow: 0 4px 8px rgba(0,0,0,0.12); }
-
-.gradient-text {
-  background: linear-gradient(135deg, #2D5A27 0%, #7FB069 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.smooth-transition { transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
-.hover-lift { transition: all 0.3s ease; }
-.hover-lift:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(45,90,39,0.15); }
-
-/* --------------------------------------
-   Button & CTA helpers
---------------------------------------- */
-.btn-primary {
-  background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
-  box-shadow: 0 4px 15px rgba(255,107,53,0.3);
-  transition: all 0.3s ease;
-}
-.btn-primary:hover {
-  background: linear-gradient(135deg, #E55A2B 0%, #FF6B35 100%);
-  box-shadow: 0 6px 20px rgba(255,107,53,0.4);
-  transform: translateY(-2px);
-}
-
-.btn-secondary {
-  background: linear-gradient(135deg, #2D5A27 0%, #4A7C59 100%);
-  box-shadow: 0 4px 15px rgba(45,90,39,0.3);
-  transition: all 0.3s ease;
-}
-.btn-secondary:hover {
-  background: linear-gradient(135deg, #1F3E1A 0%, #2D5A27 100%);
-  box-shadow: 0 6px 20px rgba(45,90,39,0.4);
-  transform: translateY(-2px);
-}
-
-/* Loading shimmer */
-.loading { position: relative; overflow: hidden; }
-.loading::after {
-  content: '';
-  position: absolute; top: 0; left: -100%;
-  width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-  animation: shine 2s infinite;
-}
-
-/* Nav underline */
-.nav-item { position: relative; transition: all 0.3s ease; }
-.nav-item::after {
-  content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
-  background: linear-gradient(90deg, #4CAF50, #81C784);
-  transition: width 0.3s ease;
-}
-.nav-item:hover::after { width: 100%; }
-
-/* Card hover */
-.card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-
-/* Parallax helper (use sparingly) */
-.parallax { background-attachment: fixed; background-position: center; background-repeat: no-repeat; background-size: cover; }
-
-/* Image hover */
-.img-hover:hover { transform: scale(1.05); transition: transform 0.3s ease; }
-
-/* Line clamp utility */
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* Mobile menu enter classes (CSS transitions usage) */
-.mobile-menu-enter { transform: translateY(-100%); opacity: 0; }
-.mobile-menu-enter-active { transform: translateY(0); opacity: 1; transition: all 0.3s ease-out; }
-
-/* Glass / neon / glow helpers */
-.glass { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); }
-.neon-glow { box-shadow: 0 0 5px #7FB069, 0 0 10px #7FB069, 0 0 15px #7FB069; }
-.highlight-glow {
-  background: linear-gradient(135deg, rgba(127,176,105,0.1) 0%, rgba(183,228,199,0.1) 100%);
-  border: 1px solid rgba(127,176,105,0.2); box-shadow: 0 0 20px rgba(127,176,105,0.1);
-}
-
-/* Floating helper */
-.float-animation { animation: float 3s ease-in-out infinite; }
-
-/* Pulse */
-@keyframes pulse { 0%,100%{opacity:1;}50%{opacity:0.7;} }
-.pulse-slow { animation: pulse 3s cubic-bezier(0.4,0,0.6,1) infinite; }
-
-/* --------------------------------------
-   Creative Background Layer (required)
-   Used by src/components/CreativeBackground.tsx
---------------------------------------- */
-.creative-bg {
-  position: fixed;
-  inset: 0;
-  z-index: -10;           /* behind everything */
-  pointer-events: none;   /* don't block UI interactions */
-  overflow: hidden;
-}
-
-.creative-bg-gradient {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(1200px 600px at 10% 10%, rgba(250,245,240,0.85), transparent 20%),
-    radial-gradient(1000px 500px at 90% 90%, rgba(250,237,224,0.7), transparent 18%),
-    linear-gradient(180deg, rgba(245,240,232,0.95) 0%, rgba(255,243,230,0.9) 40%, rgba(255,247,235,0.88) 100%);
-  filter: blur(8px);
-  width: 110%;
-  height: 120%;
-  transform: translateX(-5%);
-  will-change: transform, filter;
-}
-
-/* Floating salad icons animation */
-.floating-icon {
-  position: absolute;
-  will-change: transform, opacity;
-  filter: drop-shadow(0 12px 24px rgba(0,0,0,0.06));
-  /* animation timing set via inline styles per-icon (animation-duration, animation-delay) */
-  animation-name: floatIcon;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
-
-/* --------------------------------------
-   Debug helper (temporary visibility test)
-   Remove these when everything's green.
---------------------------------------- */
-.debug-creative-visible {
-  position: fixed; inset: 12px auto auto 12px; z-index: 2147483647;
-  width: 120px; height: 120px; border-radius: 8px;
-  background: linear-gradient(45deg,#FF6B35,#F9CA24); box-shadow: 0 8px 30px rgba(0,0,0,0.12);
-}
-
-/* --------------------------------------
-   Print / Reduced-motion / Contrast
---------------------------------------- */
 @media print { .no-print { display: none !important; } }
+/* ---- Patch: Interactive + Form tokens ---- */
+@layer base {
+  :root {
+    --link-color: #FF6B35;
+    --link-hover: #E55A2B;
+    --link-visited: #8B4513;
 
-/* End of file */
+    --placeholder-text: #A0AEC0;
+    --input-text: #2D3748;
+    --label-text: #4A5568;
+  }
+}
+
+/* Optional: apply link styles globally (remove if you prefer Tailwind classes) */
+@layer base {
+  a { color: var(--link-color); }
+  a:hover { color: var(--link-hover); }
+  a:visited { color: var(--link-visited); }
+
+  input, textarea, select { color: var(--input-text); }
+  ::placeholder { color: var(--placeholder-text); opacity: 1; }
+  label { color: var(--label-text); }
+}
+
+/* ---- Patch: Typography helpers matching your names ---- */
+@layer utilities {
+  .primary-headline {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    color: var(--h1-color);
+    font-size: 2.5rem;
+    line-height: 1.2;
+  }
+  .power-tagline {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    color: var(--emphasis-color);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  .body-text {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    color: var(--body-text);
+    line-height: 1.6;
+  }
+  .bold-emphasis {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: var(--accent-turmeric);
+  }
+}

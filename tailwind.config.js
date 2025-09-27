@@ -4,39 +4,41 @@ export default {
   theme: {
     extend: {
       colors: {
+        // keep your existing classnames, but drive them from CSS variables
         fregcy: {
           // Core Greens
-          'primary-green': '#2D5A27',
-          'green-light': '#4A7C59',
-          'green-dark': '#1C3A19',
+          'primary-green': 'var(--primary-green)',
+          'green-light': 'var(--primary-green-light)',
+          'green-dark': 'var(--primary-green-dark)',
 
-          // Saffron (accent)
-          'saffron': '#FF6B35',
-          'saffron-light': '#FF8C69',
-          'saffron-dark': '#E55A2B',
+          // Saffron
+          'saffron': 'var(--secondary-saffron)',
+          'saffron-light': 'var(--secondary-saffron-light)',
+          'saffron-dark': 'var(--secondary-saffron-dark)',
 
           // Turmeric
-          'turmeric': '#F9CA24',
-          'turmeric-light': '#FBD148',
-          'turmeric-dark': '#E6B800',
+          'turmeric': 'var(--accent-turmeric)',
+          'turmeric-light': 'var(--accent-turmeric-light)',
+          'turmeric-dark': 'var(--accent-turmeric-dark)',
 
-          // Support & neutrals
-          'earth-brown': '#8B4513',
-          'terracotta': '#CD853F',
-          'earth-sage': '#9CAF88',
-          'cream-white': '#FAF5F0',
-          'warm-white': '#FEFCF8',
-          'soft-beige': '#F5F0E8',
+          // Support / neutrals
+          'earth-brown': 'var(--earth-brown)',
+          'terracotta': 'var(--earth-terracotta)',
+          'earth-sage': 'var(--earth-sage)',
+          'cream-white': 'var(--cream-white)',
+          'warm-white': 'var(--warm-white)',
+          'soft-beige': 'var(--soft-beige)',
 
-          // Text helpers used in Home.tsx
-          'h1': '#1C3A19',
-          'body': '#2D3748',
-          'body-light': '#4A5568',
-        }
+          // Text helpers
+          'h1': 'var(--h1-color)',
+          'body': 'var(--body-text)',
+          'body-light': 'var(--body-text-light)',
+        },
       },
       backgroundImage: {
-        'hero-gradient': 'linear-gradient(135deg, #FAF5F0 0%, #F5F0E8 50%, #E8F5E8 100%)',
-        'cta-gradient': 'linear-gradient(45deg, #FF6B35 0%, #F9CA24 100%)',
+        // read from CSS variables so you can theme later
+        'hero-gradient': 'var(--hero-bg)',
+        'cta-gradient': 'var(--cta-bg)',
       },
     },
   },

@@ -1,11 +1,43 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Plus, Minus, Trash2, ShoppingCart, X, SlidersHorizontal } from "lucide-react";
 import ShineButton from "../components/ShineButton";
-import { Plus } from "lucide-react";
 
-// Optional tiny SVG data-URI for subtle noise texture
-const NOISE_BG =
-  "radial-gradient(1200px 600px at 50% -10%, #eef7f1 0%, rgba(255,255,255,0) 60%), radial-gradient(800px 500px at 120% 10%, #fff1ea 0%, rgba(255,255,255,0) 60%), radial-gradient(900px 500px at -20% 20%, #ede9fe 0%, rgba(255,255,255,0) 55%)";
+/* ============================================================
+   Local scoped styles (no global edits)
+============================================================ */
+const ScopedStyles = () => (
+  <style>{`
+    .shine-line{
+      position:relative;display:inline-block;
+      background:linear-gradient(90deg,var(--secondary-saffron),var(--accent-turmeric),var(--secondary-saffron));
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+      background-size:200% 100%;animation:shine-scan 2.2s linear infinite;font-weight:800
+    }
+    @keyframes shine-scan{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+
+    .input{border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:10px 12px;background:#fff;outline:none}
+    .input:focus{border-color:var(--primary-green);box-shadow:0 0 0 3px rgba(45,90,39,.12)}
+    .range{appearance:none;height:6px;border-radius:999px;background:linear-gradient(90deg,var(--primary-green) 0%,var(--primary-green) var(--_val,0%),#e5e7eb var(--_val,0%),#e5e7eb 100%)}
+    .range::-webkit-slider-thumb{appearance:none;width:18px;height:18px;border-radius:999px;background:var(--secondary-saffron);box-shadow:0 0 0 3px rgba(255,107,53,.25)}
+    .card-detail{background:rgba(255,255,255,.96);backdrop-filter:blur(6px);border-top:1px solid rgba(0,0,0,.06)}
+  `}</style>
+);
+
+/* ============================================================
+   Types + Seed Data (same salads)
+============================================================ */
+type SortKey = "relevance" | "price-asc" | "price-desc" | "kcal-asc" | "kcal-desc";
+
+type Filters = {
+  query: string;
+  category: "all" | "vegan" | "protein" | "detox";
+  vegOnly: boolean;
+  priceMin: number;
+  priceMax: number;
+  kcalMax: number;
+  sort: SortKey;
+};
 
 interface Salad {
   id: number;
@@ -24,9 +56,19 @@ interface Salad {
   gradientTo: string;
   iconHex: string;
   priceHex: string;
+  tags?: string[];
+  category?: "vegan" | "protein" | "detox";
 }
 
-const salads: Salad[] = [
+interface CartItem {
+  id: number;
+  name: string;
+  price: number;
+  qty: number;
+  image: string;
+}
+
+const SALADS: Salad[] = [
   {
     id: 1,
     name: "Tangy Veggie Delight",
@@ -41,7 +83,7 @@ const salads: Salad[] = [
     ingredients:
       "Spinach, raw mango, pomegranate, cucumber, roasted peanuts, lemon juice, coconut oil",
     nutrition: "~200 kcal | Vegan | Gluten-Free",
-    callout: "Your immunity’s new best friend in a bowl",
+    callout: "Your immunity’s fix in a vibrant bowl",
     image:
       "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
     calories: 200,
@@ -51,6 +93,8 @@ const salads: Salad[] = [
     gradientTo: "#B7E4C7",
     iconHex: "#7FB069",
     priceHex: "#D8F3DC",
+    tags: ["vegan", "light"],
+    category: "vegan",
   },
   {
     id: 2,
@@ -76,6 +120,8 @@ const salads: Salad[] = [
     gradientTo: "#FFB68A",
     iconHex: "#FF6B35",
     priceHex: "#FFE0D1",
+    tags: ["high-protein", "vegetarian"],
+    category: "protein",
   },
   {
     id: 3,
@@ -101,225 +147,509 @@ const salads: Salad[] = [
     gradientTo: "#D4C5E8",
     iconHex: "#8B5CF6",
     priceHex: "#EDE9FE",
+    tags: ["detox", "vegetarian"],
+    category: "detox",
   },
 ];
 
+/* ============================================================
+   Hero Banner (kept + “Eat Clean. Feel Strong. Stay Sharp.”)
+============================================================ */
 const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
-const OurSalads: React.FC = () => {
-  const [activeOverlay, setActiveOverlay] = useState<number | null>(null);
-  const [pressed, setPressed] = useState<number | null>(null);
-
-  const toggleOverlay = useCallback((id: number) => {
-    setActiveOverlay((curr) => (curr === id ? null : id));
-  }, []);
-
+const HeroBanner: React.FC = () => {
+  const lines = [
+    { text: "Fuel your day...!", cls: "text-fregcy-primary-green" },
+    { text: "Fix your nutrition....!", cls: "text-fregcy-saffron" },
+    { text: "Fall in love with clean eating.....!", cls: "text-fregcy-turmeric-dark" },
+  ];
+  const [i, setI] = useState(0);
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setActiveOverlay(null);
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    const t = setInterval(() => setI((p) => (p + 1) % lines.length), 2800);
+    return () => clearInterval(t);
   }, []);
-
-  // Hero cycling lines
-  const heroLines = useMemo(
-    () => [
-      { text: "Fuel your day.", color: "text-[#2D6A4F]" },
-      { text: "Fix your nutrition.", color: "text-[#FF6B35]" },
-      { text: "Fall in love with clean eating.", color: "text-purple-600" },
-    ],
-    []
-  );
-  const [index, setIndex] = useState(0);
-  useEffect(() => {
-    const interval = setInterval(
-      () => setIndex((p) => (p + 1) % heroLines.length),
-      3000
-    );
-    return () => clearInterval(interval);
-  }, [heroLines.length]);
 
   return (
-    <div
-      className="text-gray-900 min-h-screen"
-      style={{
-        background: NOISE_BG,
-      }}
-    >
-      {/* HERO */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#B7E4C7] via-white to-[#FAFAFA]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-24 pb-16 sm:pt-28 sm:pb-20 text-center">
-          {/* Removed the decorative leaf <img /> */}
+    <section className="relative overflow-hidden bg-hero-gradient">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-24 pb-16 sm:pt-28 sm:pb-20 text-center">
+        {/* cycling heading */}
+        <div className="h-14 sm:h-16 flex items-center justify-center mt-3">
+          <AnimatePresence mode="wait">
+            <motion.h1
+              key={lines[i].text}
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -18 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              className={`font-extrabold tracking-tight ${lines[i].cls} text-[clamp(22px,4.5vw,42px)]`}
+            >
+              {lines[i].text}
+            </motion.h1>
+          </AnimatePresence>
+        </div>
 
-          {/* Single-line cycling hero heading, kept slightly lower */}
-          <div className="h-14 sm:h-16 flex items-center justify-center mt-8 sm:mt-10">
-            <AnimatePresence mode="wait">
-              <motion.h1
-                key={heroLines[index].text}
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -18 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-                className={`font-semibold ${heroLines[index].color} text-[clamp(22px,4.5vw,40px)] leading-tight`}
-              >
-                {heroLines[index].text}
-              </motion.h1>
-            </AnimatePresence>
+        {/* subtitle with shiny slice */}
+        <motion.p
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="mt-4 sm:mt-5 text-[15px] sm:text-[17px] md:text-[18px] max-w-3xl mx-auto text-fregcy-body"
+        >
+          These aren’t just salads. These are daily upgrades built with clean, fresh ingredients, real nutrition, and zero preservatives.{" "}
+          <span className="shine-line">Every bowl is your next step toward feeling amazing!</span>
+        </motion.p>
+
+        {/* power tagline */}
+        <motion.div
+          initial={{ opacity: 0, y: 6 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.15 }}
+          className="mt-2 text-[#2D6A4F] font-semibold text-sm sm:text-base"
+        >
+          “Eat Clean. Feel Strong. Stay Sharp.”
+        </motion.div>
+
+        {/* CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.25 }}
+          className="mt-7 flex justify-center"
+        >
+          <ShineButton variant="primary" className="px-6 py-3 rounded-lg bg-cta-gradient text-white shadow-lg">
+            Start My Daily Upgrades
+          </ShineButton>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+/* ============================================================
+   Filters (search + category + veg + price + kcal + sort)
+============================================================ */
+const defaultFilters: Filters = {
+  query: "",
+  category: "all",
+  vegOnly: false,
+  priceMin: 0,
+  priceMax: 1000,
+  kcalMax: 1200,
+  sort: "relevance",
+};
+
+const FiltersBar: React.FC<{
+  filters: Filters;
+  setFilters: (f: Filters) => void;
+  onReset: () => void;
+}> = ({ filters, setFilters, onReset }) => {
+  return (
+    <div className="mb-5 sm:mb-6 rounded-xl bg-white/85 backdrop-blur border border-black/5 p-3 sm:p-4 shadow-sm">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
+        <div className="md:col-span-5">
+          <label className="block text-xs text-fregcy-body-light mb-1">Search products</label>
+          <input
+            className="input w-full"
+            placeholder="Search by name, tag, ingredient…"
+            value={filters.query}
+            onChange={(e) => setFilters({ ...filters, query: e.target.value })}
+          />
+        </div>
+
+        <div className="md:col-span-2">
+          <label className="block text-xs text-fregcy-body-light mb-1">Category</label>
+          <select
+            className="input w-full"
+            value={filters.category}
+            onChange={(e) => setFilters({ ...filters, category: e.target.value as Filters["category"] })}
+          >
+            <option value="all">All</option>
+            <option value="vegan">Vegan</option>
+            <option value="protein">Protein</option>
+            <option value="detox">Detox</option>
+          </select>
+        </div>
+
+        <div className="md:col-span-2">
+          <label className="block text-xs text-fregcy-body-light mb-1">Sort by</label>
+          <select
+            className="input w-full"
+            value={filters.sort}
+            onChange={(e) => setFilters({ ...filters, sort: e.target.value as SortKey })}
+          >
+            <option value="relevance">Relevance</option>
+            <option value="price-asc">Price (Low → High)</option>
+            <option value="price-desc">Price (High → Low)</option>
+            <option value="kcal-asc">Calories (Low → High)</option>
+            <option value="kcal-desc">Calories (High → Low)</option>
+          </select>
+        </div>
+
+        <div className="md:col-span-3 flex items-center gap-3">
+          <label className="flex items-center gap-2 text-sm mt-1">
+            <input
+              type="checkbox"
+              checked={filters.vegOnly}
+              onChange={(e) => setFilters({ ...filters, vegOnly: e.target.checked })}
+            />
+            Veg only
+          </label>
+          <button
+            onClick={onReset}
+            className="px-3 py-2 rounded-lg border text-sm hover:bg-white transition flex items-center gap-2"
+            title="Clear filters"
+          >
+            <SlidersHorizontal className="w-4 h-4" /> Reset
+          </button>
+        </div>
+
+        <div className="md:col-span-6 flex flex-col gap-2">
+          <label className="text-xs text-fregcy-body-light flex justify-between">
+            <span>Max Calories</span><span>{filters.kcalMax} kcal</span>
+          </label>
+          <input
+            type="range"
+            min={150}
+            max={1200}
+            value={filters.kcalMax}
+            onChange={(e) => setFilters({ ...filters, kcalMax: Number(e.target.value) })}
+            className="range w-full"
+            style={{ ["--_val" as any]: `${((filters.kcalMax - 150) / (1200 - 150)) * 100}%` }}
+          />
+        </div>
+
+        <div className="md:col-span-6 flex flex-col gap-2">
+          <label className="text-xs text-fregcy-body-light flex justify-between">
+            <span>Price Range</span><span>₹{filters.priceMin} – ₹{filters.priceMax}</span>
+          </label>
+          <div className="flex items-center gap-3">
+            <input
+              type="range" min={0} max={1000} value={filters.priceMin}
+              onChange={(e) => setFilters({ ...filters, priceMin: Math.min(Number(e.target.value), filters.priceMax - 10) })}
+              className="range w-full" style={{ ["--_val" as any]: `${(filters.priceMin / 1000) * 100}%` }}
+            />
+            <input
+              type="range" min={0} max={1000} value={filters.priceMax}
+              onChange={(e) => setFilters({ ...filters, priceMax: Math.max(Number(e.target.value), filters.priceMin + 10) })}
+              className="range w-full" style={{ ["--_val" as any]: `${(filters.priceMax / 1000) * 100}%` }}
+            />
           </div>
-
-          <motion.p
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: false, margin: "-10% 0px -10% 0px" }}
-            className="mt-4 sm:mt-5 text-[15px] sm:text-[17px] md:text-[18px] text-gray-700/90 max-w-3xl mx-auto"
-          >
-            These aren't just salads. They're daily upgrades — built with clean, fresh ingredients, real nutrition, and zero preservatives. Every bowl is your next step toward feeling amazing.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="mt-5 text-[#2D6A4F] font-medium text-sm sm:text-base"
-          >
-            “Eat Clean. Feel Strong. Stay Sharp.”
-          </motion.div>
         </div>
-      </section>
+      </div>
+    </div>
+  );
+};
 
-      {/* SALADS GRID */}
-      <section className="py-10 sm:py-14 bg-white/80 backdrop-blur-[1px]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {salads.map((s) => {
-            const isOpen = activeOverlay === s.id;
-            return (
-              <motion.article
+/* ============================================================
+   Cart Drawer (local to this page)
+============================================================ */
+const CartDrawer: React.FC<{
+  items: CartItem[];
+  onClose: () => void;
+  onInc: (id: number) => void;
+  onDec: (id: number) => void;
+  onRemove: (id: number) => void;
+  onClear: () => void;
+}> = ({ items, onClose, onInc, onDec, onRemove, onClear }) => {
+  const total = items.reduce((s, it) => s + it.price * it.qty, 0);
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ x: "100%" }}
+        animate={{ x: 0 }}
+        exit={{ x: "100%" }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+        className="fixed top-0 right-0 h-full w-[86%] sm:w-96 bg-white shadow-2xl z-[60] flex flex-col"
+      >
+        <div className="p-4 border-b flex items-center justify-between">
+          <h2 className="font-bold text-lg text-fregcy-h1">Your Cart</h2>
+          <button className="p-1 rounded hover:bg-black/5" onClick={onClose} aria-label="Close cart">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          {items.length === 0 ? (
+            <p className="text-center text-fregcy-body-light">Cart is empty.</p>
+          ) : (
+            items.map((it) => (
+              <div key={it.id} className="flex gap-3 items-center border-b pb-3">
+                <img src={it.image} alt={it.name} className="w-16 h-16 rounded object-cover" />
+                <div className="flex-1">
+                  <p className="font-semibold text-sm">{it.name}</p>
+                  <p className="text-xs text-fregcy-body-light">₹{it.price}</p>
+                  <div className="mt-1 flex items-center gap-2">
+                    <button className="px-2 border rounded" onClick={() => onDec(it.id)} aria-label="Decrease"><Minus className="w-3.5 h-3.5" /></button>
+                    <span>{it.qty}</span>
+                    <button className="px-2 border rounded" onClick={() => onInc(it.id)} aria-label="Increase"><Plus className="w-3.5 h-3.5" /></button>
+                  </div>
+                </div>
+                <button className="text-red-500" onClick={() => onRemove(it.id)} aria-label="Remove">
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+            ))
+          )}
+        </div>
+
+        <div className="p-4 border-t space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="font-semibold">Total</span>
+            <span className="font-bold">₹{total}</span>
+          </div>
+          <div className="flex gap-2">
+            <button onClick={onClear} className="w-1/3 border rounded-lg py-2">Clear</button>
+            <ShineButton variant="primary" className="w-2/3 py-2 rounded bg-cta-gradient text-white">Checkout (Demo)</ShineButton>
+          </div>
+        </div>
+      </motion.div>
+    </AnimatePresence>
+  );
+};
+
+/* ============================================================
+   Salad Card
+   - Hover preview (desktop) for THIS card only
+   - Eye toggle to pin/unpin
+   - Add button + Eye on ONE line (no wrap)
+============================================================ */
+const SaladCard: React.FC<{
+  salad: Salad;
+  hoveredId: number | null;
+  pinnedId: number | null;
+  setHoveredId: (id: number | null) => void;
+  setPinnedId: (id: number | null) => void;
+  onAdd: (s: Salad) => void;
+}> = ({ salad, hoveredId, pinnedId, setHoveredId, setPinnedId, onAdd }) => {
+  const isPinned = pinnedId === salad.id;
+  const isOpen = isPinned || hoveredId === salad.id; // <-- opens only this one
+  const timer = useRef<number | null>(null);
+
+  const onEnter = () => {
+    if (timer.current) window.clearTimeout(timer.current);
+    if (!isPinned) setHoveredId(salad.id);
+  };
+  const onLeave = () => {
+    if (!isPinned) {
+      timer.current = window.setTimeout(() => setHoveredId(null), 60);
+    }
+  };
+
+  const togglePin = () => {
+    if (isPinned) {
+      setPinnedId(null);
+      setHoveredId(null);
+    } else {
+      setPinnedId(salad.id);
+      setHoveredId(salad.id);
+    }
+  };
+
+  return (
+    <motion.article
+      className="relative bg-white border border-black/[0.04] rounded-2xl shadow-[0_8px_28px_-10px_rgba(28,58,25,0.18)] hover:shadow-[0_14px_40px_-12px_rgba(28,58,25,0.26)] transition-all duration-300 overflow-hidden flex flex-col"
+      onMouseEnter={onEnter}
+      onMouseLeave={onLeave}
+    >
+      {/* image */}
+      <div className="relative">
+        <img
+          src={salad.image}
+          alt={salad.name}
+          className="w-full h-48 sm:h-56 object-cover transition-transform duration-500 rounded-t-2xl border-b border-black/5"
+          style={{ transform: isOpen ? "scale(1.03)" : "scale(1.0)" }}
+        />
+        <div
+          className="absolute top-3 right-3 backdrop-blur px-2.5 py-1 rounded-full font-semibold text-[13px] border border-black/5 shadow-sm"
+          style={{ backgroundColor: salad.priceHex, color: "var(--primary-green-dark)" }}
+        >
+          ₹{salad.price}
+        </div>
+      </div>
+
+      {/* content */}
+      <div className="p-4 sm:p-5 flex-1 flex flex-col">
+        <div className="flex items-center justify-between">
+          <h3 className="text-[17px] sm:text-[18px] font-bold text-fregcy-h1">{salad.name}</h3>
+          <span className="ml-3 hidden sm:inline-block w-3.5 h-3.5 rounded-full" style={{ backgroundColor: salad.iconHex }} aria-hidden />
+        </div>
+
+        <p className="text-fregcy-primary-green/90 italic text-[13px] sm:text-[14px] mt-1">
+          {salad.description.split(".")[0]}.
+        </p>
+        <div className="mt-2.5 sm:mt-3 text-xs sm:text-sm text-fregcy-body-light">
+          {salad.calories} kcal • {salad.protein}
+        </div>
+
+        {/* actions — one line */}
+        <div className="mt-auto flex items-center gap-2">
+          <ShineButton
+            className="flex-1 text-[13px] sm:text-[14px] px-4 py-2.5 bg-fregcy-primary-green hover:bg-fregcy-green-light text-white rounded-lg shadow-md transition whitespace-nowrap overflow-hidden text-ellipsis"
+            onClick={() => onAdd(salad)}
+          >
+            <span className="inline-flex items-center gap-2">
+              <Plus className="w-4 h-4" />
+              {salad.callout}
+            </span>
+          </ShineButton>
+
+          {/* Eye icon — white/transparent active, with green ring */}
+          <button
+            className={`p-2 rounded-lg border transition ring-0 ${
+              isPinned
+                ? "bg-white/80 text-fregcy-primary-green border-fregcy-primary-green"
+                : "text-fregcy-green-dark hover:bg-white/70 border-black/10"
+            }`}
+            onClick={togglePin}
+            aria-label="Toggle details"
+          >
+            <motion.svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+              animate={{ rotate: isPinned ? 8 : 0, scale: isOpen ? 1.05 : 1 }}
+              transition={{ type: "spring", stiffness: 260, damping: 18 }}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </motion.svg>
+          </button>
+        </div>
+
+        {/* details (below buttons, never overlapping) */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+              className="card-detail mt-3 rounded-b-2xl overflow-hidden"
+            >
+              <div className="p-4 text-[13px] sm:text-[14px]">
+                <p className="font-semibold text-fregcy-h2 mb-1">Why you’ll love it</p>
+                <ul className="list-disc pl-5 space-y-1.5">
+                  {salad.benefits.map((b, i) => <li key={i}>{b}</li>)}
+                </ul>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+                  <div>
+                    <p className="font-semibold text-fregcy-h2 mb-1">What’s inside</p>
+                    <p className="text-fregcy-body">{salad.ingredients}</p>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-fregcy-h2 mb-1">Nutrition</p>
+                    <p className="text-fregcy-body">{salad.nutrition}</p>
+                  </div>
+                </div>
+                <p className="mt-3 italic text-fregcy-primary-green">“{salad.callout}”</p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </motion.article>
+  );
+};
+
+
+/* ============================================================
+   Page (adds back your missing sections)
+============================================================ */
+const OurSalads: React.FC = () => {
+  const [filters, setFilters] = useState<Filters>(defaultFilters);
+
+  const [cart, setCart] = useState<CartItem[]>(() => {
+    try { return JSON.parse(localStorage.getItem("fregcy_cart") || "[]"); } catch { return []; }
+  });
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // details control (only one open at a time, hover-safe)
+  const [hoveredId, setHoveredId] = useState<number | null>(null); // <-- NEW
+  const [pinnedId, setPinnedId] = useState<number | null>(null);
+
+
+  useEffect(() => {
+    localStorage.setItem("fregcy_cart", JSON.stringify(cart));
+  }, [cart]);
+
+  const filtered = useMemo(() => {
+    let list = SALADS.slice();
+
+    const q = filters.query.trim().toLowerCase();
+    if (q) list = list.filter((s) => [s.name, s.description, s.ingredients, ...(s.tags || [])].join(" ").toLowerCase().includes(q));
+
+    if (filters.category !== "all") list = list.filter((s) => s.category === filters.category);
+    if (filters.vegOnly) list = list.filter((s) => s.isVeg);
+    list = list.filter((s) => s.price >= filters.priceMin && s.price <= filters.priceMax && s.calories <= filters.kcalMax);
+
+    switch (filters.sort) {
+      case "price-asc": list.sort((a, b) => a.price - b.price); break;
+      case "price-desc": list.sort((a, b) => b.price - a.price); break;
+      case "kcal-asc": list.sort((a, b) => a.calories - b.calories); break;
+      case "kcal-desc": list.sort((a, b) => b.calories - a.calories); break;
+      default: break;
+    }
+    return list;
+  }, [filters]);
+
+  // cart actions
+  const add = (s: Salad) => {
+    setCart((c) => {
+      const i = c.findIndex((it) => it.id === s.id);
+      if (i >= 0) {
+        const copy = c.slice(); copy[i] = { ...copy[i], qty: copy[i].qty + 1 }; return copy;
+      }
+      return [...c, { id: s.id, name: s.name, price: s.price, qty: 1, image: s.image }];
+    });
+    setDrawerOpen(true);
+  };
+  const inc = (id: number) => setCart((c) => c.map((it) => it.id === id ? { ...it, qty: it.qty + 1 } : it));
+  const dec = (id: number) => setCart((c) => c.map((it) => it.id === id ? { ...it, qty: Math.max(1, it.qty - 1) } : it));
+  const remove = (id: number) => setCart((c) => c.filter((it) => it.id !== id));
+  const clear = () => setCart([]);
+
+  return (
+    <div className="text-fregcy-body min-h-screen bg-[var(--product-bg)]">
+      <ScopedStyles />
+
+      {/* ===== Banner (kept) ===== */}
+      <HeroBanner />
+
+      {/* ===== Filters + Grid ===== */}
+      <section className="py-8 sm:py-10 bg-[var(--warm-white)]/60 backdrop-blur-[1px]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <FiltersBar filters={filters} setFilters={setFilters} onReset={() => setFilters(defaultFilters)} />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {filtered.map((s) => (
+              <SaladCard
                 key={s.id}
-                variants={fadeUp}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: false, margin: "-10% 0px -10% 0px" }}
-                className="relative bg-white border border-black/[0.04] rounded-2xl shadow-[0_6px_20px_-8px_rgba(0,0,0,0.15)] hover:shadow-[0_12px_30px_-10px_rgba(0,0,0,0.2)] transition-all duration-300 overflow-hidden"
-                onMouseEnter={() => setActiveOverlay(s.id)}
-                onMouseLeave={() =>
-                  setActiveOverlay((curr) => (curr === s.id ? null : curr))
-                }
-              >
-                <div className="relative">
-                  <img
-                    src={s.image}
-                    alt={s.name}
-                    className="w-full h-48 sm:h-56 object-cover transition-transform duration-500 rounded-t-2xl border-b border-black/5"
-                  />
-                  <div
-                    className="absolute inset-0 opacity-15"
-                    style={{
-                      backgroundImage: `linear-gradient(to top, ${s.gradientFrom}, ${s.gradientTo})`,
-                    }}
-                  />
-                  <div
-                    className="absolute top-3 right-3 backdrop-blur px-2.5 py-1 rounded-full font-semibold shadow-sm text-[13px]"
-                    style={{ backgroundColor: s.priceHex, color: "#1A1A1A" }}
-                  >
-                    ₹{s.price}
-                  </div>
-                </div>
-
-                <div className="p-4 sm:p-5">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-[17px] sm:text-[18px] font-bold">{s.name}</h3>
-                    <span
-                      className="ml-3 hidden sm:inline-block w-3.5 h-3.5 rounded-full"
-                      style={{ backgroundColor: s.iconHex }}
-                      aria-hidden="true"
-                    />
-                  </div>
-
-                  <p className="text-[#2D6A4F] italic text-[13px] sm:text-[14px] mt-1">
-                    {s.description.split(".")[0]}.
-                  </p>
-
-                  <div className="mt-2.5 sm:mt-3 flex items-center justify-between">
-                    <span className="text-xs sm:text-sm text-gray-600">
-                      {s.calories} kcal • {s.protein}
-                    </span>
-                  </div>
-
-                  <div className="mt-3.5">
-                    <ShineButton
-                      className="w-full text-[13px] sm:text-[14px] px-4 py-2.5 bg-[#2D6A4F] hover:bg-[#40916C] text-white rounded-lg shadow-md transition"
-                      onClick={() => {
-                        setPressed(s.id);
-                        setTimeout(() => setPressed(null), 250);
-                      }}
-                    >
-                      <span
-                        className={`inline-flex items-center gap-2 ${pressed === s.id ? "opacity-90" : ""
-                          }`}
-                      >
-                        <Plus className="w-4 h-4" />
-                        {s.callout}
-                      </span>
-                    </ShineButton>
-                  </div>
-                </div>
-
-                {/* Details overlay */}
-                <div
-                  className={`absolute left-0 right-0 top-0 bottom-[4.25rem] sm:bottom-[4.5rem] bg-white/95 backdrop-blur-md transition-all duration-300 ${isOpen
-                    ? "opacity-100 translate-y-0 pointer-events-auto"
-                    : "opacity-0 translate-y-2 pointer-events-none"
-                    }`}
-                  aria-hidden={!isOpen}
-                >
-                  <div className="h-full overflow-y-auto p-4 sm:p-5">
-                    <h4 className="text-[15px] sm:text-[16px] font-semibold mb-2">
-                      {s.name}
-                    </h4>
-                    <p className="text-[13px] sm:text-[14px] text-gray-700 mb-3">
-                      {s.description}
-                    </p>
-
-                    <div className="mb-3">
-                      <p className="font-semibold text-[13px] mb-1">Why You’ll Love It:</p>
-                      <ul className="text-[13px] text-gray-700 space-y-1.5 list-disc pl-5">
-                        {s.benefits.map((b, i) => (
-                          <li key={i}>{b}</li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div className="mb-3">
-                      <p className="font-semibold text-[13px] mb-1">What’s Inside:</p>
-                      <p className="text-[13px] text-gray-700">{s.ingredients}</p>
-                    </div>
-
-                    <div className="mb-2">
-                      <p className="font-semibold text-[13px] mb-1">Nutrition:</p>
-                      <p className="text-[13px] text-gray-700">{s.nutrition}</p>
-                    </div>
-
-                    <p className="text-[13px] italic text-[#2D6A4F]">“{s.callout}”</p>
-                  </div>
-                </div>
-
-                {/* Mobile tap toggle */}
-                <button
-                  type="button"
-                  className="absolute inset-0 sm:hidden"
-                  onClick={() => toggleOverlay(s.id)}
-                  aria-label={`Toggle details for ${s.name}`}
-                />
-              </motion.article>
-            );
-          })}
+                salad={s}
+                hoveredId={hoveredId}
+                pinnedId={pinnedId}
+                setHoveredId={setHoveredId}
+                setPinnedId={setPinnedId}
+                onAdd={add}
+              />
+            ))}
+            {filtered.length === 0 && (
+              <div className="col-span-full text-center text-fregcy-body-light py-12">
+                No salads match your filters.
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
-      {/* MICRO-TRANSFORMATIONS */}
+      {/* ===== Micro-Transformations (brought back) ===== */}
       <motion.section
         variants={fadeUp}
         initial="hidden"
@@ -327,66 +657,42 @@ const OurSalads: React.FC = () => {
         viewport={{ once: false, margin: "-10% 0px -10% 0px" }}
         className="py-10 sm:py-14 bg-[#F7F7FB]"
       >
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <h2 className="text-center font-bold text-[clamp(20px,4.2vw,34px)]">
-            Our Salads Aren’t Just Meals — They’re Micro-Transformations.
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
+          <h2 className="font-extrabold text-[clamp(22px,4.4vw,40px)] text-fregcy-h1">
+            Our Salads Aren’t Just Meals — They’re <span className="text-fregcy-saffron">Micro-</span>Transformations.
           </h2>
-          <p className="text-center text-gray-700 mt-2 text-[14px] sm:text-[16px]">
-            Each bowl is built to do one thing: Make you feel amazing!!
+          <p className="mt-2 text-fregcy-body">
+            Each bowl is built to do one thing: make you feel amazing.
           </p>
 
-          <div className="mt-7 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-5">
+          <div className="mt-7 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-5 text-left">
             {[
-              {
-                title: "Low energy?",
-                desc: "We have got Vitamin C & B12-packed greens.",
-                icon: "🩺",
-                hue: "#D1FAE5",
-                stroke: "#065F46",
-              },
-              {
-                title: "Losing muscle tone?",
-                desc: "Grab protein and calcium in every bite.",
-                icon: "💪",
-                hue: "#FFE4D6",
-                stroke: "#9A3412",
-              },
-              {
-                title: "Brain fog at 3 PM?",
-                desc: "Our anti-inflammatory ingredients help you bounce back.",
-                icon: "🤯",
-                hue: "#EDE9FE",
-                stroke: "#5B21B6",
-              },
+              { title: "Low energy?", desc: "Vitamin C & B12-packed greens bring you back.", icon: "⚡", hue: "#D1FAE5", stroke: "#065F46" },
+              { title: "Losing muscle tone?", desc: "Protein + calcium in every bite.", icon: "🍊", hue: "#FFE4D6", stroke: "#9A3412" },
+              { title: "Brain fog at 3 PM?", desc: "Anti-inflammatory ingredients for clarity.", icon: "🧠", hue: "#EDE9FE", stroke: "#5B21B6" },
             ].map((x, i) => (
-              <motion.div
-                key={i}
-                variants={fadeUp}
-                className="rounded-xl bg-white border border-black/5 p-4 shadow-sm"
-              >
+              <motion.div key={i} variants={fadeUp} className="rounded-xl bg-white border border-black/5 p-4 shadow-sm">
                 <div className="flex items-start gap-3">
-                  <div
-                    className="w-9 h-9 rounded-lg flex items-center justify-center text-lg"
-                    style={{ backgroundColor: x.hue, color: x.stroke }}
-                  >
+                  <div className="w-9 h-9 rounded-lg flex items-center justify-center text-lg"
+                    style={{ backgroundColor: x.hue, color: x.stroke }}>
                     <span aria-hidden>{x.icon}</span>
                   </div>
                   <div>
-                    <p className="text-[16px] font-semibold">{x.title}</p>
-                    <p className="text-gray-700 text-[13px] mt-1">{x.desc}</p>
+                    <p className="text-[16px] font-semibold text-fregcy-h1">{x.title}</p>
+                    <p className="text-fregcy-body text-[13px] mt-1">{x.desc}</p>
                   </div>
                 </div>
               </motion.div>
             ))}
           </div>
 
-          <p className="text-center text-gray-800 mt-6 text-[14px] sm:text-[16px]">
+          <p className="text-center text-fregcy-body mt-6 text-[14px] sm:text-[16px]">
             No crash. No guilt. Just clean, clever eating on your terms.
           </p>
         </div>
       </motion.section>
 
-      {/* CUSTOM BUILDER CTA */}
+      {/* ===== Custom Builder CTA (brought back) ===== */}
       <motion.section
         variants={fadeUp}
         initial="hidden"
@@ -395,20 +701,16 @@ const OurSalads: React.FC = () => {
         className="py-10 sm:py-14 bg-white"
       >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <h3 className="font-bold text-[clamp(20px,4.2vw,34px)]">
+          <h3 className="font-bold text-[clamp(20px,4.2vw,34px)] text-fregcy-h1">
             Build Your Perfect Salad In 3 Taps. 2 Minutes. 1 Perfect Salad.
           </h3>
-          <p className="mt-2 text-gray-700 text-[14px] sm:text-[16px]">
-            Don't see exactly what you want? Make it yours.
-          </p>
-          <p className="text-gray-700 text-[14px] sm:text-[16px]">
-            Your salad. Your rules. Your results.
-          </p>
+          <p className="mt-2 text-fregcy-body">Don't see exactly what you want? Make it yours.</p>
+          <p className="text-fregcy-body">Your salad. Your rules. Your results.</p>
 
           <div className="mt-6 flex justify-center">
             <ShineButton
               variant="primary"
-              className="text-[14px] sm:text-[16px] px-6 py-3 bg-[#FF6B35] hover:bg-[#E55A2B] text-white rounded-lg shadow-md"
+              className="text-[14px] sm:text-[16px] px-6 py-3 bg-cta-gradient hover:opacity-95 text-white rounded-lg shadow-md"
             >
               Create My Perfect Bowl
             </ShineButton>
@@ -416,85 +718,67 @@ const OurSalads: React.FC = () => {
         </div>
       </motion.section>
 
-      {/* DIFFERENCE BLOCK */}
+      {/* ===== What Makes Fregcy… Different? (brought back) ===== */}
       <motion.section
         variants={fadeUp}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: false, margin: "-10% 0px -10% 0px" }}
-        className="py-10 sm:py-14 bg-[#FAFAFA]"
+        viewport={{ once: false, amount: 0.35 }}
+        className="py-10 sm:py-14 bg-[var(--warm-white)]"
       >
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <h2 className="text-center font-bold text-[clamp(20px,4.2vw,34px)]">
-            What Makes Fregcy Salads So... Different?
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <h2 className="text-center font-extrabold text-[clamp(22px,4.4vw,40px)] text-fregcy-h1">
+            What Makes Fregcy Salads So… Different?
           </h2>
 
-          {/* animation variants */}
-          {/* left-to-right enter */}
-          {/* right-to-left enter */}
-          {/* Slightly staggered for rhythm */}
           <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
             {[
-              {
-                title: "Made Fresh Daily",
-                desc:
-                  "No sad, soggy lettuce here. We prep every salad each morning — crunchy, cold, and chemical-free.",
-                bg: "#D8F3DC",
-                dir: "left", // from left
-                delay: 0.04,
-              },
-              {
-                title: "Radical Transparency",
-                desc:
-                  "Full ingredient sourcing, macro & micro breakdowns, and allergy info.",
-                bg: "#FFE0D1",
-                dir: "right", // from right
-                delay: 0.08,
-              },
-              {
-                title: "Ready When You Are",
-                desc:
-                  "Morning workout? Late-night study sesh? Fregcy stations run 24/7.",
-                bg: "#EDE9FE",
-                dir: "right", // from right
-                delay: 0.12,
-              },
-              {
-                title: "Zero Touch Until You Grab It",
-                desc:
-                  "From prep to pickup, your salad stays untouched, sealed, and safe.",
-                bg: "linear-gradient(180deg, #FFFFFF 0%, #F7F7FB 100%)",
-                dir: "left", // from left
-                delay: 0.16,
-              },
+              { title: "Made Fresh Daily", desc: "No sad, soggy lettuce here. We prep every salad each morning — crunchy, cold, and chemical-free.", bg: "#F7F7F5" },
+              { title: "Radical Transparency", desc: "Full ingredient sourcing, macro & micro breakdowns, and allergy info.", bg: "#F7FBFF" },
+              { title: "Ready When You Are", desc: "Morning workout? Late-night study sesh? Fregcy stations run long hours.", bg: "#F7F3EC" },
+              { title: "Zero Touch Until You Grab It", desc: "From prep to pickup, your salad stays untouched, sealed, and safe.", bg: "linear-gradient(180deg, #FFFFFF 0%, #F7F7FB 100%)" },
             ].map((c, i) => (
               <motion.div
                 key={i}
-                initial={{
-                  opacity: 0,
-                  x: c.dir === "left" ? "-24vw" : "24vw",   // start near viewport edges
-                  filter: "blur(2px)",
-                }}
+                initial={{ opacity: 0, x: i % 2 ? 32 : -32, filter: "blur(1px)" }}
                 whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                viewport={{ amount: 0.35, once: false }}     // animate every time it re-enters
-                transition={{
-                  duration: 0.42,
-                  ease: [0.22, 1, 0.36, 1],                  // smooth, no snap
-                  delay: c.delay,                            // light stagger
-                }}
-                className="rounded-xl p-4 border border-black/5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition transform-gpu will-change-transform will-change-filter"
-                style={{
-                  background: c.bg,
-                }}
+                transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1], delay: i * 0.04 }}
+                className="rounded-xl p-5 border border-black/5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition"
+                style={{ background: c.bg }}
               >
-                <p className="text-[16px] font-semibold">{c.title}</p>
-                <p className="text-gray-700 text-[13px] mt-1">{c.desc}</p>
+                <p className="text-[16px] font-semibold text-fregcy-h1">{c.title}</p>
+                <p className="text-fregcy-body text-[14px] mt-1">{c.desc}</p>
               </motion.div>
             ))}
           </div>
-
         </div>
       </motion.section>
+
+      {/* ===== Floating Cart Button ===== */}
+      <button
+        onClick={() => setDrawerOpen(true)}
+        className="fixed bottom-5 right-5 rounded-full bg-fregcy-primary-green text-white p-3 shadow-lg hover:scale-105 transition"
+        aria-label="Open cart"
+      >
+        <ShoppingCart />
+        {cart.length > 0 && (
+          <span className="absolute -top-1 -right-1 bg-fregcy-saffron text-white text-xs rounded-full px-1">
+            {cart.reduce((sum, it) => sum + it.qty, 0)}
+          </span>
+        )}
+      </button>
+
+      {/* ===== Cart Drawer ===== */}
+      {drawerOpen && (
+        <CartDrawer
+          items={cart}
+          onClose={() => setDrawerOpen(false)}
+          onInc={(id) => inc(id)}
+          onDec={(id) => dec(id)}
+          onRemove={(id) => remove(id)}
+          onClear={clear}
+        />
+      )}
     </div>
   );
 };

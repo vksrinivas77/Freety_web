@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from '/assets/logo.png'; // Adjust path as needed D:\My_pro\Freety_web\public\logo.png
+import logo from "/assets/logo.png"; // Adjust path as needed
 
 interface LogoProps {
-  size?: 'small' | 'medium' | 'large';
+  size?: "small" | "medium" | "large";
+  variant?: "full" | "mark"; // ← added to match Footer usage
   className?: string;
 }
 
-const Logo: React.FC<LogoProps> = ({ 
-  size = 'medium',
-  className = '' 
-}) => {
-  const sizeClasses = {
-   small: 'w-12 h-auto',   // much smaller
-    medium: 'w-20 h-auto',  // default medium
-    large: 'w-28 h-auto' 
+const Logo = ({
+  size = "medium",
+  variant = "full",
+  className = "",
+}: LogoProps) => {
+  const sizeClasses: Record<NonNullable<LogoProps["size"]>, string> = {
+    small: "w-12 h-auto", // smaller
+    medium: "w-20 h-auto", // default
+    large: "w-28 h-auto",
   };
 
   return (
-    <div className={`${sizeClasses[size]} ${className} flex items-center justify-center`}>
-      <img 
-        src={logo} 
-        alt="FREGCY Logo" 
+    <div
+      className={`${sizeClasses[size]} ${className} flex items-center justify-center`}
+    >
+      <img
+        src={logo}
+        alt={variant === "mark" ? "Freety mark logo" : "Freety full logo"}
         className="object-contain"
       />
     </div>

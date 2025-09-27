@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Mail, Phone, MapPin } from 'lucide-react';
 import Logo from './Logo';
 
@@ -36,7 +36,7 @@ const Footer = () => {
             <div className="space-y-2 text-sm">
               <div className="flex items-center space-x-2">
                 <Mail className="w-4 h-4 text-[#B7E4C7]" />
-                <span className="text-gray-300">info@fretty.com</span>
+                <span className="text-gray-300">info@Fregcy.com</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Phone className="w-4 h-4 text-[#B7E4C7]" />
@@ -53,7 +53,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
-            © 2025 Fretty. All rights reserved.
+            © 2025 Fregcy. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <a href="#" className="text-gray-400 hover:text-[#B7E4C7] text-sm transition-colors">Privacy Policy</a>
