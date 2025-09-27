@@ -65,7 +65,7 @@ const Header: React.FC<HeaderProps> = ({ cartItems = 0, onCartToggle }) => {
 
           {/* Desktop Cart + CTA */}
           <div className="hidden md:flex items-center space-x-4">
-            <button
+            {/* <button
               onClick={onCartToggle}
               className="relative p-2 text-gray-800 hover:text-green-600 transition-colors duration-300"
             >
@@ -75,7 +75,7 @@ const Header: React.FC<HeaderProps> = ({ cartItems = 0, onCartToggle }) => {
                   {cartItems}
                 </span>
               )}
-            </button>
+            </button> */}
             <Link to="/our-salads">
               <motion.button
                 whileHover={{ scale: 1.05 }}
@@ -122,7 +122,7 @@ const Header: React.FC<HeaderProps> = ({ cartItems = 0, onCartToggle }) => {
               ))}
 
               <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-                <button
+                {/* <button
                   onClick={onCartToggle}
                   className="relative p-2 text-gray-700 hover:text-green-600"
                 >
@@ -132,7 +132,7 @@ const Header: React.FC<HeaderProps> = ({ cartItems = 0, onCartToggle }) => {
                       {cartItems}
                     </span>
                   )}
-                </button>
+                </button> */}
                 <Link to="/our-salads" onClick={() => setIsMenuOpen(false)}>
                   <motion.button
                     whileHover={{ scale: 1.05 }}

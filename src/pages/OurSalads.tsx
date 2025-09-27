@@ -6,6 +6,9 @@ import ShineButton from "../components/ShineButton";
 /* ============================================================
    Local scoped styles (no global edits)
 ============================================================ */
+/* ============================================================
+   Local scoped styles (no global edits)
+============================================================ */
 const ScopedStyles = () => (
   <style>{`
     .shine-line{
@@ -20,12 +23,28 @@ const ScopedStyles = () => (
     .input:focus{border-color:var(--primary-green);box-shadow:0 0 0 3px rgba(45,90,39,.12)}
     .range{appearance:none;height:6px;border-radius:999px;background:linear-gradient(90deg,var(--primary-green) 0%,var(--primary-green) var(--_val,0%),#e5e7eb var(--_val,0%),#e5e7eb 100%)}
     .range::-webkit-slider-thumb{appearance:none;width:18px;height:18px;border-radius:999px;background:var(--secondary-saffron);box-shadow:0 0 0 3px rgba(255,107,53,.25)}
+
+    /* details surface */
     .card-detail{background:rgba(255,255,255,.96);backdrop-filter:blur(6px);border-top:1px solid rgba(0,0,0,.06)}
+
+    /* eye focus ring */
+    .eye-btn:focus{outline:none;box-shadow:0 0 0 3px rgba(45,90,39,.18)}
+
+    /* keep CTA single-line, ever. */
+    .cta-one{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+
+    /* chip appearance normalization */
+    .chip{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:999px;border:1px solid rgba(0,0,0,.06);font-size:12.5px;line-height:1}
+
+    /* premium shadow + hover */
+    .pro-shadow{box-shadow:0 18px 48px -18px rgba(28,58,25,.28)}
+    .pro-shadow:hover{box-shadow:0 28px 64px -24px rgba(28,58,25,.34)}
   `}</style>
 );
 
+
 /* ============================================================
-   Types + Seed Data (same salads)
+   Types + Seed Data
 ============================================================ */
 type SortKey = "relevance" | "price-asc" | "price-desc" | "kcal-asc" | "kcal-desc";
 
@@ -120,7 +139,7 @@ const SALADS: Salad[] = [
     gradientTo: "#FFB68A",
     iconHex: "#FF6B35",
     priceHex: "#FFE0D1",
-    tags: ["high-protein", "vegetarian"],
+    tags: ["vegetarian"],
     category: "protein",
   },
   {
@@ -153,7 +172,7 @@ const SALADS: Salad[] = [
 ];
 
 /* ============================================================
-   Hero Banner (kept + “Eat Clean. Feel Strong. Stay Sharp.”)
+   Hero Banner (kept + power tagline)
 ============================================================ */
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -175,7 +194,6 @@ const HeroBanner: React.FC = () => {
   return (
     <section className="relative overflow-hidden bg-hero-gradient">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-24 pb-16 sm:pt-28 sm:pb-20 text-center">
-        {/* cycling heading */}
         <div className="h-14 sm:h-16 flex items-center justify-center mt-3">
           <AnimatePresence mode="wait">
             <motion.h1
@@ -191,7 +209,6 @@ const HeroBanner: React.FC = () => {
           </AnimatePresence>
         </div>
 
-        {/* subtitle with shiny slice */}
         <motion.p
           variants={fadeUp}
           initial="hidden"
@@ -203,7 +220,6 @@ const HeroBanner: React.FC = () => {
           <span className="shine-line">Every bowl is your next step toward feeling amazing!</span>
         </motion.p>
 
-        {/* power tagline */}
         <motion.div
           initial={{ opacity: 0, y: 6 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -213,16 +229,13 @@ const HeroBanner: React.FC = () => {
           “Eat Clean. Feel Strong. Stay Sharp.”
         </motion.div>
 
-        {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.25 }}
           className="mt-7 flex justify-center"
         >
-          <ShineButton variant="primary" className="px-6 py-3 rounded-lg bg-cta-gradient text-white shadow-lg">
-            Start My Daily Upgrades
-          </ShineButton>
+       
         </motion.div>
       </div>
     </section>
@@ -230,7 +243,7 @@ const HeroBanner: React.FC = () => {
 };
 
 /* ============================================================
-   Filters (search + category + veg + price + kcal + sort)
+   Filters
 ============================================================ */
 const defaultFilters: Filters = {
   query: "",
@@ -290,14 +303,14 @@ const FiltersBar: React.FC<{
         </div>
 
         <div className="md:col-span-3 flex items-center gap-3">
-          <label className="flex items-center gap-2 text-sm mt-1">
+          {/* <label className="flex items-center gap-2 text-sm mt-1">
             <input
               type="checkbox"
               checked={filters.vegOnly}
               onChange={(e) => setFilters({ ...filters, vegOnly: e.target.checked })}
             />
             Veg only
-          </label>
+          </label> */}
           <button
             onClick={onReset}
             className="px-3 py-2 rounded-lg border text-sm hover:bg-white transition flex items-center gap-2"
@@ -413,147 +426,166 @@ const CartDrawer: React.FC<{
 };
 
 /* ============================================================
-   Salad Card
-   - Hover preview (desktop) for THIS card only
-   - Eye toggle to pin/unpin
-   - Add button + Eye on ONE line (no wrap)
+   Salad Card (NO neighbor opening; eye to pin)
+============================================================ */
+/* ============================================================
+   Salad Card — enhanced visual only (same props & behavior)
+   Replace your existing SaladCard with this one.
+============================================================ */
+/* ============================================================
+   Salad Card — enhanced visuals + staggered reveal
+   (same props & behavior; drop-in replacement)
 ============================================================ */
 const SaladCard: React.FC<{
   salad: Salad;
   hoveredId: number | null;
   pinnedId: number | null;
-  setHoveredId: (id: number | null) => void;
   setPinnedId: (id: number | null) => void;
   onAdd: (s: Salad) => void;
-}> = ({ salad, hoveredId, pinnedId, setHoveredId, setPinnedId, onAdd }) => {
+}> = ({ salad, hoveredId, pinnedId, setPinnedId, onAdd }) => {
   const isPinned = pinnedId === salad.id;
-  const isOpen = isPinned || hoveredId === salad.id; // <-- opens only this one
-  const timer = useRef<number | null>(null);
+  const isOpen = isPinned || hoveredId === salad.id;
 
-  const onEnter = () => {
-    if (timer.current) window.clearTimeout(timer.current);
-    if (!isPinned) setHoveredId(salad.id);
-  };
-  const onLeave = () => {
-    if (!isPinned) {
-      timer.current = window.setTimeout(() => setHoveredId(null), 60);
-    }
-  };
+  // stable “one-by-one” delay without changing parent map:
+  const revealDelay = ((salad.id % 7) * 0.06) + 0.05;
 
-  const togglePin = () => {
-    if (isPinned) {
-      setPinnedId(null);
-      setHoveredId(null);
-    } else {
-      setPinnedId(salad.id);
-      setHoveredId(salad.id);
-    }
-  };
+  const togglePin = () => setPinnedId(isPinned ? null : salad.id);
 
   return (
     <motion.article
-      className="relative bg-white border border-black/[0.04] rounded-2xl shadow-[0_8px_28px_-10px_rgba(28,58,25,0.18)] hover:shadow-[0_14px_40px_-12px_rgba(28,58,25,0.26)] transition-all duration-300 overflow-hidden flex flex-col"
-      onMouseEnter={onEnter}
-      onMouseLeave={onLeave}
+      data-cardid={salad.id}
+      initial={{ y: 28, opacity: 0, filter: "blur(2px)" }}
+      whileInView={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1], delay: revealDelay }}
+      viewport={{ once: true, amount: 0.25 }}
+      className="relative"
+      animate={{ y: isOpen ? -2 : 0 }}
     >
-      {/* image */}
-      <div className="relative">
-        <img
-          src={salad.image}
-          alt={salad.name}
-          className="w-full h-48 sm:h-56 object-cover transition-transform duration-500 rounded-t-2xl border-b border-black/5"
-          style={{ transform: isOpen ? "scale(1.03)" : "scale(1.0)" }}
-        />
-        <div
-          className="absolute top-3 right-3 backdrop-blur px-2.5 py-1 rounded-full font-semibold text-[13px] border border-black/5 shadow-sm"
-          style={{ backgroundColor: salad.priceHex, color: "var(--primary-green-dark)" }}
-        >
-          ₹{salad.price}
-        </div>
-      </div>
-
-      {/* content */}
-      <div className="p-4 sm:p-5 flex-1 flex flex-col">
-        <div className="flex items-center justify-between">
-          <h3 className="text-[17px] sm:text-[18px] font-bold text-fregcy-h1">{salad.name}</h3>
-          <span className="ml-3 hidden sm:inline-block w-3.5 h-3.5 rounded-full" style={{ backgroundColor: salad.iconHex }} aria-hidden />
-        </div>
-
-        <p className="text-fregcy-primary-green/90 italic text-[13px] sm:text-[14px] mt-1">
-          {salad.description.split(".")[0]}.
-        </p>
-        <div className="mt-2.5 sm:mt-3 text-xs sm:text-sm text-fregcy-body-light">
-          {salad.calories} kcal • {salad.protein}
-        </div>
-
-        {/* actions — one line */}
-        <div className="mt-auto flex items-center gap-2">
-          <ShineButton
-            className="flex-1 text-[13px] sm:text-[14px] px-4 py-2.5 bg-fregcy-primary-green hover:bg-fregcy-green-light text-white rounded-lg shadow-md transition whitespace-nowrap overflow-hidden text-ellipsis"
-            onClick={() => onAdd(salad)}
-          >
-            <span className="inline-flex items-center gap-2">
-              <Plus className="w-4 h-4" />
-              {salad.callout}
-            </span>
-          </ShineButton>
-
-          {/* Eye icon — white/transparent active, with green ring */}
-          <button
-            className={`p-2 rounded-lg border transition ring-0 ${
-              isPinned
-                ? "bg-white/80 text-fregcy-primary-green border-fregcy-primary-green"
-                : "text-fregcy-green-dark hover:bg-white/70 border-black/10"
-            }`}
-            onClick={togglePin}
-            aria-label="Toggle details"
-          >
-            <motion.svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-              animate={{ rotate: isPinned ? 8 : 0, scale: isOpen ? 1.05 : 1 }}
-              transition={{ type: "spring", stiffness: 260, damping: 18 }}
+      {/* subtle gradient frame */}
+      <div className="rounded-2xl p-[1.4px] bg-[linear-gradient(135deg,rgba(45,90,39,.28),rgba(255,107,53,.28))] pro-shadow transition-all">
+        <div className="relative bg-white rounded-2xl overflow-hidden border border-black/5">
+          {/* image */}
+          <div className="relative">
+            <img
+              src={salad.image}
+              alt={salad.name}
+              className="w-full h-56 sm:h-60 object-cover transition-transform duration-500"
+              style={{ transform: isOpen ? "scale(1.04)" : "scale(1.0)" }}
+            />
+            {/* price pill */}
+            <div
+              className="absolute top-3 right-3 px-2.5 py-1.5 rounded-full text-[13px] font-semibold border backdrop-blur-md shadow-sm"
+              style={{ background: "rgba(255,255,255,.78)", borderColor: "rgba(0,0,0,.06)", color: "#1C3A19" }}
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-            </motion.svg>
-          </button>
-        </div>
+              ₹{salad.price}
+            </div>
+          </div>
 
-        {/* details (below buttons, never overlapping) */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-              className="card-detail mt-3 rounded-b-2xl overflow-hidden"
-            >
-              <div className="p-4 text-[13px] sm:text-[14px]">
-                <p className="font-semibold text-fregcy-h2 mb-1">Why you’ll love it</p>
-                <ul className="list-disc pl-5 space-y-1.5">
-                  {salad.benefits.map((b, i) => <li key={i}>{b}</li>)}
-                </ul>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
-                  <div>
-                    <p className="font-semibold text-fregcy-h2 mb-1">What’s inside</p>
-                    <p className="text-fregcy-body">{salad.ingredients}</p>
+          {/* content */}
+          <div className="p-4 sm:p-5">
+            <div className="flex items-center justify-between gap-3">
+              <h3 className="text-[17px] sm:text-[18px] font-extrabold tracking-tight text-fregcy-h1">
+                {salad.name}
+              </h3>
+              <span
+                aria-hidden
+                className="hidden sm:inline-block w-3.5 h-3.5 rounded-full ring-2 ring-black/5"
+                style={{ backgroundColor: salad.iconHex }}
+              />
+            </div>
+
+            <p className="text-fregcy-primary-green/90 italic text-[13px] sm:text-[14px] mt-1">
+              {salad.description.split(".")[0]}.
+            </p>
+
+            {/* aligned chips (single line where possible, then wrap cleanly) */}
+            <div className="mt-2.5 sm:mt-3 flex flex-wrap items-center gap-2">
+              <span className="chip bg-[#F6FFF8] text-fregcy-primary-green border-[#DCF5E3]">{salad.calories} kcal</span>
+              <span className="chip bg-[#FFF7F2] text-[#9A3E1B] border-[#FFE5D7]">{salad.protein} protein</span>
+              {salad.tags?.slice(0, 2).map((t) => (
+                <span key={t} className="chip bg-[#F7F7FB] text-fregcy-body">{t}</span>
+              ))}
+            </div>
+
+            {/* soft divider */}
+            <div className="mt-4 h-px w-full bg-gradient-to-r from-transparent via-black/[.06] to-transparent" />
+
+            {/* CTA row (forced single-line) */}
+            <div className="mt-3 flex items-center gap-2">
+              <ShineButton
+                className="cta-one flex-1 min-w-0 text-[13px] sm:text-[14px] px-4 py-2.5 bg-cta-gradient text-white rounded-lg shadow-[0_12px_28px_-12px_rgba(229,90,43,.45)] hover:-translate-y-[1px] transition-transform"
+                onClick={() => onAdd(salad)}
+              >
+                <span className="inline-flex items-center gap-2">
+                  <Plus className="w-4 h-4" />
+                  {salad.callout}
+                </span>
+              </ShineButton>
+
+              <button
+                onClick={togglePin}
+                aria-label="Toggle details"
+                className={`eye-btn p-2 rounded-lg border transition ${
+                  isPinned
+                    ? "bg-white text-fregcy-primary-green border-fregcy-primary-green"
+                    : "bg-white/80 text-fregcy-green-dark border-black/10 hover:bg-white"
+                }`}
+              >
+                <motion.svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  animate={{ scale: isOpen ? 1.1 : 1 }}
+                  transition={{ type: "spring", stiffness: 250, damping: 18 }}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </motion.svg>
+              </button>
+            </div>
+
+            {/* details pane */}
+            <AnimatePresence>
+              {isOpen && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
+                  className="mt-3 overflow-hidden"
+                >
+                  <div className="rounded-xl border border-black/[.06] bg-white/90 backdrop-blur-sm p-4">
+                    <p className="font-semibold text-fregcy-h2 mb-1.5">Why you’ll love it</p>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[13px] sm:text-[14px]">
+                      {salad.benefits.map((b, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <span className="mt-[6px] inline-block w-1.5 h-1.5 rounded-full" style={{ background: salad.iconHex }} />
+                          <span>{b}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3 text-[13px] sm:text-[14px]">
+                      <div>
+                        <p className="font-semibold text-fregcy-h2 mb-1">What’s inside</p>
+                        <p className="text-fregcy-body leading-relaxed">{salad.ingredients}</p>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-fregcy-h2 mb-1">Nutrition</p>
+                        <p className="text-fregcy-body leading-relaxed">{salad.nutrition}</p>
+                      </div>
+                    </div>
+
+                    <p className="mt-3 italic text-fregcy-primary-green">“{salad.callout}”</p>
                   </div>
-                  <div>
-                    <p className="font-semibold text-fregcy-h2 mb-1">Nutrition</p>
-                    <p className="text-fregcy-body">{salad.nutrition}</p>
-                  </div>
-                </div>
-                <p className="mt-3 italic text-fregcy-primary-green">“{salad.callout}”</p>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
       </div>
     </motion.article>
   );
@@ -561,7 +593,7 @@ const SaladCard: React.FC<{
 
 
 /* ============================================================
-   Page (adds back your missing sections)
+   Page (GRID-LEVEL HOVER: event delegation — no neighbor open)
 ============================================================ */
 const OurSalads: React.FC = () => {
   const [filters, setFilters] = useState<Filters>(defaultFilters);
@@ -571,10 +603,40 @@ const OurSalads: React.FC = () => {
   });
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  // details control (only one open at a time, hover-safe)
-  const [hoveredId, setHoveredId] = useState<number | null>(null); // <-- NEW
+  const [hoveredId, setHoveredId] = useState<number | null>(null);
   const [pinnedId, setPinnedId] = useState<number | null>(null);
 
+  // grid ref to own hover centrally
+  const gridRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid) return;
+
+    const handleMove = (e: MouseEvent) => {
+      if (pinnedId !== null) return; // ignore hover if pinned
+      const el = (e.target as HTMLElement).closest("[data-cardid]") as HTMLElement | null;
+      if (el && grid.contains(el)) {
+        const id = Number(el.getAttribute("data-cardid"));
+        if (!Number.isNaN(id)) setHoveredId(id);
+      } else {
+        setHoveredId(null);
+      }
+    };
+
+    const handleLeave = (e: MouseEvent) => {
+      if (!grid.contains(e.relatedTarget as Node)) {
+        if (pinnedId === null) setHoveredId(null);
+      }
+    };
+
+    grid.addEventListener("mousemove", handleMove);
+    grid.addEventListener("mouseleave", handleLeave);
+    return () => {
+      grid.removeEventListener("mousemove", handleMove);
+      grid.removeEventListener("mouseleave", handleLeave);
+    };
+  }, [pinnedId]);
 
   useEffect(() => {
     localStorage.setItem("fregcy_cart", JSON.stringify(cart));
@@ -582,14 +644,11 @@ const OurSalads: React.FC = () => {
 
   const filtered = useMemo(() => {
     let list = SALADS.slice();
-
     const q = filters.query.trim().toLowerCase();
     if (q) list = list.filter((s) => [s.name, s.description, s.ingredients, ...(s.tags || [])].join(" ").toLowerCase().includes(q));
-
     if (filters.category !== "all") list = list.filter((s) => s.category === filters.category);
     if (filters.vegOnly) list = list.filter((s) => s.isVeg);
     list = list.filter((s) => s.price >= filters.priceMin && s.price <= filters.priceMax && s.calories <= filters.kcalMax);
-
     switch (filters.sort) {
       case "price-asc": list.sort((a, b) => a.price - b.price); break;
       case "price-desc": list.sort((a, b) => b.price - a.price); break;
@@ -620,7 +679,7 @@ const OurSalads: React.FC = () => {
     <div className="text-fregcy-body min-h-screen bg-[var(--product-bg)]">
       <ScopedStyles />
 
-      {/* ===== Banner (kept) ===== */}
+      {/* ===== Banner ===== */}
       <HeroBanner />
 
       {/* ===== Filters + Grid ===== */}
@@ -628,15 +687,20 @@ const OurSalads: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <FiltersBar filters={filters} setFilters={setFilters} onReset={() => setFilters(defaultFilters)} />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div
+            ref={gridRef}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+          >
             {filtered.map((s) => (
               <SaladCard
                 key={s.id}
                 salad={s}
                 hoveredId={hoveredId}
                 pinnedId={pinnedId}
-                setHoveredId={setHoveredId}
-                setPinnedId={setPinnedId}
+                setPinnedId={(id) => {
+                  setPinnedId(id);
+                  if (id === null) setHoveredId(null); // release hover when unpin and cursor is outside
+                }}
                 onAdd={add}
               />
             ))}
@@ -649,7 +713,7 @@ const OurSalads: React.FC = () => {
         </div>
       </section>
 
-      {/* ===== Micro-Transformations (brought back) ===== */}
+      {/* ===== Micro-Transformations ===== */}
       <motion.section
         variants={fadeUp}
         initial="hidden"
@@ -659,11 +723,9 @@ const OurSalads: React.FC = () => {
       >
         <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
           <h2 className="font-extrabold text-[clamp(22px,4.4vw,40px)] text-fregcy-h1">
-            Our Salads Aren’t Just Meals — They’re <span className="text-fregcy-saffron">Micro-</span>Transformations.
+            Our Salads Aren’t Just Meals — They’re <br /><span className="text-fregcy-saffron">Micro-Transformations.</span>
           </h2>
-          <p className="mt-2 text-fregcy-body">
-            Each bowl is built to do one thing: make you feel amazing.
-          </p>
+          <p className="mt-2 text-fregcy-body">Each bowl is built to do one thing: make you feel amazing.</p>
 
           <div className="mt-7 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-5 text-left">
             {[
@@ -692,25 +754,36 @@ const OurSalads: React.FC = () => {
         </div>
       </motion.section>
 
-      {/* ===== Custom Builder CTA (brought back) ===== */}
+      {/* ===== Custom Builder CTA (with produce icons) ===== */}
       <motion.section
         variants={fadeUp}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, margin: "-10% 0px -10% 0px" }}
-        className="py-10 sm:py-14 bg-white"
+        className="relative py-12 sm:py-16"
       >
+        <div
+          className="absolute inset-0 -z-10"
+          style={{
+            background:
+              "radial-gradient(800px 400px at 10% 10%, rgba(250,245,240,.95), transparent 40%), radial-gradient(600px 300px at 90% 70%, rgba(249,202,36,.12), transparent 60%), linear-gradient(180deg, #FFFDF9 0%, #FFFCF6 60%, #FFF9EF 100%)",
+          }}
+        />
+        <div className="pointer-events-none select-none absolute left-6 top-6 text-4xl animate-bounce">🥕</div>
+        <div className="pointer-events-none select-none absolute right-8 top-10 text-4xl animate-pulse">🥑</div>
+        <div className="pointer-events-none select-none absolute left-1/2 bottom-6 -translate-x-1/2 text-3xl animate-bounce">🍅</div>
+
         <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <h3 className="font-bold text-[clamp(20px,4.2vw,34px)] text-fregcy-h1">
+          <h3 className="font-extrabold text-[clamp(22px,4.4vw,40px)] text-fregcy-h1 tracking-tight">
             Build Your Perfect Salad In 3 Taps. 2 Minutes. 1 Perfect Salad.
           </h3>
-          <p className="mt-2 text-fregcy-body">Don't see exactly what you want? Make it yours.</p>
+          <p className="mt-2 text-fregcy-body">Don’t see exactly what you want? Make it yours.</p>
           <p className="text-fregcy-body">Your salad. Your rules. Your results.</p>
 
-          <div className="mt-6 flex justify-center">
+          <div className="mt-7 flex justify-center">
             <ShineButton
               variant="primary"
-              className="text-[14px] sm:text-[16px] px-6 py-3 bg-cta-gradient hover:opacity-95 text-white rounded-lg shadow-md"
+              className="text-[14px] sm:text-[16px] px-7 py-3 rounded-xl bg-cta-gradient text-white shadow-[0_18px_40px_-12px_rgba(229,90,43,0.35)] hover:translate-y-[-2px] transition"
             >
               Create My Perfect Bowl
             </ShineButton>
@@ -718,7 +791,7 @@ const OurSalads: React.FC = () => {
         </div>
       </motion.section>
 
-      {/* ===== What Makes Fregcy… Different? (brought back) ===== */}
+      {/* ===== What Makes Fregcy… Different? ===== */}
       <motion.section
         variants={fadeUp}
         initial="hidden"

@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import ShineButton from "../components/ShineButton";
 
 import saladHero from "/assets/1002.png";
-import saladMeet from "/assets/1004.png";
-import saladProblem from "/assets/1003.png";
+import saladMeet from "/assets/1008.jpg";
+import saladProblem from "/assets/1003.jpg";
 
 /* ---------- Section wrapper ---------- */
 const Section: React.FC<
