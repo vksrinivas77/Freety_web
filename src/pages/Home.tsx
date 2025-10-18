@@ -278,8 +278,7 @@ const Home: React.FC = () => {
   const [slotsLeft] = useState(353);
 
   return (
-  <div className="bg-gradient-to-br from-[#EBECCC] via-[#CDD4B1] to-[#EBECCC]">
-
+    <div className="relative overflow-hidden bg-eucalyptus-mist">
       {/* ---------- HERO ---------- */}
       <motion.section
         initial="hidden"
@@ -379,7 +378,7 @@ const Home: React.FC = () => {
       </motion.section>
 
       {/* ---------- Meet the Salad ---------- */}
-      <Section className="py-12 sm:py-16 px-4 sm:px-6 bg-gradient-to-r from-[#FFF9E2] via-[#FEECD0] to-[#FFF9E2]" variant="left">
+      <Section className="py-12 sm:py-16 px-4 sm:px-6 bg-white" variant="left">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-center">
           <Picture src={saladMeet} alt="Person preparing healthy salad" className="h-64 sm:h-80 bg-white rounded-none drop-shadow-md" />
           <div>
@@ -401,7 +400,7 @@ const Home: React.FC = () => {
       </Section>
 
       {/* ---------- Problem Statement ---------- */}
-      <Section className="py-12 sm:py-16 bg-green/80 backdrop-blur-sm px-4 sm:px-6" delay={0.05} variant="right">
+      <Section className="py-12 sm:py-16 bg-white/80 backdrop-blur-sm px-4 sm:px-6" delay={0.05} variant="right">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-center">
           <div>
             <h2 className="text-[clamp(18px,3.8vw,34px)] font-extrabold mb-3 sm:mb-4 text-fregcy-green-dark font-[Poppins]">

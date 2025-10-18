@@ -37,7 +37,12 @@ export default {
       },
       backgroundImage: {
         // read from CSS variables so you can theme later
-       
+       'eucalyptus-mist': 'linear-gradient(to bottom right, #EBECCC, #CDD4B1, #EBECCC)',
+        'peach-whisper': 'linear-gradient(to right, #FFF9E2, #FEECD0, #FFF9E2)',
+        'clay-fade': 'linear-gradient(to top, #FEECD0, #DCA278, #FFF9E2)',
+        'ivory-glow': 'linear-gradient(to bottom, #FFF9E2, #EBECCC)',
+        'leaf-haze': 'linear-gradient(to bottom right, #CDD4B1, #EBECCC, #FEECD0)',
+    
         'cta-gradient': 'var(--cta-bg)',
       },
     },
