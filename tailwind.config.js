@@ -37,12 +37,27 @@ export default {
       },
       backgroundImage: {
         // read from CSS variables so you can theme later
-       'eucalyptus-mist': 'linear-gradient(to bottom right, #EBECCC, #CDD4B1, #EBECCC)',
+        'eucalyptus-mist': 'linear-gradient(to bottom right, #EBECCC, #CDD4B1, #EBECCC)',
         'peach-whisper': 'linear-gradient(to right, #FFF9E2, #FEECD0, #FFF9E2)',
         'clay-fade': 'linear-gradient(to top, #FEECD0, #DCA278, #FFF9E2)',
         'ivory-glow': 'linear-gradient(to bottom, #FFF9E2, #EBECCC)',
         'leaf-haze': 'linear-gradient(to bottom right, #CDD4B1, #EBECCC, #FEECD0)',
-    
+
+        /* --- Fresh blues & cool tones --- */
+        'ocean-mist': 'linear-gradient(to bottom right, #E1EBF7, #C8DDF0, #E1EBF7)',
+        'sky-fade': 'linear-gradient(to top, #D9F0FF, #B7E0F2, #D9F0FF)',
+        'frost-whisper': 'linear-gradient(to bottom, #F1F6FB, #DDE6F2, #F1F6FB)',
+        'azure-blend': 'linear-gradient(to right, #C7E0F2, #E2F1FB)',
+        'ice-dream': 'linear-gradient(to bottom right, #F4FAFF, #D8E9F7)',
+
+        /* --- Muted complementary pastels (balance your theme) --- */
+        'mauve-haze': 'linear-gradient(to right, #F4E8F5, #E8D8EE)',
+        'soft-lavender': 'linear-gradient(to bottom, #ECE7FF, #E2DAFB)',
+        'coconut-cloud': 'linear-gradient(to bottom right, #FFFFFF, #F2F7F7)',
+        'blush-breeze': 'linear-gradient(to bottom right, #FFECEC, #FCEBF2)',
+        'sage-wind': 'linear-gradient(to right, #E3EBD4, #F1F7E5)',
+
+
         'cta-gradient': 'var(--cta-bg)',
       },
     },

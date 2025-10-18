@@ -86,15 +86,13 @@ const About = () => {
           >
             <div className="relative rounded-2xl overflow-hidden border border-fregcy-soft-beige shadow-[0_18px_48px_-18px_rgba(28,58,25,.18)]">
               <img
-                src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=1600&auto=format&fit=crop"
+                src="/assets/about_us.jpg"
                 alt="Creating with flow"
                 className="w-full h-72 md:h-[22rem] object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-black/0 to-transparent" />
               <div className="absolute bottom-3 left-3 flex items-center gap-2">
-                <span className="px-3 py-1.5 rounded-full text-xs font-semibold text-fregcy-primary-green bg-white">
-                  Built for Creators
-                </span>
+               
                 <span className="px-3 py-1.5 rounded-full text-xs font-semibold text-[#9A3E1B] bg-[#FFF1E6] border border-[#FFE1CD]">
                   No fluff — just flow
                 </span>
@@ -143,11 +141,12 @@ const About = () => {
             className="md:col-span-5"
           >
             <div className="relative rounded-2xl overflow-hidden border border-fregcy-soft-beige bg-gradient-to-br from-white/80 to-fregcy-soft-beige/40 shadow-[0_18px_44px_-18px_rgba(28,58,25,.16)]">
-              <img
-                src="https://images.unsplash.com/photo-1529336953121-ad5a0d43d0d2?q=80&w=1600&auto=format&fit=crop"
-                alt="Fast, focused creation"
-                className="w-full h-64 object-cover"
-              />
+               <img
+          src="/assets/abut.png"
+          alt="Fregacy team collaborating"
+          className="w-full h-[20px] sm:h-[320px] md:h-[380px] object-cover transition-transform duration-700 hover:scale-[1.03]"
+        />
+
               <div className="absolute inset-0 bg-gradient-to-t from-[#FFFCF6]/90 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4 right-4 grid grid-cols-3 gap-3">
                 {["Zero-Lag", "Instant Preview", "Creator-First"].map((k) => (
@@ -236,17 +235,17 @@ const About = () => {
             {
               name: "Jane Doe",
               role: "CEO & Co-founder",
-              img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=300&q=80",
+              img: "/assets/member1.jpg",
             },
             {
               name: "John Smith",
               role: "CTO & Co-founder",
-              img: "https://images.unsplash.com/photo-1557862921-37829c790956?auto=format&fit=crop&w=300&q=80",
+              img: "/assets/member2.jpg",
             },
             {
               name: "Emily Chen",
               role: "Head of Product",
-              img: "https://images.unsplash.com/photo-1517596009653-53d7122822a9?auto=format&fit=crop&w=300&q=80",
+              img: "/assets/member2.jpg",
             },
           ].map((member) => (
             <motion.div

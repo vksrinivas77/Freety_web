@@ -49,35 +49,35 @@ const TESTIMONIALS = [
     quote: "I’ve been shopping from this service for a long time now. Don’t think twice — the quality is the best!",
     author: "Louisa Morris",
     role: "Frequent Customer",
-    img: "/assets/member1.jpg",
+    img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1200&auto=format&fit=crop",
   },
   {
     id: "t2",
     quote: "This is the best product I’ve bought in years! Affordable and comfy — totally changed my routine.",
     author: "Anjali Sharma",
     role: "Designer",
-    img: "/assets/member2.jpg",
+    img: "https://images.unsplash.com/photo-1599566150161-2a8b7f9d9dbb?q=80&w=1200&auto=format&fit=crop",
   },
   {
     id: "t3",
     quote: "I had the time of my life! They received me with open arms and I felt heard. Would recommend 100%.",
     author: "Peter Smith",
     role: "Product Manager",
-    img: "/assets/member1.jpg",
+    img: "https://images.unsplash.com/photo-1599566150161-2a8b7f9d9dbb?q=80&w=1200&auto=format&fit=crop",
   },
   {
     id: "t4",
     quote: "Tasty, fresh, and fast — perfect for busy mornings. The salads saved my workday energy!",
     author: "Rohan Kapoor",
     role: "Engineer",
-    img: "/assets/member2.jpg",
+    img: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=1200&auto=format&fit=crop",
   },
   {
     id: "t5",
     quote: "Great service and consistent quality. My whole team orders now — highly recommended.",
     author: "Priya Singh",
     role: "Marketing Lead",
-    img: "/assets/member1.jpg",
+    img: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1200&auto=format&fit=crop",
   },
 ];
 
@@ -410,7 +410,7 @@ const Home: React.FC = () => {
             <h2 className="text-[clamp(18px,3.8vw,150px)] font-extrabold mb-3 sm:mb-4 text-fregcy-green-dark font-[Poppins]">
               Are You Tired of Choosing Between Convenience and Health?
             </h2>
-            <p className="text-[clamp(15px,2.2vw,17px)] leading-relaxed text-fregcy-green-dark">
+            <p className="text-[clamp(20px,2.2vw,17px)] leading-relaxed text-fregcy-green-dark">
               You’re not alone. In a world full of quick junk food and unhealthy options,
               <span className="font-semibold text-fregcy-primary-green"> Fregcy </span> is here to change the game.
               <br className="md:hidden" />
@@ -436,60 +436,30 @@ const Home: React.FC = () => {
         </div>
       </Section>
 
-{/* ---------- Founding Member Section (Organic Floating Style) ---------- */}
+     {/* ---------- Founding Member Section (Balanced Premium Look) ---------- */}
 <Section
-  className="relative py-20 sm:py-28 px-6 sm:px-10 overflow-hidden bg-gradient-to-b from-[#FFFFFF] via-[#FAFDFB] to-[#F5F8F6]"
+  className="relative py-20 sm:py-28 px-6 sm:px-10 overflow-hidden bg-gradient-to-b from-[#F8FAF9] via-[#FFFFFF] to-[#F1F7F4]"
   variant="up"
 >
- {/* Floating decorative veggies (random placement) */}
-<motion.img
-  src="/assets/leaf1.png"
-  alt=""
-  className="absolute top-[5%] left-[8%] w-32 sm:w-44 opacity-80"
-  animate={{ y: [0, 12, 0], rotate: [0, 3, -3, 0] }}
-  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-/>
+  {/* Soft background motion aura */}
+  <motion.div
+    className="absolute inset-0 bg-[radial-gradient(circle_at_20%_40%,#E6F5EE_0%,transparent_70%)] opacity-60"
+    animate={{ opacity: [0.5, 0.7, 0.5] }}
+    transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+  />
+  <motion.div
+    className="absolute inset-0 bg-[radial-gradient(circle_at_80%_70%,#FFF3EE_0%,transparent_70%)] opacity-50"
+    animate={{ opacity: [0.4, 0.6, 0.4] }}
+    transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+  />
 
-<motion.img
-  src="/assets/tomoto1.png"
-  alt=""
-  className="absolute bottom-[10%] right-[6%] w-36 sm:w-52 opacity-85"
-  animate={{ y: [0, -14, 0], rotate: [0, -4, 4, 0] }}
-  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-/>
-
-<motion.img
-  src="/assets/basil.png"
-  alt=""
-  className="absolute top-[30%] right-[20%] w-28 sm:w-40 opacity-70"
-  animate={{ y: [0, 10, 0], rotate: [0, 6, -6, 0] }}
-  transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-/>
-
-<motion.img
-  src="/assets/leaf2.png"
-  alt=""
-  className="absolute bottom-[25%] left-[15%] w-32 sm:w-48 opacity-75"
-  animate={{ y: [0, -8, 0], rotate: [0, -3, 3, 0] }}
-  transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-/>
-
-<motion.img
-  src="/assets/tomto1.png"
-  alt=""
-  className="absolute top-[60%] left-[50%] w-44 sm:w-46 opacity-70"
-  animate={{ y: [0, 10, 0], rotate: [0, 2, -2, 0] }}
-  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-/>
-
-  {/* Content area */}
   <div className="relative max-w-5xl mx-auto text-center z-10">
     {/* Title */}
     <motion.h2
-      className="text-[clamp(26px,5vw,46px)] font-extrabold text-fregcy-h1 mb-4 leading-tight"
+      className="text-[clamp(22px,4vw,42px)] font-bold text-fregcy-h1 mb-4 tracking-tight"
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
+      transition={{ duration: 0.8, ease: 'easeOut' }}
     >
       Ready to Feel the Shift?
     </motion.h2>
@@ -504,19 +474,19 @@ const Home: React.FC = () => {
       Claim Your Founding Member Spot Before It’s Gone
     </motion.p>
 
-    {/* Counter */}
+    {/* Counter area */}
     <motion.div
-      className="flex justify-center mb-10"
       initial={{ opacity: 0, scale: 0.9 }}
       whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ delay: 0.3, duration: 0.8 }}
+      transition={{ delay: 0.3, duration: 0.8, ease: 'easeOut' }}
+      className="flex justify-center mb-10"
     >
       <CountersArea foundingMembers={foundingMembers} slotsLeft={slotsLeft} />
     </motion.div>
 
-    {/* Feature List */}
+    {/* List items */}
     <motion.ul
-      className="grid gap-4 text-left sm:text-center text-sm sm:text-base md:text-lg leading-relaxed text-fregcy-body max-w-2xl mx-auto"
+      className="max-w-md mx-auto grid gap-4 text-left text-sm sm:text-base md:text-lg text-fregcy-body leading-relaxed"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
@@ -525,25 +495,22 @@ const Home: React.FC = () => {
         visible: {
           opacity: 1,
           y: 0,
-          transition: { staggerChildren: 0.15, duration: 0.6 },
+          transition: { staggerChildren: 0.15, duration: 0.6, ease: 'easeOut' },
         },
       }}
     >
       {[
-        { icon: "🎯", text: "Lifetime 20% discount on all purchases" },
-        { icon: "🚚", text: "Early delivery to your office/home" },
-        { icon: "📱", text: "Access to the Fregcy App + customization engine" },
-        { icon: "🎁", text: "Exclusive health & performance community" },
+        { icon: '🎯', text: 'Lifetime 20% discount on all purchases' },
+        { icon: '🚚', text: 'Early delivery to your office/home' },
+        { icon: '📱', text: 'Access to the Fregcy App + customization engine' },
+        { icon: '🎁', text: 'Exclusive health & performance community' },
       ].map((item, index) => (
         <motion.li
           key={index}
-          className="flex sm:justify-center items-center gap-3"
-          variants={{
-            hidden: { opacity: 0, y: 10 },
-            visible: { opacity: 1, y: 0 },
-          }}
+          className="flex items-start gap-3"
+          variants={{ hidden: { opacity: 0, x: -30 }, visible: { opacity: 1, x: 0 } }}
         >
-          <span className="text-lg sm:text-xl flex-shrink-0">{item.icon}</span>
+          <span className="text-lg flex-shrink-0">{item.icon}</span>
           <span>{item.text}</span>
         </motion.li>
       ))}
@@ -554,10 +521,10 @@ const Home: React.FC = () => {
       className="mt-12"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.5, duration: 0.7 }}
+      transition={{ delay: 0.4, duration: 0.7 }}
     >
       <Link to="/subscription">
-        <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 180 }}>
+        <motion.div whileHover={{ scale: 1.05 }} transition={{ type: 'spring', stiffness: 160, damping: 12 }}>
           <ShineButton
             variant="primary"
             className="px-8 py-3 rounded-full bg-cta-gradient text-white border-2 border-fregcy-saffron text-base md:text-lg font-semibold shadow-md"
@@ -569,7 +536,6 @@ const Home: React.FC = () => {
     </motion.div>
   </div>
 </Section>
-
     </div>
   );
 };

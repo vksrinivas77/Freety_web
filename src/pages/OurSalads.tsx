@@ -192,7 +192,7 @@ const HeroBanner: React.FC = () => {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-hero-gradient">
+    <section className="relative overflow-hidden bg-eucalyptus-mist">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-24 pb-16 sm:pt-28 sm:pb-20 text-center">
         <div className="h-14 sm:h-16 flex items-center justify-center mt-3">
           <AnimatePresence mode="wait">
