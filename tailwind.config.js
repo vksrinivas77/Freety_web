@@ -37,7 +37,7 @@ export default {
       },
       backgroundImage: {
         // read from CSS variables so you can theme later
-        'hero-gradient': 'var(--hero-bg)',
+       
         'cta-gradient': 'var(--cta-bg)',
       },
     },

@@ -1,4 +1,4 @@
-import logo from "/assets/logo.png"; // Adjust path as needed
+import logo from "/assets/Finallogo.png"; // Adjust path as needed
 
 interface LogoProps {
   size?: "small" | "medium" | "large";
@@ -13,7 +13,7 @@ const Logo = ({
 }: LogoProps) => {
   const sizeClasses: Record<NonNullable<LogoProps["size"]>, string> = {
     small: "w-12 h-auto", // smaller
-    medium: "w-20 h-auto", // default
+    medium: "w-64 h-auto", // default
     large: "w-28 h-auto",
   };
 
