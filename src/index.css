@@ -38,8 +38,8 @@
     --earth-sage: #9CAF88;
 
     --cream-white: #FAF5F0;
-    --warm-white: #FEFCF8;
-    --soft-beige: #F5F0E8;
+    --warm-white: #ffd2a9;
+    --soft-beige: #6bff77;
 
     /* 2. BACKGROUND COLOR PALETTE */
     /* Section Backgrounds */
@@ -50,7 +50,7 @@
     --features-bg-light: #FBD148;
     --testimonials-bg: #1C3A19;
     --testimonials-bg-alt: #8B4513;
-    --product-bg: #FEFCF8;
+    --product-bg: #cabf9b;
     --product-card-bg: #FAF5F0;
     --cta-bg: linear-gradient(45deg, #FF6B35 0%, #F9CA24 100%);
 

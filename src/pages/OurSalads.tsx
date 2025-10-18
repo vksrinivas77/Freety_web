@@ -676,7 +676,7 @@ const OurSalads: React.FC = () => {
   const clear = () => setCart([]);
 
   return (
-    <div className="text-fregcy-body min-h-screen bg-[var(--product-bg)]">
+    <div className="text-fregcy-body min-h-screen">
       <ScopedStyles />
 
       {/* ===== Banner ===== */}
@@ -766,7 +766,7 @@ const OurSalads: React.FC = () => {
           className="absolute inset-0 -z-10"
           style={{
             background:
-              "radial-gradient(800px 400px at 10% 10%, rgba(250,245,240,.95), transparent 40%), radial-gradient(600px 300px at 90% 70%, rgba(249,202,36,.12), transparent 60%), linear-gradient(180deg, #FFFDF9 0%, #FFFCF6 60%, #FFF9EF 100%)",
+              "bg-eucalyptus-mist",
           }}
         />
         <div className="pointer-events-none select-none absolute left-6 top-6 text-4xl animate-bounce">🥕</div>
@@ -797,7 +797,7 @@ const OurSalads: React.FC = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, amount: 0.35 }}
-        className="py-10 sm:py-14 bg-[var(--warm-white)]"
+        className="py-10 sm:py-14 bg-eucalyptus-mist"
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <h2 className="text-center font-extrabold text-[clamp(22px,4.4vw,40px)] text-fregcy-h1">

@@ -377,7 +377,7 @@ const Home: React.FC = () => {
       </motion.section>
 
       {/* ---------- Meet the Salad ---------- */}
-      <Section className="py-12 sm:py-16 px-4 sm:px-6 " variant="left">
+      <Section className="py-12 sm:py-16 px-4 sm:px-6 bg-sage-wind " variant="left">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-center">
           <Picture
             src={saladMeet}
@@ -404,7 +404,7 @@ const Home: React.FC = () => {
       </Section>
 
       {/* ---------- Problem Statement ---------- */}
-      <Section className="py-12 sm:py-16 bg- backdrop-blur-sm px-4 sm:px-6" delay={0.05} variant="right">
+      <Section className="py-12 sm:py-16 bg- backdrop-blur-sm px-4 sm:px-6 bg-ivory-glow" delay={0.05} variant="right">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-center">
           <div>
             <h2 className="text-[clamp(18px,3.8vw,150px)] font-extrabold mb-3 sm:mb-4 text-fregcy-green-dark font-[Poppins]">
