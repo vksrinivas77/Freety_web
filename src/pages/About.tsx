@@ -1,312 +1,366 @@
-import { motion, type Variants } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+// AboutFregcy.tsx
+// 🌿 Cinematic About Page with Framer Motion + TailwindCSS
+// Features:
+// - Eucalyptus mist background
+// - Parallax + staggered animations
+// - Centralized image control
+// - Fully responsive, balanced layout
+
+import React from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import ShineButton from "../components/ShineButton";
 
-/** ===== Framer Motion Variants (typed, TS-safe) ===== */
-const container: Variants = {
+/* ==========================
+   🌿 CONFIG (easy edit zone)
+========================== */
+const IMAGES = {
+  banner: "/assets/banner.png",
+  about_us: "/assets/about_us.jpg",
+  abut: "/assets/abut.png",
+  img1: "/assets/10014.jpg",
+  img2: "/assets/10015.jpg",
+};
+
+const eucalyptusMist = "#E8F3EF";
+const softDarkGreen = "#0F5132";
+
+/* ==========================
+   ⚙️ ANIMATION VARIANTS
+========================== */
+const containerStagger = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { when: "beforeChildren", staggerChildren: 0.12 } },
+  show: { opacity: 1, transition: { staggerChildren: 0.12, delayChildren: 0.05 } },
 };
 
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 28, filter: "blur(4px)" },
-  visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.7, ease: "easeInOut" } },
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
-const fadeIn: Variants = {
+const fadeIn = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.6, ease: "easeInOut" } },
+  show: { opacity: 1, transition: { duration: 0.8, ease: "easeOut" } },
 };
 
-const scaleIn: Variants = {
-  hidden: { opacity: 0, scale: 0.96 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeInOut" } },
+const floatSoft = {
+  animate: {
+    y: [0, -8, 0],
+    rotate: [0, 1.5, 0],
+    transition: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+  },
 };
 
-const floatY: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 120, damping: 18 } },
-};
+/* ==========================
+   🎞️ PARALLAX IMAGE WRAPPER
+========================== */
+const ParallaxImage: React.FC<{ src: string; alt: string }> = ({ src, alt }) => {
+  const ref = React.useRef<HTMLDivElement | null>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], ["-6%", "6%"]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1.03, 1]);
 
-const hoverLift: Variants = {
-  rest: { y: 0, scale: 1, boxShadow: "0 10px 26px rgba(28,58,25,0.10)" },
-  hover: { y: -6, scale: 1.01, boxShadow: "0 18px 44px rgba(28,58,25,0.16)" },
-};
-
-const About = () => {
   return (
-    <div className="bg-fregcy-cream-white text-fregcy-body font-sans">
-      {/* ====== HERO: OUR STORY (palette gradient + image) ====== */}
-      <section className="relative overflow-hidden px-6 md:px-12 lg:px-16 py-20 md:py-24">
-        {/* soft ambient using your palette */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10"
-          style={{
-            background:
-              "radial-gradient(600px 280px at 10% 10%, rgba(45,106,79,.08), transparent 60%), radial-gradient(600px 260px at 90% 80%, rgba(255,107,53,.10), transparent 60%), linear-gradient(180deg,#FFFCF6 0%,#FFF8EE 60%,#FFF4E4 100%)",
-          }}
-        />
-
-        <div className="max-w-6xl mx-auto grid md:grid-cols-12 gap-10 items-center">
-          <motion.div
-            variants={container}
-            initial="hidden"
-            animate="visible"
-            className="md:col-span-7"
-          >
-            <motion.h1
-              variants={fadeUp}
-              className="text-4xl md:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-fregcy-primary-green via-fregcy-earth-sage to-fregcy-saffron"
-            >
-              Our Story
-            </motion.h1>
-
-            <motion.p
-              variants={fadeUp}
-              className="mt-4 text-lg md:text-xl text-fregcy-body-light max-w-2xl"
-            >
-              Fregacy began with a stubborn belief: creators shouldn’t wrestle
-              with tools to make magic. We keep the tech light, so your ideas
-              stay heavy-hitting.
-            </motion.p>
-
-            <motion.div
-              variants={fadeIn}
-              className="mt-8 h-[3px] w-28 rounded-full bg-gradient-to-r from-fregcy-primary-green via-fregcy-earth-sage to-fregcy-saffron"
-            />
-          </motion.div>
-
-          {/* hero image panel */}
-          <motion.div
-            variants={scaleIn}
-            initial="hidden"
-            animate="visible"
-            className="md:col-span-5"
-          >
-            <div className="relative rounded-2xl overflow-hidden border border-fregcy-soft-beige shadow-[0_18px_48px_-18px_rgba(28,58,25,.18)]">
-              <img
-                src="/assets/about_us.jpg"
-                alt="Creating with flow"
-                className="w-full h-72 md:h-[22rem] object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-black/0 to-transparent" />
-              <div className="absolute bottom-3 left-3 flex items-center gap-2">
-               
-                <span className="px-3 py-1.5 rounded-full text-xs font-semibold text-[#9A3E1B] bg-[#FFF1E6] border border-[#FFE1CD]">
-                  No fluff — just flow
-                </span>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ====== HOW FREGACY STARTED ====== */}
-      <section className="px-6 md:px-12 lg:px-16 py-14">
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          className="max-w-6xl mx-auto grid md:grid-cols-12 gap-10 items-start"
-        >
-          <motion.div
-            variants={scaleIn}
-            className="md:col-span-7 bg-white/80 backdrop-blur-md border border-fregcy-soft-beige p-8 rounded-2xl"
-          >
-            <h2 className="text-2xl md:text-3xl font-bold text-fregcy-primary-green">
-              How Fregacy Started
-            </h2>
-            <p className="mt-4 text-fregcy-body-light leading-relaxed">
-              Fregacy was born out of a simple idea — to create a platform that
-              makes content creation easy, enjoyable, and accessible for
-              everyone. We noticed how complicated and overwhelming existing
-              tools were for many creators. So, we decided to change that.
-            </p>
-            <p className="mt-4 text-fregcy-body-light leading-relaxed">
-              From brainstorming late nights to building prototypes, our journey
-              has always been driven by one mission: empower creators to focus
-              on their creativity while we take care of the technology.
-            </p>
-            <p className="mt-4 text-fregcy-body-light leading-relaxed">
-              Today, Fregacy is more than just a tool — it’s a growing community
-              of creators, innovators, and dreamers.
-            </p>
-          </motion.div>
-
-          {/* 🔁 REPLACED the old “Built for Creators” white card with a clean image feature panel */}
-          <motion.div
-            variants={floatY}
-            className="md:col-span-5"
-          >
-            <div className="relative rounded-2xl overflow-hidden border border-fregcy-soft-beige bg-gradient-to-br from-white/80 to-fregcy-soft-beige/40 shadow-[0_18px_44px_-18px_rgba(28,58,25,.16)]">
-               <img
-          src="/assets/abut.png"
-          alt="Fregacy team collaborating"
-          className="w-full h-[20px] sm:h-[320px] md:h-[380px] object-cover transition-transform duration-700 hover:scale-[1.03]"
-        />
-
-              <div className="absolute inset-0 bg-gradient-to-t from-[#FFFCF6]/90 via-transparent to-transparent" />
-              <div className="absolute bottom-4 left-4 right-4 grid grid-cols-3 gap-3">
-                {["Zero-Lag", "Instant Preview", "Creator-First"].map((k) => (
-                  <motion.div
-                    key={k}
-                    initial="rest"
-                    whileHover="hover"
-                    animate="rest"
-                    variants={hoverLift}
-                    className="rounded-xl border border-fregcy-soft-beige bg-white px-3 py-3 text-center text-sm font-medium"
-                  >
-                    {k}
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
-      </section>
-
-      {/* ====== VISION & MISSION ====== */}
-      <section className="px-6 md:px-12 lg:px-16 py-16 bg-gradient-to-r from-fregcy-soft-beige/40 to-fregcy-cream-white">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            variants={container}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.35 }}
-          >
-            <motion.div variants={fadeIn} className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-fregcy-primary-green">
-                Vision & Mission
-              </h2>
-              <p className="mt-3 text-fregcy-body-light">Simple words. Serious intent.</p>
-            </motion.div>
-
-            <div className="grid sm:grid-cols-2 gap-6">
-              <motion.div
-                variants={fadeUp}
-                className="bg-white/85 backdrop-blur-md border border-fregcy-soft-beige p-7 rounded-2xl"
-              >
-                <div className="text-4xl mb-3">🎯</div>
-                <h3 className="text-xl font-semibold text-fregcy-primary-green">Our Vision</h3>
-                <p className="text-fregcy-body-light mt-3">
-                  To become the go-to platform for every creator — whether
-                  beginner or pro. We simplify editing and storytelling so ideas
-                  come to life without limits.
-                </p>
-              </motion.div>
-
-              <motion.div
-                variants={fadeUp}
-                className="bg-white/85 backdrop-blur-md border border-fregcy-soft-beige p-7 rounded-2xl"
-              >
-                <div className="text-4xl mb-3">⚡️</div>
-                <h3 className="text-xl font-semibold text-fregcy-primary-green">Our Mission</h3>
-                <p className="text-fregcy-body-light mt-3">
-                  To break down the barriers of complex tools and deliver an
-                  intuitive, smooth, powerful experience that fuels creativity
-                  and inspires millions.
-                </p>
-              </motion.div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ====== MEET THE TEAM ====== */}
-      <section className="px-6 md:px-12 lg:px-16 py-20 max-w-6xl mx-auto">
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold text-fregcy-primary-green">Meet the Team</h2>
-          <p className="text-lg text-fregcy-body-light mt-4 max-w-2xl mx-auto">
-            We are a small but passionate crew of designers and engineers,
-            dedicated to making creation feel effortless.
-          </p>
-        </motion.div>
-
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
-          {[
-            {
-              name: "Jane Doe",
-              role: "CEO & Co-founder",
-              img: "/assets/member1.jpg",
-            },
-            {
-              name: "John Smith",
-              role: "CTO & Co-founder",
-              img: "/assets/member2.jpg",
-            },
-            {
-              name: "Emily Chen",
-              role: "Head of Product",
-              img: "/assets/member2.jpg",
-            },
-          ].map((member) => (
-            <motion.div
-              key={member.name}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.5 }}
-              whileHover={{ y: -6, rotate: 0.2 }}
-              transition={{ type: "spring", stiffness: 120, damping: 16 }}
-              className="text-center"
-            >
-              <img
-                src={member.img}
-                alt={member.name}
-                className="w-32 h-32 rounded-full mx-auto object-cover border-4 border-fregcy-soft-beige shadow-[0_16px_36px_-16px_rgba(28,58,25,.24)]"
-              />
-              <h3 className="text-xl font-semibold text-fregcy-primary-green mt-4">{member.name}</h3>
-              <p className="text-fregcy-body-light text-sm">{member.role}</p>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* ====== JOURNEY CTA ====== */}
-      <section className="text-center px-6 py-20 bg-gradient-to-r from-fregcy-primary-green/5 to-fregcy-saffron/5">
-        <motion.h2
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="text-3xl md:text-5xl font-bold text-fregcy-primary-green"
-        >
-          The Journey is Just Beginning
-        </motion.h2>
-        <motion.p
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="mt-6 text-lg text-fregcy-body-light max-w-2xl mx-auto"
-        >
-          Join us in shaping the future of content creation. Together, we can
-          build something truly remarkable.
-        </motion.p>
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="mt-10 flex justify-center"
-        >
-          <ShineButton variant="primary" className="flex items-center gap-2 px-8 py-4 text-lg bg-cta-gradient text-white rounded-xl">
-            Get Started <ArrowRight className="w-5 h-5" />
-          </ShineButton>
-        </motion.div>
-      </section>
-
-      {/* ====== Footer ====== */}
-      <footer className="py-8 text-center text-sm text-fregcy-body-light">© {new Date().getFullYear()} Fregacy</footer>
+    <div ref={ref} className="relative overflow-hidden rounded-2xl shadow-xl aspect-[16/10]">
+      <motion.img
+        src={src}
+        alt={alt}
+        className="w-full h-full object-cover"
+        style={{ y, scale }}
+      />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-white/0" />
     </div>
   );
 };
 
-export default About;
+/* ==========================
+   📖 SECTION BLOCK
+========================== */
+type SectionProps = {
+  id: string;
+  heading: string;
+  paragraphs?: string[];
+  items?: string[];
+  quoteLines?: string[];
+  imageUrl: string;
+  imageAlt: string;
+  flip?: boolean;
+  italic?: boolean;
+};
+
+const SectionBlock: React.FC<SectionProps> = ({
+  id,
+  heading,
+  paragraphs,
+  items,
+  quoteLines,
+  imageUrl,
+  imageAlt,
+  flip = false,
+  italic = false,
+}) => {
+  return (
+    <section
+      id={id}
+      className="relative py-16 md:py-20 bg-eucalyptus-mist overflow-hidden"
+      style={{ backgroundColor: eucalyptusMist }}
+    >
+      {/* Floating background blobs */}
+      <div className="absolute inset-0 pointer-events-none">
+        <motion.div
+          className="absolute -top-10 -right-8 w-40 h-40 md:w-64 md:h-64 rounded-full bg-emerald-200/25 blur-3xl"
+          variants={floatSoft}
+          animate="animate"
+        />
+        <motion.div
+          className="absolute -bottom-12 -left-10 w-48 h-48 md:w-72 md:h-72 rounded-full bg-lime-200/25 blur-3xl"
+          variants={floatSoft}
+          animate="animate"
+        />
+      </div>
+
+      <motion.div
+        variants={containerStagger}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.3 }}
+        className="relative container mx-auto px-4 max-w-6xl"
+      >
+        <div
+          className={`grid md:grid-cols-2 gap-10 md:gap-16 items-center ${
+            flip ? "md:flex-row-reverse" : ""
+          }`}
+        >
+          <motion.div variants={fadeUp} className={flip ? "order-2 md:order-1" : "order-1"}>
+            <h2
+              className="font-serif text-3xl md:text-4xl lg:text-5xl tracking-tight"
+              style={{ color: softDarkGreen }}
+            >
+              {heading}
+            </h2>
+            <div className="mt-5 space-y-4">
+              {paragraphs?.map((p, idx) => (
+                <motion.p
+                  key={idx}
+                  variants={fadeUp}
+                  className={`text-gray-800 text-lg leading-relaxed ${
+                    italic ? "italic font-serif" : ""
+                  }`}
+                >
+                  {p}
+                </motion.p>
+              ))}
+              {items && (
+                <ul className="mt-2 space-y-2">
+                  {items.map((li, i) => (
+                    <li key={i} className="flex items-start gap-3 text-gray-800">
+                      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                      <span>{li}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {quoteLines && (
+                <blockquote className="mt-5 border-l-4 border-emerald-400 pl-4 italic font-serif text-gray-900/90 text-xl">
+                  {quoteLines.map((q, i) => (
+                    <p key={i} className="mb-1">
+                      {q}
+                    </p>
+                  ))}
+                </blockquote>
+              )}
+            </div>
+          </motion.div>
+
+          <motion.div
+            variants={fadeIn}
+            className={flip ? "order-1 md:order-2" : "order-2 md:order-2"}
+          >
+            <ParallaxImage src={imageUrl} alt={imageAlt} />
+          </motion.div>
+        </div>
+      </motion.div>
+    </section>
+  );
+};
+
+/* ==========================
+   🌿 CTA SECTION
+========================== */
+const CTASection: React.FC = () => (
+  <section className="relative py-16 md:py-20 bg-gradient-to-b from-emerald-100/70 to-white">
+    <div className="container mx-auto px-4 max-w-5xl text-center">
+      <motion.div variants={containerStagger} initial="hidden" whileInView="show" viewport={{ once: true }}>
+        <motion.h3
+          variants={fadeUp}
+          className="font-serif text-3xl md:text-4xl"
+          style={{ color: softDarkGreen }}
+        >
+          Join the Legacy
+        </motion.h3>
+        <motion.p variants={fadeUp} className="mt-4 text-lg text-gray-700 leading-relaxed">
+          This stopped being our story when you started reading. Every person choosing Fregcy over junk food casts a vote for a world where convenience doesn't mean compromise.
+        </motion.p>
+        <motion.p variants={fadeUp} className="mt-3 text-lg text-gray-700">
+          Ready to stop settling? Welcome to Fregcy. Where self-care isn't extra work — it's the foundation.
+        </motion.p>
+        <motion.div variants={fadeUp} className="mt-8 flex justify-center">
+          <ShineButton className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg shadow-md transition">
+            Start Your Fregcy Journey
+          </ShineButton>
+        </motion.div>
+      </motion.div>
+    </div>
+  </section>
+);
+
+/* ==========================
+   🌱 HERO SECTION
+========================== */
+const Hero: React.FC = () => {
+  const { scrollYProgress } = useScroll();
+  const bgOpacity = useTransform(scrollYProgress, [0, 0.2], [0.3, 0.7]);
+
+  return (
+    <header
+      className="relative min-h-[70vh] flex items-center justify-center overflow-hidden"
+      style={{ backgroundColor: eucalyptusMist }}
+    >
+      <motion.img
+        src={IMAGES.banner}
+        alt="Fregcy hero"
+        className="absolute inset-0 w-full h-full object-cover"
+        initial={{ scale: 1.08 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+      />
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60"
+        style={{ opacity: bgOpacity }}
+      />
+      <div className="relative z-10 text-center px-4 max-w-3xl">
+        <motion.h1
+          variants={fadeUp}
+          initial="hidden"
+          animate="show"
+          className="font-serif text-4xl md:text-6xl text-[#E8F3EF] leading-tight"
+        >
+          The Night That Changed Everything
+        </motion.h1>
+        <motion.p
+          variants={fadeUp}
+          initial="hidden"
+          animate="show"
+          className="mt-3 text-emerald-100 text-xl italic font-serif"
+        >
+          How Being Really Hungry Started Our Company
+        </motion.p>
+      </div>
+    </header>
+  );
+};
+
+/* ==========================
+   🌿 MAIN ABOUT COMPONENT
+========================== */
+const AboutFregcy: React.FC = () => (
+  <main className="font-sans overflow-x-hidden" style={{ backgroundColor: eucalyptusMist }}>
+    <Hero />
+
+    <SectionBlock
+      id="start"
+      heading="It All Began With a Growling Stomach"
+      paragraphs={[
+        "Picture this: 9:47 PM on a Thursday night. Jay just crushed his workout at the office gym, feeling like he could conquer the world.",
+        'For the third time this month, he had promised himself: "This is the week I finally eat right."',
+        "But standing in that parking lot, reality slapped him in the face. His options?",
+      ]}
+      items={[
+        "Pizza that looked as tired as he felt",
+        "A protein bar that tasted like sweetened cardboard",
+        "Greasy dine-out fast food that would undo everything he just worked for",
+        "Sound familiar?",
+        "This wasn't just Jay's nightmare — it was Priya's, Balaji's, and ours.",
+      ]}
+      imageAlt="Late-night parking lot choices"
+      imageUrl={IMAGES.about_us}
+    />
+
+    <SectionBlock
+      id="failure"
+      heading="How Failure Made Us Unstoppable"
+      paragraphs={[
+        "Let's be honest – we failed spectacularly.",
+        "Our first vending machine? Disaster. Our prototype app? Crashed daily. Our bank account? Empty.",
+        "Everyone who heard our idea was fascinated, then destroyed us with reality checks.",
+      ]}
+      imageAlt="Symbolic glitching prototype"
+      imageUrl={IMAGES.abut}
+      flip
+      italic
+    />
+
+    <SectionBlock
+      id="lessons"
+      heading="What Failure Actually Taught Us"
+      paragraphs={[
+        "Every disaster was education.",
+        "Wilted salads taught us food preservation mastery. App crashes revealed what people truly needed.",
+        'Brutal feedback forced the only question that mattered: "Are we making this easier for someone who just wants to eat well?"',
+      ]}
+      imageAlt="Team iterating late night"
+      imageUrl={IMAGES.img1}
+    />
+
+    <SectionBlock
+      id="mission"
+      heading="Our Impossible Mission"
+      paragraphs={[
+        "Make healthy eating boringly normal.",
+        "No more Sunday meal prep slavery. No more nutrition degree requirements.",
+        "Our vision: A Fregcy within arm's reach of every office, gym, college, and train station in India.",
+      ]}
+      imageAlt="Healthy salad transformation"
+      imageUrl={IMAGES.img2}
+      flip
+    />
+
+    <SectionBlock
+      id="success"
+      heading="How We Measure Real Success"
+      paragraphs={[
+        "We don't count machines or revenue. We count transformations.",
+        "Every time someone chooses Fregcy over fast food, they’re not making a purchase.",
+        "They're making a statement:",
+      ]}
+      quoteLines={[
+        '"I deserve better. My goals matter. My health is worth the extra 5 minutes."',
+      ]}
+      imageAlt="People choosing health"
+      imageUrl={IMAGES.about_us}
+    />
+
+    <SectionBlock
+      id="promises"
+      heading="Our Unbreakable Promises"
+      paragraphs={[
+        "We promise you'll never choose between fast and healthy again.",
+        "We promise transparency — what you see is what you get.",
+        'We promise to keep redefining what "fast food" means.',
+        "Because you deserve fuel that powers your dreams, not just fills the void.",
+      ]}
+      imageAlt="Transparent ingredients promise"
+      imageUrl={IMAGES.abut}
+      flip
+    />
+
+    <CTASection />
+
+    <footer className="bg-white py-10">
+      <div className="text-center text-sm text-gray-500">
+        © {new Date().getFullYear()} Fregcy • About Us
+      </div>
+    </footer>
+  </main>
+);
+
+export default AboutFregcy;

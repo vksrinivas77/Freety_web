@@ -39,15 +39,19 @@ export default {
         // read from CSS variables so you can theme later
         'eucalyptus-mist': 'linear-gradient(to bottom right, #C5E1A5, #E8F5E9)',
         'peach-whisper': 'linear-gradient(to right, #FFF9E2, #FEECD0, #FFF9E2)',
-        'clay-fade': 'linear-gradient(to top, #FEECD0, #DCA278, #FFF9E2)',
-        'ivory-glow': 'linear-gradient(to bottom, #FFF9E2, #EBECCC)',
+        'clay-fade': 'linear-gradient(to top, #f4b248ff, #bcada1ff, #FFF9E2)',
+        'ivory-glow': 'linear-gradient(to bottom, #ffffffff, #EBECCC)',
         'leaf-haze': 'linear-gradient(to bottom right, #CDD4B1, #EBECCC, #FEECD0)',
 
           'pistachio-mint': 'linear-gradient(to bottom right, #c3f18fff, #fdfdfdff)',
           'mint-breeze': 'linear-gradient(to top, #E8F5E9, #C5E1A5)',
+          
+          'olive-cream': 'linear-gradient(to bottom right, #D0CD5A, #EFDB9E)',
+          'golden-leaf': 'linear-gradient(to top, #bbffaeff, #c5e6ccff)',
+  
 
         /* --- Muted complementary pastels (balance your theme) --- */
-        'mauve-haze': 'linear-gradient(to right, #F4E8F5, #E8D8EE)',
+        'mauve-haze': 'linear-gradient(to bottom right, #D0CD5A, #EFDB9E)',
         'soft-lavender': 'linear-gradient(to bottom, #ECE7FF, #E2DAFB)',
         'coconut-cloud': 'linear-gradient(to bottom right, #FFFFFF, #F2F7F7)',
         'blush-breeze': 'linear-gradient(to bottom right, #FFECEC, #FCEBF2)',

@@ -13,7 +13,7 @@ const Logo = ({
 }: LogoProps) => {
   const sizeClasses: Record<NonNullable<LogoProps["size"]>, string> = {
     small: "w-12 h-auto", // smaller
-    medium: "w-60 h-auto", // default
+    medium: "w-36 h-auto", // default
     large: "w-28 h-auto",
   };
 

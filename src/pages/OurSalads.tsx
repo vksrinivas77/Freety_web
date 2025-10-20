@@ -104,7 +104,7 @@ const SALADS: Salad[] = [
     nutrition: "~200 kcal | Vegan | Gluten-Free",
     callout: "Your immunity’s fix in a vibrant bowl",
     image:
-      "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+      "/assets/2002.jpg",
     calories: 200,
     isVeg: true,
     protein: "8g",
@@ -131,7 +131,7 @@ const SALADS: Salad[] = [
     nutrition: "~330 kcal | Vegetarian | Gluten-Free",
     callout: "Your Protein Fix in a power bowl",
     image:
-      "https://images.pexels.com/photos/1640771/pexels-photo-1640771.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+      "/assets/2002.jpg",
     calories: 330,
     isVeg: true,
     protein: "22g",
@@ -158,7 +158,7 @@ const SALADS: Salad[] = [
     nutrition: "~220 kcal | Vegetarian | Vegan Option",
     callout: "Your Gut Fix in a colourful Bowl",
     image:
-      "https://images.pexels.com/photos/1640770/pexels-photo-1640770.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop",
+      "/assets/2001.jpg",
     calories: 220,
     isVeg: true,
     protein: "12g",
@@ -192,7 +192,7 @@ const HeroBanner: React.FC = () => {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-eucalyptus-mist">
+    <section className="relative overflow-hidden ">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-24 pb-16 sm:pt-28 sm:pb-20 text-center">
         <div className="h-14 sm:h-16 flex items-center justify-center mt-3">
           <AnimatePresence mode="wait">
@@ -261,7 +261,8 @@ const FiltersBar: React.FC<{
   onReset: () => void;
 }> = ({ filters, setFilters, onReset }) => {
   return (
-    <div className="mb-5 sm:mb-6 rounded-xl bg-white/85 backdrop-blur border border-black/5 p-3 sm:p-4 shadow-sm">
+<div className="mb-5 sm:mb-6 rounded-xl backdrop-blur-md border border-black/40 p-3 sm:p-4 shadow-[0_12px_50px_-10px_rgba(0,0,0,0.35)] hover:shadow-[0_18px_70px_-10px_rgba(0,0,0,0.4)] transition-all duration-500 bg-white/50">
+
       <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
         <div className="md:col-span-5">
           <label className="block text-xs text-fregcy-body-light mb-1">Search products</label>
@@ -676,14 +677,14 @@ const OurSalads: React.FC = () => {
   const clear = () => setCart([]);
 
   return (
-    <div className="text-fregcy-body min-h-screen">
+    <div className="text-fregcy-body min-h-screen bg-eucalyptus-mist">
       <ScopedStyles />
 
       {/* ===== Banner ===== */}
       <HeroBanner />
 
       {/* ===== Filters + Grid ===== */}
-      <section className="py-8 sm:py-10 bg-[var(--warm-white)]/60 backdrop-blur-[1px]">
+      <section className="py-8 sm:py-10 bg-eucalyptus-mist backdrop-blur-[1px]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <FiltersBar filters={filters} setFilters={setFilters} onReset={() => setFilters(defaultFilters)} />
 
@@ -719,7 +720,7 @@ const OurSalads: React.FC = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, margin: "-10% 0px -10% 0px" }}
-        className="py-10 sm:py-14 bg-[#F7F7FB]"
+        className="py-10 sm:py-14"
       >
         <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
           <h2 className="font-extrabold text-[clamp(22px,4.4vw,40px)] text-fregcy-h1">
@@ -766,7 +767,7 @@ const OurSalads: React.FC = () => {
           className="absolute inset-0 -z-10"
           style={{
             background:
-              "bg-eucalyptus-mist",
+              "",
           }}
         />
         <div className="pointer-events-none select-none absolute left-6 top-6 text-4xl animate-bounce">🥕</div>
@@ -797,7 +798,7 @@ const OurSalads: React.FC = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: false, amount: 0.35 }}
-        className="py-10 sm:py-14 bg-eucalyptus-mist"
+        className="py-10 sm:py-14"
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <h2 className="text-center font-extrabold text-[clamp(22px,4.4vw,40px)] text-fregcy-h1">

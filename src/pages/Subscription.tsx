@@ -20,7 +20,8 @@ const fadeUp = {
 
 const Subscription: React.FC = () => {
   return (
-    <div className="bg-white text-gray-900">
+<div className="relative w-full min-h-screen overflow-x-hidden bg-gradient-to-br from-[#E7F5DA] via-[#DCF4C7] to-[#D9EFC1] text-gray-900">
+
       {/* Page-scoped utilities (colors wired to your palette) */}
       <style>{`
         /* --- brand helpers mapped to your CSS variables --- */
@@ -140,7 +141,7 @@ const Subscription: React.FC = () => {
       `}</style>
 
       {/* Banner (unchanged, keeps your vibe) */}
-      <section className="relative overflow-hidden bg-eucalyptus-mist">
+      <section className="relative overflow-hidden ">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-24 pb-16 sm:pt-28 sm:pb-20 text-center">
           <motion.h1
             variants={fadeUp}
@@ -172,164 +173,154 @@ const Subscription: React.FC = () => {
         </div>
       </section>
       {/* Plans */}
-      <section className="py-10 sm:py-14">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <motion.h2
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: false, amount: 0.4 }}
-            className="text-center text-[clamp(20px,4.5vw,34px)] font-bold text-brand-h1"
-          >
-            Choose Your Energy Plan
-          </motion.h2>
+    <section className="py-10 sm:py-14">
+  <div className="max-w-6xl mx-auto px-4 sm:px-6">
+    <motion.h2
+      variants={fadeUp}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: false, amount: 0.4 }}
+      className="text-center text-[clamp(20px,4.5vw,34px)] font-bold text-brand-h1"
+    >
+      Choose Your Energy Plan ⚡
+    </motion.h2>
 
-          <div className="mt-7 grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-            {/* Weekend Warrior (GREEN) */}
-            <motion.article
-              variants={edgeIn("left", 0.06)}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: false, amount: 0.35 }}
-              className="plan-card card-zoom card-soft-green p-5 sm:p-6"
-            >
-              <div className="plan-body">
-                <div className="flex items-center gap-2">
-                  <Star className="w-5 h-5 text-brand-green" />
-                  <h3 className="text-xl font-bold text-brand-h1">The Weekend Warrior</h3>
-                </div>
-
-                <div className="mt-3 flex items-center justify-between">
-                  <span className="text-fregcy-body font-semibold">₹799/month</span>
-                  <span className="price-chip">₹53 per salad</span>
-                </div>
-
-                <p className="mt-2 text-[14px] text-fregcy-body">2 salads every weekend</p>
-                <p className="mt-1 text-[13px] text-fregcy-body">
-                  Perfect for dabblers, gym lovers, or health newbies starting small.
-                </p>
-                <ul className="mt-4 space-y-2 text-[13px] text-fregcy-body">
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-brand-green" /> 14–15 salads/month</li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-brand-green" /> Save ₹47 each</li>
-                </ul>
-              </div>
-
-              <div className="plan-cta">
-                <ShineButton className="btn-solid w-full px-4 py-2.5 sm:px-5 sm:py-3 btn-green text-white">
-                  Start Small, Win Big
-                  <span className="arrow-glow inline-flex"><ArrowRight className="w-4 h-4" color="var(--accent-turmeric-dark)" /></span>
-                </ShineButton>
-              </div>
-            </motion.article>
-
-            {/* Daily Hero (SAFFRON) */}
-            <motion.article
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: false, amount: 0.35 }}
-              className="plan-card card-zoom card-soft-saffron p-5 sm:p-6"
-            >
-              <div className="plan-body">
-                <div className="flex items-center gap-2">
-                  <Zap className="w-5 h-5 text-brand-saffron" />
-                  <h3 className="text-xl font-bold text-brand-h1">The Daily Hero</h3>
-                </div>
-
-                <div className="mt-3 flex items-center justify-between">
-                  <span className="text-fregcy-body font-semibold">₹1,299/month</span>
-                  <span className="price-chip delay-1">₹58 per salad</span>
-                </div>
-
-                <p className="mt-2 text-[14px] text-fregcy-body">1 salad every weekday</p>
-                <p className="mt-1 text-[13px] text-fregcy-body">
-                  For busy office pros who want energy without the mental load.
-                </p>
-                <ul className="mt-4 space-y-2 text-[13px] text-fregcy-body">
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-brand-saffron" /> 20–22 salads/month</li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-brand-saffron" /> Save ₹52 daily</li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-brand-saffron" /> Skip days freely + unlimited customizations</li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-brand-saffron" /> First access to new recipes</li>
-                </ul>
-              </div>
-
-              <div className="plan-cta">
-                <ShineButton className="btn-solid w-full px-4 py-2.5 sm:px-5 sm:py-3 btn-saffron text-white">
-                  Be My Daily Hero
-                  <span className="arrow-glow inline-flex"><ArrowRight className="w-4 h-4" color="var(--accent-turmeric-dark)" /></span>
-                </ShineButton>
-              </div>
-            </motion.article>
-
-            {/* Power Player (TURMERIC) */}
-            <motion.article
-              variants={edgeIn("right", 0.12)}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: false, amount: 0.35 }}
-              className="plan-card card-zoom card-soft-turm p-5 sm:p-6"
-            >
-              <div className="plan-body">
-                <div className="flex items-center gap-2">
-                  <Star className="w-5 h-5 text-brand-turmeric" />
-                  <h3 className="text-xl font-bold text-brand-h1">The Power Player</h3>
-                </div>
-
-                <div className="mt-3 flex items-center justify-between">
-                  <span className="text-fregcy-body font-semibold">₹2,499/month</span>
-                  <span className="price-chip delay-2">₹63 per salad</span>
-                </div>
-
-                <p className="mt-2 text-[14px] text-fregcy-body">2 salads every weekday</p>
-                <p className="mt-1 text-[13px] text-fregcy-body">
-                  For high-performers who eat clean and high protein with intensity.
-                </p>
-                <ul className="mt-4 space-y-2 text-[13px] text-fregcy-body">
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-brand-turmeric" /> 40–42 salads/month</li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-brand-turmeric" /> Save ₹57 daily</li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-brand-turmeric" /> Ideal for lunch + snack</li>
-                  <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-brand-turmeric" /> Priority pickup, exclusive nutrition perks</li>
-                </ul>
-              </div>
-
-              <div className="plan-cta">
-                <ShineButton className="btn-solid w-full px-4 py-2.5 sm:px-5 sm:py-3 btn-turmeric">
-                  Fuel My Power Mode
-                  <span className="arrow-glow inline-flex"><ArrowRight className="w-4 h-4" color="var(--accent-turmeric-dark)" /></span>
-                </ShineButton>
-              </div>
-            </motion.article>
+    <div className="mt-7 grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+      {/* Weekend Warrior (GREEN) */}
+      <motion.article
+        variants={edgeIn("left", 0.06)}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: false, amount: 0.35 }}
+        className="plan-card p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-[#e9fdf1] via-[#ccf4da] to-[#b8f0c9] shadow-[0_10px_30px_-8px_rgba(33,140,84,0.35)] hover:shadow-[0_16px_40px_-8px_rgba(33,140,84,0.45)] transition-all duration-300"
+      >
+        <div className="plan-body">
+          <div className="flex items-center gap-2">
+            <Star className="w-5 h-5 text-[#218c54]" />
+            <h3 className="text-xl font-bold text-[#195c39]">The Weekend Warrior</h3>
           </div>
 
-          {/* Why Subscribe (unchanged) */}
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: false, amount: 0.35 }}
-            className="mt-10 rounded-2xl bg-[#FAFAFA] border border-black/5 p-5 sm:p-6"
-          >
-            <h3 className="text-xl font-semibold text-brand-h1">Why Subscribe Instead of Ordering One-Off?</h3>
-            <ul className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-[14px] text-fregcy-body">
-              {[
-                "Save up to ₹58/salad",
-                "Eliminate daily food decisions",
-                "Lock in guaranteed freshness & priority",
-                "Guilt-proof your diet — good choices, on autopilot",
-              ].map((t) => (
-                <li key={t} className="flex items-start gap-2">
-                  <Check className="w-4 h-4 mt-0.5 text-brand-green" />
-                  <span>{t}</span>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-2 text-[13px] text-fregcy-body-light">Pause anytime. No contracts. No guilt.</p>
-          </motion.div>
+          <div className="mt-3 flex items-center justify-between">
+            <span className="text-[#195c39] font-semibold">₹799/month</span>
+            <span className="price-chip">
+              ₹53 per salad
+            </span>
+          </div>
+
+          <p className="mt-2 text-[14px] text-[#234d36]">2 salads every weekend</p>
+          <p className="mt-1 text-[13px] text-[#295940]">
+            Perfect for dabblers, gym lovers, or health newbies starting small.
+          </p>
+          <ul className="mt-4 space-y-2 text-[13px] text-[#234d36]">
+            <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-[#218c54]" /> 14–15 salads/month</li>
+            <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-[#218c54]" /> Save ₹47 each</li>
+          </ul>
         </div>
-      </section>
+
+        <div className="plan-cta mt-4">
+          <ShineButton className="btn-solid w-full px-4 py-2.5 sm:px-5 sm:py-3 bg-[#218c54] hover:bg-[#1a6f43] text-white rounded-xl shadow-md transition-all duration-300">
+            Start Small, Win Big
+            <span className="arrow-glow inline-flex ml-2">
+              <ArrowRight className="w-4 h-4" color="#ffcf40" />
+            </span>
+          </ShineButton>
+        </div>
+      </motion.article>
+
+      {/* Daily Hero (SAFFRON) */}
+      <motion.article
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: false, amount: 0.35 }}
+        className="plan-card p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-[#fff2e1] via-[#ffe4bd] to-[#ffd89a] shadow-[0_10px_30px_-8px_rgba(255,165,0,0.35)] hover:shadow-[0_16px_40px_-8px_rgba(255,165,0,0.45)] transition-all duration-300"
+      >
+        <div className="plan-body">
+          <div className="flex items-center gap-2">
+            <Zap className="w-5 h-5 text-[#d67f00]" />
+            <h3 className="text-xl font-bold text-[#b86000]">The Daily Hero</h3>
+          </div>
+
+          <div className="mt-3 flex items-center justify-between">
+            <span className="text-[#b86000] font-semibold">₹1,299/month</span>
+            <span className="price-chip">
+            
+              ₹58 per salad
+            </span>
+          </div>
+
+          <p className="mt-2 text-[14px] text-[#854f00]">1 salad every weekday</p>
+          <p className="mt-1 text-[13px] text-[#704200]">
+            For busy office pros who want energy without the mental load.
+          </p>
+          <ul className="mt-4 space-y-2 text-[13px] text-[#703d00]">
+            <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-[#d67f00]" /> 20–22 salads/month</li>
+            <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-[#d67f00]" /> Save ₹52 daily</li>
+            <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-[#d67f00]" /> Skip days freely + customizations</li>
+            <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-[#d67f00]" /> Early access to new recipes</li>
+          </ul>
+        </div>
+
+        <div className="plan-cta mt-4">
+          <ShineButton className="btn-solid w-full px-4 py-2.5 sm:px-5 sm:py-3 bg-   hover:bg-[#b46000] text-white rounded-xl shadow-md transition-all duration-300">
+            Be My Daily Hero
+            <span className="arrow-glow inline-flex ml-2">
+              <ArrowRight className="w-4 h-4" color="#fff7cc" />
+            </span>
+          </ShineButton>
+        </div>
+      </motion.article>
+
+      {/* Power Player (TURMERIC) */}
+      <motion.article
+        variants={edgeIn("right", 0.12)}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: false, amount: 0.35 }}
+        className="plan-card p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-[#fff3cc] via-[#ffe899] to-[#ffdd66] shadow-[0_10px_30px_-8px_rgba(255,215,0,0.35)] hover:shadow-[0_16px_40px_-8px_rgba(255,215,0,0.45)] transition-all duration-300"
+      >
+        <div className="plan-body">
+          <div className="flex items-center gap-2">
+            <Star className="w-5 h-5 text-[#b48b00]" />
+            <h3 className="text-xl font-bold text-[#856200]">The Power Player</h3>
+          </div>
+
+          <div className="mt-3 flex items-center justify-between">
+            <span className="text-[#856200] font-semibold">₹2,499/month</span>
+            <span className="price-chip">
+            
+              ₹63 per salad
+            </span>
+          </div>
+
+          <p className="mt-2 text-[14px] text-[#5c4a00]">2 salads every weekday</p>
+          <p className="mt-1 text-[13px] text-[#6e5500]">
+            For high-performers who eat clean and high protein with intensity.
+          </p>
+          <ul className="mt-4 space-y-2 text-[13px] text-[#6e5500]">
+            <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-[#b48b00]" /> 40–42 salads/month</li>
+            <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-[#b48b00]" /> Save ₹57 daily</li>
+            <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-[#b48b00]" /> Ideal for lunch + snack</li>
+            <li className="flex items-start gap-2"><Check className="w-4 h-4 mt-0.5 text-[#b48b00]" /> Priority pickup perks</li>
+          </ul>
+        </div>
+
+        <div className="plan-cta mt-4">
+          <ShineButton className="btn-solid w-full px-4 py-2.5 sm:px-5 sm:py-3 bg-[#b48b00] hover:bg-[#8f7000] text-white rounded-xl shadow-md transition-all duration-300">
+            Fuel My Power Mode
+            <span className="arrow-glow inline-flex ml-2">
+              <ArrowRight className="w-4 h-4" color="#fff8e1" />
+            </span>
+          </ShineButton>
+        </div>
+      </motion.article>
+    </div>
+  </div>
+</section>
+
 
       {/* How It Works */}
-      <section className="py-10 sm:py-14 bg-[#F7F7FB]">
+      <section className="py-10 sm:py-14 ">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <motion.h3
             variants={fadeUp}
@@ -412,7 +403,7 @@ const Subscription: React.FC = () => {
       </section>
 
       {/* Machine Locations */}
-      <section className="py-10 sm:py-14 bg-[#FAFAFA]">
+      <section className="py-10 sm:py-14 ">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <motion.h3
             variants={fadeUp}

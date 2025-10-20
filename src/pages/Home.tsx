@@ -5,7 +5,7 @@ import ShineButton from "../components/ShineButton";
 
 import saladHero from "/assets/1002.png";
 import saladMeet from "/assets/1010.png";
-import saladProblem from "/assets/10021.png";
+import saladProblem from "/assets/10010.jpeg";
 
 /* ---------- Section wrapper ---------- */
 const Section: React.FC<
@@ -148,13 +148,14 @@ const NumberCounter: React.FC<{
 };
 
 /* ---------- Testimonials (wide) ---------- */
+/* ---------- Testimonials (wide - hybrid layout + aligned mobile) ---------- */
+/* ---------- Testimonials (wide - hybrid layout + fully aligned responsive + fixed arrows) ---------- */
 const TestimonialsWide: React.FC = () => {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  // use DOM timers so types are consistent in the browser
   const intervalRef = useRef<number | null>(null);
 
-  const stepDelay = 3500;
+  const stepDelay = 4000;
   useEffect(() => {
     if (paused) return;
     intervalRef.current = window.setInterval(() => {
@@ -165,50 +166,105 @@ const TestimonialsWide: React.FC = () => {
     };
   }, [paused, stepDelay]);
 
-  const move = (dir: number) => setIndex((s) => (s + dir + TESTIMONIALS.length) % TESTIMONIALS.length);
+  const move = (dir: number) =>
+    setIndex((s) => (s + dir + TESTIMONIALS.length) % TESTIMONIALS.length);
+
+  const SALAD_RATINGS = [
+    { label: "Freshly Tossed", icon: "🥗" },
+    { label: "Gourmet Blend", icon: "🥬" },
+    { label: "Signature Bowl", icon: "🥙" },
+    { label: "Premium Harvest", icon: "🥦" },
+    { label: "Healthy & Elevated", icon: "🥑" },
+  ];
 
   return (
     <div
-      className="relative w-full max-w-3xl mx-auto"
+      className="relative w-full max-w-4xl mx-auto"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-      {/* slides */}
-      <div className="relative w-full h-[280px] sm:h-[300px] md:h-[300px]">
+      {/* Slides */}
+      <div className="relative w-full min-h-[420px] sm:min-h-[440px] md:min-h-[380px]">
         {TESTIMONIALS.map((t, i) => {
           const isActive = i === index;
+          const ratingIndex = i % SALAD_RATINGS.length;
+
           return (
             <motion.div
               key={t.id}
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: isActive ? 1 : 0, x: isActive ? 0 : 40 }}
-              transition={{ duration: 0.5 }}
-              className={`absolute inset-0 rounded-2xl overflow-hidden shadow-xl bg-white flex ${isActive ? "z-20" : "z-10 pointer-events-none"
-                }`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{
+                opacity: isActive ? 1 : 0,
+                y: isActive ? 0 : 20,
+              }}
+              transition={{ duration: 0.6 }}
+              className={`absolute inset-0 bg-white rounded-2xl shadow-xl flex flex-col md:flex-row items-center justify-center overflow-hidden transition-all ${
+                isActive ? "z-20" : "z-10 pointer-events-none"
+              }`}
             >
-              {/* image */}
-              <div className="w-[34%] h-full shrink-0">
-                <img src={t.img} alt={t.author} className="w-full h-full object-cover" />
+              {/* ---------- Desktop Image (Left Side, Rounded) ---------- */}
+              <div className="hidden md:flex justify-center items-center md:w-[38%] lg:w-[40%] h-full bg-gradient-to-br from-[#F4FAF2] to-[#E9F7E5]">
+                <motion.img
+                  src={t.img}
+                  alt={t.author}
+                  className="w-44 h-44 rounded-full object-cover border-4 border-white shadow-md"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6 }}
+                />
               </div>
 
-              {/* text */}
-              <div className="flex-1 h-full flex flex-col justify-between p-5 sm:p-6">
-                <p className="italic text-fregcy-body text-sm sm:text-base leading-relaxed">“{t.quote}”</p>
-                <div className="flex items-center justify-between mt-3">
-                  <div>
-                    <div className="font-semibold text-fregcy-primary-green">{t.author}</div>
-                    <div className="text-xs text-fregcy-body-light">{t.role}</div>
+              {/* ---------- Mobile Image (Centered Circular) ---------- */}
+              <div className="md:hidden flex justify-center items-center mt-8 mb-4">
+                <motion.div
+                  className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-[#A3D9A5] to-[#E8F5E9] p-[2px]"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <img
+                    src={t.img}
+                    alt={t.author}
+                    className="w-full h-full rounded-full object-cover border-[3px] border-white shadow-md"
+                  />
+                </motion.div>
+              </div>
+
+              {/* ---------- Text Area ---------- */}
+              <div className="flex-1 flex flex-col justify-center items-center text-center md:text-left p-6 sm:p-8 md:p-10">
+                <div className="text-4xl text-fregcy-primary-green mb-1">“</div>
+                <p className="italic text-fregcy-body text-[15px] sm:text-[16px] leading-relaxed max-w-[90%] mx-auto md:mx-0">
+                  {t.quote}
+                </p>
+                <div className="text-4xl text-fregcy-primary-green mt-1 rotate-180">“</div>
+
+                {/* ---------- Author Details ---------- */}
+                <div className="mt-5 text-center md:text-left">
+                  <div className="font-semibold text-fregcy-primary-green text-[15px] sm:text-base">
+                    {t.author}
                   </div>
-                  <div aria-hidden className="flex gap-1 items-center">
-                    {Array.from({ length: 5 }).map((_, sIndex) => (
-                      <span
-                        key={sIndex}
-                        className={`text-lg ${sIndex < 4 ? "text-fregcy-saffron" : "text-fregcy-body-light"}`}
+                  <div className="text-xs text-fregcy-body-light">{t.role}</div>
+                </div>
+
+                {/* ---------- Salad Rating ---------- */}
+                <div className="mt-4 flex flex-col items-center md:items-start">
+                  <div className="flex items-center gap-1 sm:gap-2 text-lg sm:text-xl">
+                    {SALAD_RATINGS.map((item, idx) => (
+                      <motion.span
+                        key={idx}
+                        animate={{
+                          opacity: idx <= ratingIndex ? 1 : 0.25,
+                          scale: idx <= ratingIndex ? 1.1 : 0.9,
+                        }}
+                        transition={{ duration: 0.3 }}
                       >
-                        ★
-                      </span>
+                        {item.icon}
+                      </motion.span>
                     ))}
                   </div>
+                  <p className="text-[13px] sm:text-[14px] text-fregcy-body mt-1 font-medium">
+                    {SALAD_RATINGS[ratingIndex].label}
+                  </p>
                 </div>
               </div>
             </motion.div>
@@ -216,54 +272,74 @@ const TestimonialsWide: React.FC = () => {
         })}
       </div>
 
-      {/* arrows OUTSIDE */}
-      <div className="hidden sm:block">
-        <button
-          aria-label="Previous testimonial"
-          onClick={() => move(-1)}
-          className="absolute -left-12 top-1/2 -translate-y-1/2 z-50 w-11 h-11 rounded-full bg-white/95 shadow-md flex items-center justify-center hover:bg-fregcy-primary-green hover:text-white transition text-fregcy-green-dark"
-          style={{ backdropFilter: "blur(6px)" }}
-        >
-          <span className="text-2xl select-none">‹</span>
-        </button>
-        <button
-          aria-label="Next testimonial"
-          onClick={() => move(1)}
-          className="absolute -right-12 top-1/2 -translate-y-1/2 z-50 w-11 h-11 rounded-full bg-white/95 shadow-md flex items-center justify-center hover:bg-fregcy-primary-green hover:text-white transition text-fregcy-green-dark"
-          style={{ backdropFilter: "blur(6px)" }}
-        >
-          <span className="text-2xl select-none">›</span>
-        </button>
+      {/* ---------- Arrows (Fixed Position & Responsive) ---------- */}
+      <div>
+        {/* Desktop arrows (outside the card) */}
+        <div className="hidden md:block">
+          <button
+            aria-label="Previous testimonial"
+            onClick={() => move(-1)}
+            className="absolute -left-[72px] top-1/2 -translate-y-1/2 z-50 w-12 h-12 rounded-full bg-white shadow-md flex items-center justify-center text-fregcy-green-dark hover:bg-fregcy-primary-green hover:text-white transition-all duration-300"
+            style={{
+              boxShadow: "0 6px 18px -6px rgba(0,0,0,0.12)",
+              backdropFilter: "blur(6px)",
+            }}
+          >
+            ‹
+          </button>
+
+          <button
+            aria-label="Next testimonial"
+            onClick={() => move(1)}
+            className="absolute -right-[72px] top-1/2 -translate-y-1/2 z-50 w-12 h-12 rounded-full bg-white shadow-md flex items-center justify-center text-fregcy-green-dark hover:bg-fregcy-primary-green hover:text-white transition-all duration-300"
+            style={{
+              boxShadow: "0 6px 18px -6px rgba(0,0,0,0.12)",
+              backdropFilter: "blur(6px)",
+            }}
+          >
+            ›
+          </button>
+        </div>
+
+        {/* Mobile arrows (smaller + inside) */}
+        <div className="md:hidden flex justify-between items-center absolute left-2 right-2 top-[46%] z-50">
+          <button
+            aria-label="Previous testimonial"
+            onClick={() => move(-1)}
+            className="w-8 h-8 rounded-full bg-white shadow text-fregcy-green-dark flex items-center justify-center hover:bg-fregcy-primary-green hover:text-white transition"
+          >
+            ‹
+          </button>
+          <button
+            aria-label="Next testimonial"
+            onClick={() => move(1)}
+            className="w-8 h-8 rounded-full bg-white shadow text-fregcy-green-dark flex items-center justify-center hover:bg-fregcy-primary-green hover:text-white transition"
+          >
+            ›
+          </button>
+        </div>
       </div>
 
-      {/* mobile controls */}
-      <div className="sm:hidden mt-3 flex items-center justify-center gap-4">
-        <button
-          aria-label="Previous testimonial"
-          onClick={() => move(-1)}
-          className="px-4 py-2 rounded-full bg-white shadow text-fregcy-green-dark"
-        >
-          ‹
-        </button>
-        <div className="flex gap-1">
-          {TESTIMONIALS.map((_, i) => (
-            <span
-              key={i}
-              className={`h-2 w-2 rounded-full ${i === index ? "bg-fregcy-primary-green" : "bg-fregcy-body-light/40"}`}
-            />
-          ))}
-        </div>
-        <button
-          aria-label="Next testimonial"
-          onClick={() => move(1)}
-          className="px-4 py-2 rounded-full bg-white shadow text-fregcy-green-dark"
-        >
-          ›
-        </button>
+      {/* ---------- Dots Navigation ---------- */}
+      <div className="mt-6 flex items-center justify-center gap-2 sm:gap-3">
+        {TESTIMONIALS.map((_, i) => (
+          <span
+            key={i}
+            onClick={() => setIndex(i)}
+            className={`h-2.5 w-2.5 rounded-full cursor-pointer transition-all duration-300 ${
+              i === index
+                ? "bg-fregcy-primary-green scale-110 shadow-md"
+                : "bg-orange-300/60 hover:bg-orange-400/80"
+            }`}
+          />
+        ))}
       </div>
     </div>
   );
 };
+
+
+
 
 /* ---------- keyframes for float (typed via const so TS accepts ease) ---------- */
 const floatKeyframes = {
@@ -277,8 +353,10 @@ const Home: React.FC = () => {
   const [slotsLeft] = useState(353);
 
   return (
-    <div className="relative overflow-hidden bg-eucalyptus-mist">
+   <div className="relative overflow-hidden bg-gradient-to-b from-[#d9e8c4] via-[#cce7c4] to-[#bde8c7]">
+
       {/* ---------- HERO ---------- */}
+      
       <motion.section
         initial="hidden"
         animate="show"
@@ -296,6 +374,7 @@ const Home: React.FC = () => {
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-8 sm:py-12 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
           <div className="lg:col-span-6 order-2 lg:order-1 text-center lg:text-left">
+            
             <motion.h1
               className="text-[clamp(26px,6vw,52px)] font-bold leading-tight text-fregcy-h1"
               initial={{ opacity: 0, y: 12, scale: 0.98 }}
@@ -376,52 +455,118 @@ const Home: React.FC = () => {
         </div>
       </motion.section>
 
-      {/* ---------- Meet the Salad ---------- */}
-      <Section className="py-12 sm:py-16 px-4 sm:px-6 bg-sage-wind " variant="left">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-center">
-          <Picture
-            src={saladMeet}
-            alt="Person preparing healthy salad"
-            className="w-full max-w-md sm:max-w-lg h-auto rounded-2xl object-cover drop-shadow-lg"
-          />
+     {/* ---------- Meet the Salad (Left-Aligned, Larger Image, Balanced Layout) ---------- */}
+  <Section
+    className="relative py-8 sm:py-12 px-4 sm:px-6 backdrop-blur-md"
+    variant="left"
+  >
+  {/* Soft radial glow behind image */}
+  <div className="absolute left-[22%] top-1/2 -translate-y-1/2 w-[70vw] sm:w-[55vw] h-[70vw] sm:h-[55vw] rounded-full bg-gradient-radial from-[#E8F5E9]/70 via-[#F4FBEF]/60 to-transparent blur-3xl opacity-60 pointer-events-none" />
 
-          <div>
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-[clamp(20px,3.8vw,150px)] font-bold mb-4 md:mb-5 text-fregcy-h1"
-            >
-              Meet the Salad That Understands You ✨
-            </motion.h2>
-            <p className="text-base sm:text-lg text-fregcy-body leading-relaxed">
-              👋 Hi, we’re <span className="font-semibold text-fregcy-primary-green">Fregcy</span>, your new best friend in nutrition.
-              <br />
-              <span className="text-fregcy-saffron font-bold">Our mission is simple: To help you feel unstoppable, starting with how you eat.</span>
-            </p>
-          </div>
-        </div>
-      </Section>
+  <div className="relative max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-[50%_50%] items-center gap-4 md:gap-10">
+    {/* Salad Image */}
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6 }}
+      className="flex justify-center md:justify-end md:-ml-10 lg:-ml-14"
+    >
+      <motion.img
+        src={saladMeet}
+        alt="Fresh colorful salad bowl"
+        className="w-[80%] sm:w-[75%] md:w-[100%] max-w-[450px] rounded-2xl object-cover drop-shadow-2xl"
+        loading="lazy"
+        animate={{ y: [0, -6, 0, 6, 0] }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+      />
+    </motion.div>
+
+    {/* Text Content */}
+    <div className="flex flex-col justify-center text-center md:text-left md:pl-4">
+      <motion.h2
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-[clamp(22px,2.8vw,40px)] font-extrabold mb-3 leading-snug text-fregcy-h1 max-w-[95%] md:max-w-none mx-auto md:mx-0"
+      >
+        Meet the Salad
+       That Understands You ✨
+      </motion.h2>
+
+      <motion.p
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+        className="text-[clamp(15px,1.6vw,19px)] text-fregcy-body leading-relaxed font-medium max-w-[460px] mx-auto md:mx-0"
+      >
+        Hi, we’re{" "}
+        <span className="font-semibold text-fregcy-primary-green">Fregcy</span>, your new best friend in nutrition.{" "}
+        <span className="text-fregcy-saffron font-semibold">
+          Our mission is simple: To help you feel unstoppable — starting with how you eat.
+        </span>
+      </motion.p>
+    </div>
+  </div>
+</Section>
+
 
       {/* ---------- Problem Statement ---------- */}
-      <Section className="py-12 sm:py-16 bg- backdrop-blur-sm px-4 sm:px-6 bg-ivory-glow" delay={0.05} variant="right">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-center">
-          <div>
-            <h2 className="text-[clamp(18px,3.8vw,150px)] font-extrabold mb-3 sm:mb-4 text-fregcy-green-dark font-[Poppins]">
-              Are You Tired of Choosing Between Convenience and Health?
-            </h2>
-            <p className="text-[clamp(15px,2.2vw,17px)] leading-relaxed text-fregcy-green-dark">
-              You’re not alone. In a world full of quick junk food and unhealthy options,
-              <span className="font-semibold text-fregcy-primary-green"> Fregcy </span> is here to change the game.
-              <br className="md:hidden" />
-              <span className="font-bold text-fregcy-saffron">
-                Fresh, flavourful, fully transparent nutrition that actually fits your lifestyle.
-              </span>
-            </p>
-          </div>
-          <Picture src={saladProblem} alt="Green salad bowl with leafy greens on neutral background" className="w-full max-w-md sm:max-w-lg h-auto rounded-2xl object-cover drop-shadow-lg" />
-        </div>
-      </Section>
+
+{/* ---------- Problem Statement (Responsive Flip Layout) ---------- */}
+<Section
+  className="relative py-10 sm:py-14 px-5 sm:px-8  backdrop-blur-sm overflow-hidden"
+  delay={0.05}
+  variant="right"
+>
+  <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-8 md:gap-14">
+    
+    {/* Text Content (Left on Desktop, Below Image on Mobile) */}
+    <div className="flex flex-col justify-center text-center md:text-left order-2 md:order-1">
+      <motion.h2
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-[clamp(22px,2.8vw,40px)] font-extrabold mb-3 leading-snug text-fregcy-green-dark font-[Poppins]"
+      >
+        Are You Tired of Choosing Between{" "}
+        Convenience and{" "}
+        <span className="text-fregcy-primary-green">Health?</span>
+      </motion.h2>
+
+      <motion.p
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+        className="text-[clamp(15px,1.6vw,19px)] text-fregcy-green-dark leading-relaxed font-medium max-w-[460px] mx-auto md:mx-0"
+      >
+        You’re not alone. In a world full of quick junk food and unhealthy options,{" "}
+        <span className="font-semibold text-fregcy-primary-green">Fregcy</span> is here to change the game.
+        <br />
+        <span className="text-fregcy-saffron font-semibold">
+          Fresh, flavourful, fully transparent nutrition that actually fits your lifestyle.
+        </span>
+      </motion.p>
+    </div>
+
+    {/* Image (Right on Desktop, First on Mobile) */}
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6 }}
+      className="flex justify-center md:justify-start md:-mr-10 lg:-mr-14 order-1 md:order-2"
+    >
+      <motion.img
+        src={saladProblem}
+        alt="Healthy vs junk food comparison"
+        className="w-[85%] sm:w-[90%] md:w-[100%] max-w-[650px] rounded-2xl object-cover drop-shadow-2xl"
+        loading="lazy"
+        animate={{ y: [0, -6, 0, 6, 0] }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+      />
+    </motion.div>
+
+  </div>
+</Section>
 
       {/* ---------- Testimonials ---------- */}
       <Section className="py-16 px-4 sm:px-6 " variant="up">
@@ -438,7 +583,7 @@ const Home: React.FC = () => {
 
 {/* ---------- Founding Member Section (Organic Floating Style) ---------- */}
 <Section
-  className="relative py-20 sm:py-28 px-6 sm:px-10 overflow-hidden bg-gradient-to-b from-[#FFFFFF] via-[#FAFDFB] to-[#F5F8F6]"
+  className="relative py-20 sm:py-28 px-6 sm:px-10 overflow-hidden "
   variant="up"
 >
  {/* Floating decorative veggies (random placement) */}
@@ -453,7 +598,14 @@ const Home: React.FC = () => {
 <motion.img
   src="/assets/tomoto1.png"
   alt=""
-  className="absolute bottom-[10%] right-[6%] w-36 sm:w-52 opacity-85"
+  className="absolute bottom-[10%] right-[6%] w-36 sm:w-52 opacity-65"
+  animate={{ y: [0, -14, 0], rotate: [0, -4, 4, 0] }}
+  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+/>
+<motion.img
+  src="/assets/carrot.png"
+  alt=""
+  className="absolute bottom-[50%] right-[6%] w-36 sm:w-52 opacity-75"
   animate={{ y: [0, -14, 0], rotate: [0, -4, 4, 0] }}
   transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
 />
