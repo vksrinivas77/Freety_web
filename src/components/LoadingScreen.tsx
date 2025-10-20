@@ -11,7 +11,7 @@ const LoadingScreen: React.FC = () => {
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-[#faf7f6] to-[#c7e7fb] z-[9999]">
       {/* --- Veggies dropping animation --- */}
-      <div className="relative h-20 w-full flex justify-center mb-0">
+      <div className="relative h-20 w-full flex justify-center  mb-0 ">
         {veggies.map((veg, index) => (
           <motion.div
             key={index}

@@ -181,9 +181,9 @@ const fadeUp = {
 
 const HeroBanner: React.FC = () => {
   const lines = [
-    { text: "Fuel your day...!", cls: "text-fregcy-primary-green" },
-    { text: "Fix your nutrition....!", cls: "text-fregcy-saffron" },
-    { text: "Fall in love with clean eating.....!", cls: "text-fregcy-turmeric-dark" },
+    { text: "Fuel your day!", cls: "text-fregcy-primary-green" },
+    { text: "Fix your nutrition!", cls: "text-fregcy-saffron" },
+    { text: "Fall in love with clean eating!", cls: "text-fregcy-turmeric-dark" },
   ];
   const [i, setI] = useState(0);
   useEffect(() => {

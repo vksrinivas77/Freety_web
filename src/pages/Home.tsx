@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import ShineButton from "../components/ShineButton";
 
 import saladHero from "/assets/1002.png";
-import saladMeet from "/assets/1010.png";
+import saladMeet from "/assets/10011.png";
 import saladProblem from "/assets/10010.jpeg";
 
 /* ---------- Section wrapper ---------- */
@@ -198,9 +198,8 @@ const TestimonialsWide: React.FC = () => {
                 y: isActive ? 0 : 20,
               }}
               transition={{ duration: 0.6 }}
-              className={`absolute inset-0 bg-white rounded-2xl shadow-xl flex flex-col md:flex-row items-center justify-center overflow-hidden transition-all ${
-                isActive ? "z-20" : "z-10 pointer-events-none"
-              }`}
+              className={`absolute inset-0 bg-white rounded-2xl shadow-xl flex flex-col md:flex-row items-center justify-center overflow-hidden transition-all ${isActive ? "z-20" : "z-10 pointer-events-none"
+                }`}
             >
               {/* ---------- Desktop Image (Left Side, Rounded) ---------- */}
               <div className="hidden md:flex justify-center items-center md:w-[38%] lg:w-[40%] h-full bg-gradient-to-br from-[#F4FAF2] to-[#E9F7E5]">
@@ -326,11 +325,10 @@ const TestimonialsWide: React.FC = () => {
           <span
             key={i}
             onClick={() => setIndex(i)}
-            className={`h-2.5 w-2.5 rounded-full cursor-pointer transition-all duration-300 ${
-              i === index
-                ? "bg-fregcy-primary-green scale-110 shadow-md"
-                : "bg-orange-300/60 hover:bg-orange-400/80"
-            }`}
+            className={`h-2.5 w-2.5 rounded-full cursor-pointer transition-all duration-300 ${i === index
+              ? "bg-fregcy-primary-green scale-110 shadow-md"
+              : "bg-orange-300/60 hover:bg-orange-400/80"
+              }`}
           />
         ))}
       </div>
@@ -353,10 +351,10 @@ const Home: React.FC = () => {
   const [slotsLeft] = useState(353);
 
   return (
-   <div className="relative overflow-hidden bg-gradient-to-b from-[#d9e8c4] via-[#cce7c4] to-[#bde8c7]">
+    <div className="relative overflow-hidden bg-gradient-to-b from-[#d9e8c4] via-[#cce7c4] to-[#bde8c7]">
 
       {/* ---------- HERO ---------- */}
-      
+
       <motion.section
         initial="hidden"
         animate="show"
@@ -374,7 +372,7 @@ const Home: React.FC = () => {
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-8 sm:py-12 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
           <div className="lg:col-span-6 order-2 lg:order-1 text-center lg:text-left">
-            
+
             <motion.h1
               className="text-[clamp(26px,6vw,52px)] font-bold leading-tight text-fregcy-h1"
               initial={{ opacity: 0, y: 12, scale: 0.98 }}
@@ -455,118 +453,118 @@ const Home: React.FC = () => {
         </div>
       </motion.section>
 
-     {/* ---------- Meet the Salad (Left-Aligned, Larger Image, Balanced Layout) ---------- */}
-  <Section
-    className="relative py-8 sm:py-12 px-4 sm:px-6 backdrop-blur-md"
-    variant="left"
-  >
-  {/* Soft radial glow behind image */}
-  <div className="absolute left-[22%] top-1/2 -translate-y-1/2 w-[70vw] sm:w-[55vw] h-[70vw] sm:h-[55vw] rounded-full bg-gradient-radial from-[#E8F5E9]/70 via-[#F4FBEF]/60 to-transparent blur-3xl opacity-60 pointer-events-none" />
-
-  <div className="relative max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-[50%_50%] items-center gap-4 md:gap-10">
-    {/* Salad Image */}
-    <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.6 }}
-      className="flex justify-center md:justify-end md:-ml-10 lg:-ml-14"
-    >
-      <motion.img
-        src={saladMeet}
-        alt="Fresh colorful salad bowl"
-        className="w-[80%] sm:w-[75%] md:w-[100%] max-w-[450px] rounded-2xl object-cover drop-shadow-2xl"
-        loading="lazy"
-        animate={{ y: [0, -6, 0, 6, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-      />
-    </motion.div>
-
-    {/* Text Content */}
-    <div className="flex flex-col justify-center text-center md:text-left md:pl-4">
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="text-[clamp(22px,2.8vw,40px)] font-extrabold mb-3 leading-snug text-fregcy-h1 max-w-[95%] md:max-w-none mx-auto md:mx-0"
+      {/* ---------- Meet the Salad (Left-Aligned, Larger Image, Balanced Layout) ---------- */}
+      <Section
+        className="relative py-8 sm:py-12 px-4 sm:px-6 backdrop-blur-md bg-pistachio-mint"
+        variant="left"
       >
-        Meet the Salad
-       That Understands You ✨
-      </motion.h2>
+        {/* Soft radial glow behind image */}
+        <div className="absolute left-[22%] top-1/2 -translate-y-1/2 w-[70vw] sm:w-[55vw] h-[70vw] sm:h-[55vw] rounded-full bg-gradient-radial from-[#E8F5E9]/70 via-[#F4FBEF]/60 to-transparent blur-3xl opacity-60 pointer-events-none" />
 
-      <motion.p
-        initial={{ opacity: 0, y: 10 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-        className="text-[clamp(15px,1.6vw,19px)] text-fregcy-body leading-relaxed font-medium max-w-[460px] mx-auto md:mx-0"
-      >
-        Hi, we’re{" "}
-        <span className="font-semibold text-fregcy-primary-green">Fregcy</span>, your new best friend in nutrition.{" "}
-        <span className="text-fregcy-saffron font-semibold">
-          Our mission is simple: To help you feel unstoppable — starting with how you eat.
-        </span>
-      </motion.p>
-    </div>
-  </div>
-</Section>
+        <div className="relative max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-[50%_50%] items-center gap-4 md:gap-10">
+          {/* Salad Image */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            className="flex justify-center md:justify-end md:-ml-10 lg:-ml-14"
+          >
+            <motion.img
+              src={saladMeet}
+              alt="Fresh colorful salad bowl"
+              className="w-[80%] sm:w-[75%] md:w-[100%] max-w-[450px] rounded-2xl object-cover drop-shadow-2xl"
+              loading="lazy"
+              animate={{ y: [0, -6, 0, 6, 0] }}
+              transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+            />
+          </motion.div>
+
+          {/* Text Content */}
+          <div className="flex flex-col justify-center text-center md:text-left md:pl-4">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-[clamp(16px,2.2vw,32px)] font-extrabold mb-3 leading-snug text-fregcy-green-dark font-[Poppins]"
+            >
+              Meet the Salad
+              That Understands You✨
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-[clamp(15px,1.6vw,19px)] text-fregcy-body leading-relaxed font-medium max-w-[460px] mx-auto md:mx-0"
+            >
+              Hi, we’re{" "}
+              <span className="font-semibold text-fregcy-primary-green">Fregcy</span>, your new best friend in nutrition.{" "}
+              <span className="text-fregcy-saffron font-semibold">
+                Our mission is simple: To help you feel unstoppable — starting with how you eat.
+              </span>
+            </motion.p>
+          </div>
+        </div>
+      </Section>
 
 
       {/* ---------- Problem Statement ---------- */}
 
-{/* ---------- Problem Statement (Responsive Flip Layout) ---------- */}
-<Section
-  className="relative py-10 sm:py-14 px-5 sm:px-8  backdrop-blur-sm overflow-hidden"
-  delay={0.05}
-  variant="right"
->
-  <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-8 md:gap-14">
-    
-    {/* Text Content (Left on Desktop, Below Image on Mobile) */}
-    <div className="flex flex-col justify-center text-center md:text-left order-2 md:order-1">
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="text-[clamp(22px,2.8vw,40px)] font-extrabold mb-3 leading-snug text-fregcy-green-dark font-[Poppins]"
+      {/* ---------- Problem Statement (Responsive Flip Layout) ---------- */}
+      <Section
+        className="relative py-10 sm:py-14 px-5 sm:px-8  backdrop-blur-sm overflow-hidden bg-mint-breeze"
+        delay={0.05}
+        variant="right"
       >
-        Are You Tired of Choosing Between{" "}
-        Convenience and{" "}
-        <span className="text-fregcy-primary-green">Health?</span>
-      </motion.h2>
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-8 md:gap-14">
 
-      <motion.p
-        initial={{ opacity: 0, y: 10 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-        className="text-[clamp(15px,1.6vw,19px)] text-fregcy-green-dark leading-relaxed font-medium max-w-[460px] mx-auto md:mx-0"
-      >
-        You’re not alone. In a world full of quick junk food and unhealthy options,{" "}
-        <span className="font-semibold text-fregcy-primary-green">Fregcy</span> is here to change the game.
-        <br />
-        <span className="text-fregcy-saffron font-semibold">
-          Fresh, flavourful, fully transparent nutrition that actually fits your lifestyle.
-        </span>
-      </motion.p>
-    </div>
+          {/* Text Content (Left on Desktop, Below Image on Mobile) */}
+          <div className="flex flex-col justify-center text-center md:text-left order-2 md:order-1">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-[clamp(16px,2.2vw,32px)] font-extrabold mb-3 leading-snug text-fregcy-green-dark font-[Poppins]"
+            >
+              Are You Tired of Choosing Between{" "}
+              Convenience and{" "}
+              <span className="text-fregcy-primary-green">Health?</span>
+            </motion.h2>
 
-    {/* Image (Right on Desktop, First on Mobile) */}
-    <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.6 }}
-      className="flex justify-center md:justify-start md:-mr-10 lg:-mr-14 order-1 md:order-2"
-    >
-      <motion.img
-        src={saladProblem}
-        alt="Healthy vs junk food comparison"
-        className="w-[85%] sm:w-[90%] md:w-[100%] max-w-[650px] rounded-2xl object-cover drop-shadow-2xl"
-        loading="lazy"
-        animate={{ y: [0, -6, 0, 6, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-      />
-    </motion.div>
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-[clamp(15px,1.6vw,19px)] text-fregcy-green-dark leading-relaxed font-medium max-w-[460px] mx-auto md:mx-0"
+            >
+              You’re not alone. In a world full of quick junk food and unhealthy options,{" "}
+              <span className="font-semibold text-fregcy-primary-green">Fregcy</span> is here to change the game.
+              <br />
+              <span className="text-fregcy-saffron font-semibold">
+                Fresh, flavourful, fully transparent nutrition that actually fits your lifestyle.
+              </span>
+            </motion.p>
+          </div>
 
-  </div>
-</Section>
+          {/* Image (Right on Desktop, First on Mobile) */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            className="flex justify-center md:justify-start md:-mr-10 lg:-mr-14 order-1 md:order-2"
+          >
+            <motion.img
+              src={saladProblem}
+              alt="Healthy vs junk food comparison"
+              className="w-[85%] sm:w-[90%] md:w-[100%] max-w-[650px] rounded-2xl object-cover drop-shadow-2xl"
+              loading="lazy"
+              animate={{ y: [0, -6, 0, 6, 0] }}
+              transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+            />
+          </motion.div>
+
+        </div>
+      </Section>
 
       {/* ---------- Testimonials ---------- */}
       <Section className="py-16 px-4 sm:px-6 " variant="up">
@@ -581,146 +579,146 @@ const Home: React.FC = () => {
         </div>
       </Section>
 
-{/* ---------- Founding Member Section (Organic Floating Style) ---------- */}
-<Section
-  className="relative py-20 sm:py-28 px-6 sm:px-10 overflow-hidden "
-  variant="up"
->
- {/* Floating decorative veggies (random placement) */}
-<motion.img
-  src="/assets/leaf1.png"
-  alt=""
-  className="absolute top-[5%] left-[8%] w-32 sm:w-44 opacity-80"
-  animate={{ y: [0, 12, 0], rotate: [0, 3, -3, 0] }}
-  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-/>
+      {/* ---------- Founding Member Section (Organic Floating Style) ---------- */}
+      <Section
+        className="relative py-20 sm:py-28 px-6 sm:px-10 overflow-hidden "
+        variant="up"
+      >
+        {/* Floating decorative veggies (random placement) */}
+        <motion.img
+          src="/assets/Cucumber.png"
+          alt=""
+          className="absolute top-[5%] left-[8%] w-32 sm:w-44 opacity-80"
+          animate={{ y: [0, 12, 0], rotate: [0, 3, -3, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        />
 
-<motion.img
-  src="/assets/tomoto1.png"
-  alt=""
-  className="absolute bottom-[10%] right-[6%] w-36 sm:w-52 opacity-65"
-  animate={{ y: [0, -14, 0], rotate: [0, -4, 4, 0] }}
-  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-/>
-<motion.img
-  src="/assets/carrot.png"
-  alt=""
-  className="absolute bottom-[50%] right-[6%] w-36 sm:w-52 opacity-75"
-  animate={{ y: [0, -14, 0], rotate: [0, -4, 4, 0] }}
-  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-/>
+        <motion.img
+          src="/assets/tomoto1.png"
+          alt=""
+          className="absolute bottom-[10%] right-[6%] w-36 sm:w-52 opacity-65"
+          animate={{ y: [0, -14, 0], rotate: [0, -4, 4, 0] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.img
+          src="/assets/carrot.png"
+          alt=""
+          className="absolute bottom-[50%] right-[6%] w-36 sm:w-52 opacity-75"
+          animate={{ y: [0, -14, 0], rotate: [0, -4, 4, 0] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
 
-<motion.img
-  src="/assets/basil.png"
-  alt=""
-  className="absolute top-[30%] right-[20%] w-28 sm:w-40 opacity-70"
-  animate={{ y: [0, 10, 0], rotate: [0, 6, -6, 0] }}
-  transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-/>
+        <motion.img
+          src="/assets/basil.png"
+          alt=""
+          className="absolute top-[30%] right-[20%] w-28 sm:w-40 opacity-70"
+          animate={{ y: [0, 10, 0], rotate: [0, 6, -6, 0] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+        />
 
-<motion.img
-  src="/assets/leaf2.png"
-  alt=""
-  className="absolute bottom-[25%] left-[15%] w-32 sm:w-48 opacity-75"
-  animate={{ y: [0, -8, 0], rotate: [0, -3, 3, 0] }}
-  transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-/>
+        <motion.img
+          src="/assets/leaf2.png"
+          alt=""
+          className="absolute bottom-[25%] left-[15%] w-32 sm:w-48 opacity-75"
+          animate={{ y: [0, -8, 0], rotate: [0, -3, 3, 0] }}
+          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+        />
 
-<motion.img
-  src="/assets/tomto1.png"
-  alt=""
-  className="absolute top-[60%] left-[50%] w-44 sm:w-46 opacity-70"
-  animate={{ y: [0, 10, 0], rotate: [0, 2, -2, 0] }}
-  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-/>
+        <motion.img
+          src="/assets/tomto1.png"
+          alt=""
+          className="absolute top-[60%] left-[50%] w-44 sm:w-46 opacity-70"
+          animate={{ y: [0, 10, 0], rotate: [0, 2, -2, 0] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
 
-  {/* Content area */}
-  <div className="relative max-w-5xl mx-auto text-center z-10">
-    {/* Title */}
-    <motion.h2
-      className="text-[clamp(26px,5vw,46px)] font-extrabold text-fregcy-h1 mb-4 leading-tight"
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-    >
-      Ready to Feel the Shift?
-    </motion.h2>
-
-    {/* Subtitle */}
-    <motion.p
-      className="text-sm sm:text-base md:text-lg text-fregcy-body mb-10"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.2, duration: 0.8 }}
-    >
-      Claim Your Founding Member Spot Before It’s Gone
-    </motion.p>
-
-    {/* Counter */}
-    <motion.div
-      className="flex justify-center mb-10"
-      initial={{ opacity: 0, scale: 0.9 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ delay: 0.3, duration: 0.8 }}
-    >
-      <CountersArea foundingMembers={foundingMembers} slotsLeft={slotsLeft} />
-    </motion.div>
-
-    {/* Feature List */}
-    <motion.ul
-      className="grid gap-4 text-left sm:text-center text-sm sm:text-base md:text-lg leading-relaxed text-fregcy-body max-w-2xl mx-auto"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
-      variants={{
-        hidden: { opacity: 0, y: 30 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: { staggerChildren: 0.15, duration: 0.6 },
-        },
-      }}
-    >
-      {[
-        { icon: "🎯", text: "Lifetime 20% discount on all purchases" },
-        { icon: "🚚", text: "Early delivery to your office/home" },
-        { icon: "📱", text: "Access to the Fregcy App + customization engine" },
-        { icon: "🎁", text: "Exclusive health & performance community" },
-      ].map((item, index) => (
-        <motion.li
-          key={index}
-          className="flex sm:justify-center items-center gap-3"
-          variants={{
-            hidden: { opacity: 0, y: 10 },
-            visible: { opacity: 1, y: 0 },
-          }}
-        >
-          <span className="text-lg sm:text-xl flex-shrink-0">{item.icon}</span>
-          <span>{item.text}</span>
-        </motion.li>
-      ))}
-    </motion.ul>
-
-    {/* CTA Button */}
-    <motion.div
-      className="mt-12"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.5, duration: 0.7 }}
-    >
-      <Link to="/subscription">
-        <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 180 }}>
-          <ShineButton
-            variant="primary"
-            className="px-8 py-3 rounded-full bg-cta-gradient text-white border-2 border-fregcy-saffron text-base md:text-lg font-semibold shadow-md"
+        {/* Content area */}
+        <div className="relative max-w-5xl mx-auto text-center z-10">
+          {/* Title */}
+          <motion.h2
+            className="text-[clamp(26px,5vw,46px)] font-extrabold text-fregcy-h1 mb-4 leading-tight"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
           >
-            Secure My Founding Spot – Before It’s Gone
-          </ShineButton>
-        </motion.div>
-      </Link>
-    </motion.div>
-  </div>
-</Section>
+            Ready to Feel the Shift?
+          </motion.h2>
+
+          {/* Subtitle */}
+          <motion.p
+            className="text-sm sm:text-base md:text-lg text-fregcy-body mb-10"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.8 }}
+          >
+            Claim Your Founding Member Spot Before It’s Gone
+          </motion.p>
+
+          {/* Counter */}
+          <motion.div
+            className="flex justify-center mb-10"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+          >
+            <CountersArea foundingMembers={foundingMembers} slotsLeft={slotsLeft} />
+          </motion.div>
+
+          {/* Feature List */}
+          <motion.ul
+            className="grid gap-4 text-left sm:text-center text-sm sm:text-base md:text-lg leading-relaxed text-fregcy-body max-w-2xl mx-auto"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: { staggerChildren: 0.15, duration: 0.6 },
+              },
+            }}
+          >
+            {[
+              { icon: "🎯", text: "Lifetime 20% discount on all purchases" },
+              { icon: "🚚", text: "Early delivery to your office/home" },
+              { icon: "📱", text: "Access to the Fregcy App + customization engine" },
+              { icon: "🎁", text: "Exclusive health & performance community" },
+            ].map((item, index) => (
+              <motion.li
+                key={index}
+                className="flex sm:justify-center items-center gap-3"
+                variants={{
+                  hidden: { opacity: 0, y: 10 },
+                  visible: { opacity: 1, y: 0 },
+                }}
+              >
+                <span className="text-lg sm:text-xl flex-shrink-0">{item.icon}</span>
+                <span>{item.text}</span>
+              </motion.li>
+            ))}
+          </motion.ul>
+
+          {/* CTA Button */}
+          <motion.div
+            className="mt-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.7 }}
+          >
+            <Link to="/subscription">
+              <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 180 }}>
+                <ShineButton
+                  variant="primary"
+                  className="px-8 py-3 rounded-full bg-cta-gradient text-white border-2 border-fregcy-saffron text-base md:text-lg font-semibold shadow-md"
+                >
+                  Secure My Founding Spot – Before It’s Gone
+                </ShineButton>
+              </motion.div>
+            </Link>
+          </motion.div>
+        </div>
+      </Section>
 
     </div>
   );

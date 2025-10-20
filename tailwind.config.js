@@ -43,8 +43,8 @@ export default {
         'ivory-glow': 'linear-gradient(to bottom, #ffffffff, #EBECCC)',
         'leaf-haze': 'linear-gradient(to bottom right, #CDD4B1, #EBECCC, #FEECD0)',
 
-          'pistachio-mint': 'linear-gradient(to bottom right, #c3f18fff, #fdfdfdff)',
-          'mint-breeze': 'linear-gradient(to top, #E8F5E9, #C5E1A5)',
+          'pistachio-mint': 'linear-gradient(to bottom right, #C5E1A5)',
+          'mint-breeze': 'linear-gradient(to top, #E8F5E9)',
           
           'olive-cream': 'linear-gradient(to bottom right, #D0CD5A, #EFDB9E)',
           'golden-leaf': 'linear-gradient(to top, #bbffaeff, #c5e6ccff)',
