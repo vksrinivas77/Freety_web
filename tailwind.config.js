@@ -43,7 +43,7 @@ export default {
         'ivory-glow': 'linear-gradient(to bottom, #FFF9E2, #EBECCC)',
         'leaf-haze': 'linear-gradient(to bottom right, #CDD4B1, #EBECCC, #FEECD0)',
 
-          'pistachio-mint': 'linear-gradient(to bottom right, #C5E1A5, #E8F5E9)',
+          'pistachio-mint': 'linear-gradient(to bottom right, #c3f18fff, #fdfdfdff)',
           'mint-breeze': 'linear-gradient(to top, #E8F5E9, #C5E1A5)',
 
         /* --- Muted complementary pastels (balance your theme) --- */
