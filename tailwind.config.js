@@ -37,18 +37,14 @@ export default {
       },
       backgroundImage: {
         // read from CSS variables so you can theme later
-        'eucalyptus-mist': 'linear-gradient(to bottom right, #EBECCC, #CDD4B1, #EBECCC)',
+        'eucalyptus-mist': 'linear-gradient(to bottom right, #C5E1A5, #E8F5E9)',
         'peach-whisper': 'linear-gradient(to right, #FFF9E2, #FEECD0, #FFF9E2)',
         'clay-fade': 'linear-gradient(to top, #FEECD0, #DCA278, #FFF9E2)',
         'ivory-glow': 'linear-gradient(to bottom, #FFF9E2, #EBECCC)',
         'leaf-haze': 'linear-gradient(to bottom right, #CDD4B1, #EBECCC, #FEECD0)',
 
-        /* --- Fresh blues & cool tones --- */
-        'ocean-mist': 'linear-gradient(to bottom right, #E1EBF7, #C8DDF0, #E1EBF7)',
-        'sky-fade': 'linear-gradient(to top, #D9F0FF, #B7E0F2, #D9F0FF)',
-        'frost-whisper': 'linear-gradient(to bottom, #F1F6FB, #DDE6F2, #F1F6FB)',
-        'azure-blend': 'linear-gradient(to right, #C7E0F2, #E2F1FB)',
-        'ice-dream': 'linear-gradient(to bottom right, #F4FAFF, #D8E9F7)',
+          'pistachio-mint': 'linear-gradient(to bottom right, #C5E1A5, #E8F5E9)',
+          'mint-breeze': 'linear-gradient(to top, #E8F5E9, #C5E1A5)',
 
         /* --- Muted complementary pastels (balance your theme) --- */
         'mauve-haze': 'linear-gradient(to right, #F4E8F5, #E8D8EE)',

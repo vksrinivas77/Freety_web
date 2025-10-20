@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import ShineButton from "../components/ShineButton";
 
 import saladHero from "/assets/1002.png";
-import saladMeet from "/assets/1009.png";
+import saladMeet from "/assets/1010.png";
 import saladProblem from "/assets/10021.png";
 
 /* ---------- Section wrapper ---------- */
